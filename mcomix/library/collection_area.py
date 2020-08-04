@@ -1,6 +1,7 @@
 '''library_collection_area.py - Comic book library window that displays the collections.'''
 
 from xml.sax.saxutils import escape as xmlescape
+
 from gi.repository import Gdk, GdkPixbuf, Gtk, GLib
 
 from mcomix.preferences import prefs

@@ -9,7 +9,6 @@ import sys
 import tempfile
 import unittest
 
-from . import MComixTest, get_testfile_path
 
 from mcomix import process
 from mcomix.archive import (
@@ -24,6 +23,7 @@ from mcomix.archive import (
     zip_external,
 )
 import mcomix
+from . import MComixTest, get_testfile_path
 
 
 class UnsupportedFormat(Exception):

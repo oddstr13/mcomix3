@@ -1,9 +1,10 @@
 ''' Smart scrolling. '''
 
+import math
+
 from mcomix import tools
 from mcomix import constants
 from mcomix import box
-import math
 
 
 class Scrolling(object):

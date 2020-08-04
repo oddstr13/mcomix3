@@ -1,6 +1,7 @@
 ''' Library watch list dialog and backend classes. '''
 
 import os
+
 from gi.repository import Gtk
 from gi.repository import GLib, GObject
 

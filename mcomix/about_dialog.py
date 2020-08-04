@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 '''about_dialog.py - About dialog.'''
 
-from gi.repository import Gtk
 import webbrowser
+
+from gi.repository import Gtk
 
 from mcomix import constants
 from mcomix import strings

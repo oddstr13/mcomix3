@@ -88,7 +88,8 @@ def find_executable(candidates, workdir=None, is_valid_candidate=None):
     if callable(is_valid_candidate):
         is_valid = is_valid_candidate
     else:
-        def is_valid(exe): return True
+        def is_valid(exe):
+            return True
 
     for name in candidates:
         path = shutil.which(name)

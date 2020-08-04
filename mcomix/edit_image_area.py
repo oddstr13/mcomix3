@@ -1,6 +1,7 @@
 '''edit_image_area.py - The area of the editing archive window that displays images.'''
 
 import os
+
 from gi.repository import Gdk, GdkPixbuf, Gtk
 
 from mcomix import image_tools

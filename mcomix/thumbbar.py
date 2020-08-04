@@ -1,6 +1,7 @@
 '''thumbbar.py - Thumbnail sidebar for main window.'''
 
 import urllib
+
 from gi.repository import GObject, Gdk, GdkPixbuf, Gtk
 import cairo
 

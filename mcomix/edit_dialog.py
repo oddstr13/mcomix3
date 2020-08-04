@@ -1,9 +1,10 @@
 '''edit_dialog.py - The dialog for the archive editing window.'''
 
 import os
-import tempfile
-from gi.repository import Gdk, Gtk, GLib
 import re
+import tempfile
+
+from gi.repository import Gdk, Gtk, GLib
 
 from mcomix.preferences import prefs
 from mcomix import archive_packer

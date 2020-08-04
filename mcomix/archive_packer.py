@@ -7,6 +7,7 @@ import threading
 import zipfile
 
 from mcomix import log
+from mcomix import tools
 
 
 class Packer(object):

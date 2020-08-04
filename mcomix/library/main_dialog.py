@@ -1,6 +1,7 @@
 '''library_main_dialog.py - The library dialog window.'''
 
 import os
+
 from gi.repository import Gdk, Gtk
 
 from mcomix.preferences import prefs

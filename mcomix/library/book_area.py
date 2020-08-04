@@ -2,6 +2,7 @@
 
 import os
 import urllib
+
 from gi.repository import Gdk, GdkPixbuf, Gtk, GLib, GObject
 import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
@@ -686,7 +687,7 @@ class _BookArea(Gtk.ScrolledWindow):
         # see also _drag_data_received in collection_area
 
         selection.set(selection.get_target(), -1, text.encode())
-        #selection.set_text(text, -1)
+        # selection.set_text(text, -1)
 
     def _drag_data_received(self, widget, context, x, y, data, *args):
         '''Handle drag-n-drop events ending on the book area (i.e. from

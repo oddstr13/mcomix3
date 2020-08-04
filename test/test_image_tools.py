@@ -4,18 +4,17 @@ import binascii
 import os
 import sys
 import tempfile
-
-from gi.repository import GdkPixbuf, GObject
-
 from collections import namedtuple
-from PIL import Image, ImageDraw
 from cStringIO import StringIO
 from difflib import unified_diff
 
-from . import MComixTest, get_testfile_path
+from gi.repository import GdkPixbuf, GObject
+from PIL import Image, ImageDraw
 
 from mcomix import image_tools
 from mcomix.preferences import prefs
+from . import MComixTest, get_testfile_path
+
 
 
 _IMAGE_MODES = (
@@ -108,7 +107,8 @@ def xhexdump(data, group_size=4):
     io = StringIO(data)
     chunk_size = group_size * 8
     prev_addr, prev_hex = (0, '')
-    def format_line(addr, hex): return '%07x: %s' % (addr, hex)
+    def format_line(addr, hex):
+        return '%07x: %s' % (addr, hex)
     while True:
         chunk = io.read(chunk_size)
         if not chunk:

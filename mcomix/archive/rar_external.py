@@ -172,7 +172,8 @@ class RarArchive(archive_base.ExternalExecutableArchive):
         global _rar_executable
         if _rar_executable == -1:
             if 'win32' == sys.platform:
-                def is_not_unrar_free(exe): return True
+                def is_not_unrar_free(exe):
+                    return True
             else:
                 def is_not_unrar_free(exe):
                     real_exe = exe

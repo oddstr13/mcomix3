@@ -1,5 +1,6 @@
 
 import math
+
 from gi.repository import GdkPixbuf
 
 from mcomix import constants

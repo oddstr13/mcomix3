@@ -3,6 +3,7 @@
 import traceback
 import weakref
 import threading
+
 from gi.repository import GLib
 
 from mcomix import log

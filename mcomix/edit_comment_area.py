@@ -1,6 +1,7 @@
 '''edit_comment_area.py - The area in the editing window that displays comments.'''
 
 import os
+
 from gi.repository import Gdk, Gtk
 
 from mcomix import tools

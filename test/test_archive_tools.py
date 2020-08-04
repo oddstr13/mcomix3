@@ -1,10 +1,9 @@
 
 import os
 
-from . import MComixTest, get_testfile_path
-
 from mcomix import archive_tools
 from mcomix import constants
+from . import MComixTest, get_testfile_path
 
 
 _EXTENSION_TO_MIME_TYPES = {

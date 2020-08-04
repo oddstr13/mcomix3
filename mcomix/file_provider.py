@@ -127,7 +127,8 @@ class OrderedFileProvider(FileProvider):
         elif mode == FileProvider.ARCHIVES:
             should_accept = archive_tools.is_archive_file
         else:
-            def should_accept(file): return True
+            def should_accept(file):
+                return True
 
         files = []
         fname_map = {}

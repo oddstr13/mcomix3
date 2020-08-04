@@ -1,6 +1,7 @@
 '''comment.py - Comments dialog.'''
 
 import os
+
 from gi.repository import Gtk
 
 from mcomix import i18n

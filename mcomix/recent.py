@@ -2,11 +2,11 @@
 
 import urllib
 import itertools
-from gi.repository import Gtk
-from gi.repository import Gtk
-import glib
-from gi.repository import GObject
 import sys
+
+from gi.repository import Glib
+from gi.repository import Gtk
+from gi.repository import GObject
 
 from mcomix import preferences
 from mcomix import i18n
@@ -71,7 +71,7 @@ class RecentFilesMenu(Gtk.RecentChooserMenu):
                + urllib.request.pathname2url(i18n.to_unicode(path)))
         try:
             self._manager.remove_item(uri)
-        except glib.GError:
+        except Glib.GError:
             # Could not remove item
             pass
 

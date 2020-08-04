@@ -3,7 +3,6 @@ write them.  '''
 
 import os
 import json
-
 from hashlib import md5
 
 from mcomix import constants

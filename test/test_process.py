@@ -5,9 +5,8 @@ import stat
 import sys
 import tempfile
 
-from . import MComixTest
-
 from mcomix import process
+from . import MComixTest
 
 
 if 'win32' == sys.platform:

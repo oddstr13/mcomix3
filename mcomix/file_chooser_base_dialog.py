@@ -2,6 +2,7 @@
 
 import os
 import fnmatch
+
 from gi.repository import Gtk, Pango
 
 from mcomix.preferences import prefs

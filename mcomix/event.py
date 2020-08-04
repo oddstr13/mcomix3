@@ -2,6 +2,7 @@
 '''
 
 import urllib
+
 from gi.repository import Gdk, Gtk
 
 from mcomix.preferences import prefs
@@ -305,8 +306,8 @@ class EventHandler(object):
                              Gdk.KEY_space, Gdk.KEY_KP_Enter, Gdk.KEY_KP_Up,
                              Gdk.KEY_KP_Down, Gdk.KEY_KP_Home, Gdk.KEY_KP_End,
                              Gdk.KEY_KP_Page_Up, Gdk.KEY_KP_Page_Down) or
-            (event.keyval == Gdk.KEY_Return and not
-             'GDK_MOD1_MASK' in event.get_state().value_names)):
+            (event.keyval == Gdk.KEY_Return and
+             'GDK_MOD1_MASK' not in event.get_state().value_names)):
 
             self._window.stop_emission_by_name('key_press_event')
             return True

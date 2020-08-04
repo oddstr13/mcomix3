@@ -8,10 +8,10 @@ import shutil
 import tempfile
 import threading
 import traceback
-import PIL.Image as Image
 from urllib.request import pathname2url
-
 from hashlib import md5
+
+import PIL.Image as Image
 
 from mcomix import archive_extractor
 from mcomix import archive_tools
