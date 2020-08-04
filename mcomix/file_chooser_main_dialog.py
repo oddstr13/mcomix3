@@ -28,7 +28,7 @@ class _MainFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog):
             # though, which is very strange.
             self.filechooser.set_filter(filters[
                 prefs['last filter in main filechooser']])
-        except:
+        except BaseException:
             self.filechooser.set_filter(filters[0])
 
     def files_chosen(self, paths):
@@ -37,7 +37,7 @@ class _MainFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog):
                 filter_index = self.filechooser.list_filters().index(
                     self.filechooser.get_filter())
                 prefs['last filter in main filechooser'] = filter_index
-            except:
+            except BaseException:
                 pass
             _close_main_filechooser_dialog()
 

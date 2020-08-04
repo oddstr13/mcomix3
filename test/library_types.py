@@ -151,8 +151,7 @@ class WatchListEntryTest(unittest.TestCase):
                 entry_list[n] = dst
 
         entry = backend_types._WatchListEntry(tmpdir, True, None)
-        new_files = entry.get_new_files(available)
-        new_files.sort()
+        new_files = sorted(entry.get_new_files(available))
 
         self.assertIsInstance(new_files, list)
         self.assertEqual(new_files, others)

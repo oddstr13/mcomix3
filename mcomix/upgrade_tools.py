@@ -124,7 +124,7 @@ def openwith_conv(prefs):
         }
         try:
             return identifier_map[identifier]
-        except:
+        except BaseException:
             raise OldOpenWithException(
                 'Invalid escape sequence: %{}'.format(identifier))
 

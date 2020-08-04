@@ -113,7 +113,7 @@ def getflifinfo(const, flifinfo):
         flifinfo.height = height
         flifinfo.n_frames = num_images
         flifinfo.mode = mode
-    except:
+    except BaseException:
         flif.flif_destroy_info(info)
         exit(DECODE_ERROR)
 
@@ -162,7 +162,7 @@ def decodeflif(const, loop,
     num_images = flif.flif_decoder_num_images(decoder)
     try:
         loop.value = flif.flif_decoder_num_loops(decoder)
-    except:
+    except BaseException:
         flif.flif_destroy_decoder(decoder)
         exit(DECODE_ERROR)
 
@@ -212,7 +212,7 @@ def decodeflif(const, loop,
             exiflist.append(exif)
             palettelist.append(palette)
             rawlist.append(raw)
-        except:
+        except BaseException:
             flif.flif_destroy_decoder(decoder)
             exit(DECODE_ERROR)
 

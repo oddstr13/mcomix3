@@ -175,7 +175,7 @@ class _KeybindingManager(object):
         try:
             with open(constants.KEYBINDINGS_CONF_PATH, 'r') as fp:
                 stored_action_bindings = json.load(fp)
-        except:
+        except BaseException:
             stored_action_bindings = keybindings_map.DEFAULT_BINDINGS.copy()
 
         for action in keybindings_map.BINDING_INFO.keys():

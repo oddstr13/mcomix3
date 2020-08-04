@@ -588,7 +588,7 @@ class FileHandler(object):
         archive and has not yet been extracted. Return when the file is
         ready.
         '''
-        if self.archive_type == None or path == None:
+        if self.archive_type is None or path is None:
             return
 
         try:
@@ -603,7 +603,7 @@ class FileHandler(object):
     def _ask_for_files(self, files):
         '''Ask for <files> to be given priority for extraction.
         '''
-        if self.archive_type == None:
+        if self.archive_type is None:
             return
 
         with self._condition:

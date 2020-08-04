@@ -42,7 +42,7 @@ def copy(srcdir, filename, target, pool):
 def check_msgfmt():
     try:
         run(msgfmt_cmd + ['-V'], check=True, stdout=DEVNULL, stderr=DEVNULL)
-    except:
+    except BaseException:
         # msgfmt not found or usable
         msgfmt_cmd.clear()
         print('msgfmt not found')

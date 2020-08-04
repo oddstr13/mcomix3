@@ -45,7 +45,7 @@ class FiniteLayout(object):  # 2D only
         were not enough Boxes to scroll backwards, or the number of Boxes if
         there were not enough Boxes to scroll forwards. '''
         # TODO reconsider interface
-        if (index == None) or (not self.wrap_individually):
+        if (index is None) or (not self.wrap_individually):
             index = self.get_current_index()
         if not self.wrap_individually:
             wrapper_index = 0
@@ -81,7 +81,7 @@ class FiniteLayout(object):  # 2D only
         use the index of the current Box, or UNION_INDEX to use the union box
         instead. Note that the current implementation always uses the union box
         if self.wrap_individually is False. '''
-        if index == None:
+        if index is None:
             index = self.get_current_index()
         if not self.wrap_individually:
             index = constants.UNION_INDEX

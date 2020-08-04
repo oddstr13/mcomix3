@@ -18,7 +18,7 @@ def is_py_supported_zipfile(path):
         for file_info in zip_file.infolist():
             try:
                 descr = zipfile._get_decompressor(file_info.compress_type)
-            except:
+            except BaseException:
                 return False
     return True
 

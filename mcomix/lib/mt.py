@@ -130,13 +130,13 @@ class ThreadPool:
         with lock:
             try:
                 return func(*args, **kwargs)
-            except:
+            except BaseException:
                 pass
 
     def _caller(self, func, args, kwargs, callback, error_callback, exc_raise):
         try:
             result = func(*args, **kwargs)
-        except:
+        except BaseException:
             etype, value, tb = sys.exc_info()
             self._trycall(error_callback, args=(self.name, etype, value, tb),
                           lock=self._errcblock)

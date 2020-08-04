@@ -164,7 +164,7 @@ class NonUnicodeArchive(BaseArchive):
         os.rename(src, dst)
         try:
             os.removedirs(os.path.dirname(src))
-        except:
+        except BaseException:
             pass
 
     def _unicode_filename(self, filename, conversion_func=i18n.to_unicode):
@@ -317,7 +317,7 @@ class MountArchive(BaseArchive):
             while self._mgr.is_mounted():
                 try:
                     self._mgr.umount()
-                except:
+                except BaseException:
                     self._lock.acquire(timeout=.5)
 
     @staticmethod

@@ -57,10 +57,9 @@ class KeybindingEditorWindow(Gtk.ScrolledWindow):
         ''' Initializes the model from data provided by the keybinding
         manager. '''
         self.treestore.clear()
-        section_order = list(set(
+        section_order = sorted(set(
             d['group'] for d in keybindings_map.BINDING_INFO.values()
         ))
-        section_order.sort()
         section_parent_map = {}
         for section_name in section_order:
             row = [section_name, None, False]

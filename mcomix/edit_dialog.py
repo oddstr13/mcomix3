@@ -99,7 +99,7 @@ class _EditArchiveDialog(Gtk.Dialog):
             os.close(fd)
             fail = False
 
-        except:
+        except BaseException:
             fail = True
 
         if not fail:

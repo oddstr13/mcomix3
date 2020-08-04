@@ -174,7 +174,7 @@ class ImageHandler(object):
         be displayed has a width that exceeds its height), or if currently
         on the first page.
         '''
-        if page == None:
+        if page is None:
             page = self.get_current_page()
 
         if (page == 1 and
@@ -408,7 +408,7 @@ class ImageHandler(object):
             return None
         path = self.get_path_to_page(page)
 
-        if path == None:
+        if path is None:
             return None
 
         try:

@@ -156,7 +156,7 @@ def read_preferences_file():
         try:
             with open(constants.PREFERENCE_PATH, mode='rt') as config_file:
                 saved_prefs.update(json.load(config_file))
-        except:
+        except BaseException:
             # Gettext might not be installed yet at this point.
             corrupt_name = constants.PREFERENCE_PATH + '.broken'
             log.warning('! Corrupt preferences file, moving to "%s".' %
