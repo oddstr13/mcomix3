@@ -1,5 +1,5 @@
 #!/bin/sh
-ROOTDIR="mcomix/mcomix"
+ROOTDIR="mcomix"
 VERSION=$(grep VERSION $ROOTDIR/constants.py | sed -e "s/VERSION = //" -e "s/'//g")
 MAINTAINER="NAME@HO.ST"
 
