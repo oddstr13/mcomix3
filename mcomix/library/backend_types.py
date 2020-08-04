@@ -131,7 +131,7 @@ class _Collection(_BackendObject):
         including subcollections. '''
 
         books = []
-        for collection in [ self ] + self.get_all_collections():
+        for collection in [self] + self.get_all_collections():
             sql = '''SELECT book.id, book.name, book.path, book.pages, book.format,
                             book.size, book.added
                      FROM book
@@ -148,7 +148,7 @@ class _Collection(_BackendObject):
             rows = cursor.fetchall()
             cursor.close()
 
-            books.extend([ _Book(*cols) for cols in rows ])
+            books.extend([_Book(*cols) for cols in rows])
 
         return books
 
@@ -162,14 +162,14 @@ class _Collection(_BackendObject):
         result = cursor.fetchall()
         cursor.close()
 
-        return [ _Collection(*row) for row in result ]
+        return [_Collection(*row) for row in result]
 
     def get_all_collections(self):
         ''' Returns all collections that are subcollections of this instance,
         or subcollections of a subcollection of this instance. '''
 
-        to_search = [ self ]
-        collections = [ ]
+        to_search = [self]
+        collections = []
         # This assumes that the library is built like a tree, so no circular references.
         while len(to_search) > 0:
             collection = to_search.pop()
@@ -214,7 +214,7 @@ class _DefaultCollection(_Collection):
         rows = cursor.fetchall()
         cursor.close()
 
-        return [ _Book(*cols) for cols in rows ]
+        return [_Book(*cols) for cols in rows]
 
     def add_collection(self, subcollection):
         ''' Removes C{subcollection} from any supercollections and moves
@@ -237,7 +237,7 @@ class _DefaultCollection(_Collection):
         result = cursor.fetchall()
         cursor.close()
 
-        return [ _Collection(*row) for row in result ]
+        return [_Collection(*row) for row in result]
 
 
 DefaultCollection = _DefaultCollection()
@@ -322,7 +322,6 @@ class _WatchList(object):
 
         return _WatchListEntry(row[0], row[1], collection)
 
-
     @callback.Callback
     def new_files_found(self, paths, watchentry):
         ''' Called after scan_for_new_files finishes.
@@ -352,8 +351,8 @@ class _WatchListEntry(_BackendObject):
 
         if not self.recursive:
             available_files = frozenset([os.path.join(self.directory, filename)
-                for filename in os.listdir(self.directory)
-                if archive_tools.is_archive_file(filename)])
+                                         for filename in os.listdir(self.directory)
+                                         if archive_tools.is_archive_file(filename)])
         else:
             available_files = []
             for dirpath, dirnames, filenames in os.walk(self.directory):
@@ -384,7 +383,7 @@ class _WatchListEntry(_BackendObject):
         if new_collection != self.collection:
             sql = '''UPDATE watchlist SET collection = ? WHERE path = ?'''
             cursor = self.get_backend().execute(sql,
-                    (new_collection.id, self.directory))
+                                                (new_collection.id, self.directory))
             cursor.close()
             self.collection = new_collection
 
@@ -393,7 +392,7 @@ class _WatchListEntry(_BackendObject):
         if recursive != self.recursive:
             sql = '''UPDATE watchlist SET recursive = ? WHERE path = ?'''
             cursor = self.get_backend().execute(sql,
-                    (recursive, self.directory))
+                                                (recursive, self.directory))
             cursor.close()
             self.recursive = recursive
 

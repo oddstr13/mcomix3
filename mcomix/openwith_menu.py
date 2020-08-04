@@ -9,6 +9,7 @@ _openwith_manager = openwith.OpenWithManager()
 # Reference to the edit dialog (to keep only one instance)
 _openwith_edit_diag = None
 
+
 class OpenWithMenu(Gtk.Menu):
     def __init__(self, ui, window):
         ''' Constructor. '''
@@ -52,8 +53,8 @@ class OpenWithMenu(Gtk.Menu):
             if not command.is_separator():
                 menuitem = Gtk.MenuItem(label=command.get_label())
                 menuitem.connect('activate', self._commandmenu_clicked,
-                        command.get_command(), command.get_label(),
-                        command.get_cwd(), command.is_disabled_for_archives())
+                                 command.get_command(), command.get_label(),
+                                 command.get_cwd(), command.is_disabled_for_archives())
             else:
                 menuitem = Gtk.SeparatorMenuItem()
 
@@ -80,7 +81,7 @@ class OpenWithMenu(Gtk.Menu):
         global _openwith_edit_diag
         if not _openwith_edit_diag:
             _openwith_edit_diag = openwith.OpenWithEditor(self._window,
-                    self._openwith_manager)
+                                                          self._openwith_manager)
             _openwith_edit_diag.connect_after('response', self._dialog_closed)
 
         _openwith_edit_diag.show_all()

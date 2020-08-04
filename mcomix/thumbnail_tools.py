@@ -90,7 +90,7 @@ class Thumbnailer(object):
             if mt:
                 thread = threading.Thread(target=self._create_thumbnail, args=(filepath,))
                 thread.name += '-thumbnailer'
-                thread.daemon=True
+                thread.daemon = True
                 thread.start()
                 return None
             else:
@@ -129,7 +129,7 @@ class Thumbnailer(object):
                 if archive is None:
                     return None, None
                 if archive.is_encrypted:
-                    image_path=tools.pkg_path('images','encrypted-book.png')
+                    image_path = tools.pkg_path('images', 'encrypted-book.png')
                 else:
                     files = archive.list_contents(decrypt=False)
                     wanted = self._guess_cover(files)
@@ -184,13 +184,13 @@ class Thumbnailer(object):
         size = str(stat.st_size)
         format, width, height = image_tools.get_image_info(filepath)
         return {
-            'tEXt::Thumb::URI':           uri,
-            'tEXt::Thumb::MTime':         mtime,
-            'tEXt::Thumb::Size':          size,
-            'tEXt::Thumb::Mimetype':      mime,
-            'tEXt::Thumb::Image::Width':  str(width),
+            'tEXt::Thumb::URI': uri,
+            'tEXt::Thumb::MTime': mtime,
+            'tEXt::Thumb::Size': size,
+            'tEXt::Thumb::Mimetype': mime,
+            'tEXt::Thumb::Image::Width': str(width),
             'tEXt::Thumb::Image::Height': str(height),
-            'tEXt::Software':             'MComix %s' % constants.VERSION
+            'tEXt::Software': 'MComix %s' % constants.VERSION
         }
 
     def _save_thumbnail(self, pixbuf, thumbpath, tEXt_data):
@@ -213,8 +213,8 @@ class Thumbnailer(object):
             os.chmod(thumbpath, 0o600)
 
         except Exception as ex:
-            log.warning( _('! Could not save thumbnail "%(thumbpath)s": %(error)s'),
-                { 'thumbpath' : thumbpath, 'error' : ex } )
+            log.warning(_('! Could not save thumbnail "%(thumbpath)s": %(error)s'),
+                        {'thumbpath': thumbpath, 'error': ex})
 
     def _thumbnail_exists(self, filepath):
         ''' Checks if the thumbnail for <filepath> already exists.

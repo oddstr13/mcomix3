@@ -7,6 +7,7 @@ from gi.repository import GLib
 
 from mcomix import log
 
+
 class CallbackList(object):
     ''' Helper class for implementing callbacks within the main thread.
     Add listeners to method calls with method += callback_function. '''
@@ -84,7 +85,7 @@ class CallbackList(object):
                     callback(*args, **kwargs)
                 except Exception as e:
                     log.error(_('! Callback %(function)r failed: %(error)s'),
-                              { 'function' : callback, 'error' : e })
+                              {'function': callback, 'error': e})
                     log.debug('Traceback:\n%s', traceback.format_exc())
 
     def __callback_deleted(self, obj_ref):
@@ -103,6 +104,7 @@ class CallbackList(object):
             return (weakref.ref(func.im_self, self.__callback_deleted), func.im_func)
         else:
             return (None, func)
+
 
 class Callback(object):
     ''' Decorator class for using the CallbackList helper. '''

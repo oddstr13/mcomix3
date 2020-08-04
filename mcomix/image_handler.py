@@ -13,6 +13,7 @@ from mcomix import callback
 from mcomix import log
 from mcomix.lib import mt
 
+
 class ImageHandler(object):
 
     '''The FileHandler keeps track of images, pages, caches and reads files.
@@ -70,7 +71,7 @@ class ImageHandler(object):
             result.append(self._get_pixbuf(self._current_image_index + i))
         return result
 
-    def get_pixbuf_auto_background(self, number_of_bufs): # XXX limited to at most 2 pages
+    def get_pixbuf_auto_background(self, number_of_bufs):  # XXX limited to at most 2 pages
         ''' Returns an automatically calculated background color
         for the current page(s). '''
 
@@ -178,12 +179,12 @@ class ImageHandler(object):
 
         if (page == 1 and
             prefs['virtual double page for fitting images'] & constants.SHOW_DOUBLE_AS_ONE_TITLE and
-            self._window.filehandler.archive_type is not None):
+                self._window.filehandler.archive_type is not None):
             return True
 
         if (not prefs['default double page'] or
             not prefs['virtual double page for fitting images'] & constants.SHOW_DOUBLE_AS_ONE_WIDE or
-            page == self.get_number_of_pages()):
+                page == self.get_number_of_pages()):
             return False
 
         for page in (page, page + 1):
@@ -220,7 +221,8 @@ class ImageHandler(object):
         self._wanted_pixbufs.clear()
         while self._cache_lock:
             index, lock = self._cache_lock.popitem()
-            with lock:pass
+            with lock:
+                pass
         self._base_path = None
         self._image_files.clear()
         self._current_image_index = None
@@ -236,11 +238,11 @@ class ImageHandler(object):
             if not current_page:
                 # Current 'book' has no page.
                 return False
-            index_list = [ current_page - 1 ]
+            index_list = [current_page - 1]
             if self._window.displayed_double() and current_page < len(self._image_files):
                 index_list.append(current_page)
         else:
-            index_list = [ page - 1 ]
+            index_list = [page - 1]
 
         for index in index_list:
             if not index in self._available_images:
@@ -255,12 +257,12 @@ class ImageHandler(object):
         log.debug('Page %u is available', page)
         index = page - 1
         assert index not in self._available_images
-        self._cache_lock[index]=mt.Lock()
+        self._cache_lock[index] = mt.Lock()
         self._available_images.add(index)
         # Check if we need to cache it.
         if index in self._wanted_pixbufs or -1 == self._cache_pages:
             self._thread.apply_async(
-                self._cache_pixbuf,(index,))
+                self._cache_pixbuf, (index,))
 
     def _file_available(self, filepaths):
         ''' Called by the filehandler when a new file becomes available. '''
@@ -329,7 +331,7 @@ class ImageHandler(object):
         page) and s' is the filesize of the page after.
         '''
         if not self.page_is_available():
-            return ('-1','-1') if double else '-1'
+            return ('-1', '-1') if double else '-1'
 
         def get_fsize(page):
             path = self.get_path_to_page(page)
@@ -443,7 +445,7 @@ class ImageHandler(object):
     def _ask_for_pages(self, page):
         '''Ask for pages around <page> to be given priority extraction.
         '''
-        total_pages=range(self.get_number_of_pages())
+        total_pages = range(self.get_number_of_pages())
 
         num_pages = self._cache_pages
         if num_pages < 0:

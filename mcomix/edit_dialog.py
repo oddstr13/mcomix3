@@ -16,6 +16,7 @@ from mcomix import message_dialog
 
 _dialog = None
 
+
 class _EditArchiveDialog(Gtk.Dialog):
 
     '''The _EditArchiveDialog lets users edit archives (or directories) by
@@ -30,7 +31,7 @@ class _EditArchiveDialog(Gtk.Dialog):
 
         self._accept_changes_button = self.add_button(Gtk.STOCK_APPLY, Gtk.ResponseType.APPLY)
 
-        self.kill = False # Dialog is killed.
+        self.kill = False  # Dialog is killed.
         self.file_handler = window.filehandler
         self._window = window
         self._imported_files = []
@@ -39,11 +40,11 @@ class _EditArchiveDialog(Gtk.Dialog):
 
         self._import_button = self.add_button(_('_Import'), constants.RESPONSE_IMPORT)
         self._import_button.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_ADD,
-            Gtk.IconSize.BUTTON))
+                                                               Gtk.IconSize.BUTTON))
 
         self.set_border_width(4)
         self.resize(min(Gdk.Screen.get_default().get_width() - 50, 750),
-            min(Gdk.Screen.get_default().get_height() - 50, 600))
+                    min(Gdk.Screen.get_default().get_height() - 50, 600))
 
         self.connect('response', self._response)
 
@@ -69,7 +70,7 @@ class _EditArchiveDialog(Gtk.Dialog):
         self._window.set_cursor(Gdk.Cursor.new(Gdk.CursorType.WATCH))
         self._image_area.fetch_images()
 
-        if self.kill: # fetch_images() allows pending events to be handled.
+        if self.kill:  # fetch_images() allows pending events to be handled.
             return False
 
         self._comment_area.fetch_comments()
@@ -103,14 +104,14 @@ class _EditArchiveDialog(Gtk.Dialog):
 
         if not fail:
             packer = archive_packer.Packer(image_files, comment_files, tmp_path,
-                os.path.splitext(os.path.basename(archive_path))[0])
+                                           os.path.splitext(os.path.basename(archive_path))[0])
             packer.pack()
             packing_success = packer.wait()
 
             if packing_success:
                 # Preserve permissions if currently edited files come from an archive
                 if (self._window.filehandler.archive_type is not None and
-                    os.path.exists(self._window.filehandler.get_path_to_base())):
+                        os.path.exists(self._window.filehandler.get_path_to_base())):
                     mode = os.stat(self._window.filehandler.get_path_to_base()).st_mode
                 else:
                     mode = os.stat(tmp_path).st_mode
@@ -154,7 +155,7 @@ class _EditArchiveDialog(Gtk.Dialog):
                 archive_name = os.path.splitext(archive_name)[0]
 
             dialog.set_current_directory(os.path.dirname(src_path))
-            dialog.set_save_name(archive_name+'.zip')
+            dialog.set_save_name(archive_name + '.zip')
             dialog.filechooser.set_extra_widget(Gtk.Label(
                 label=_('Archives are stored as ZIP files.')))
 
@@ -163,7 +164,7 @@ class _EditArchiveDialog(Gtk.Dialog):
             dialog.filechooser.add_filter(ffilter)
             for ext, mime in constants.ZIP_FORMATS:
                 ffilter.add_mime_type(mime)
-                ffilter.add_pattern('*'+ext)
+                ffilter.add_pattern('*' + ext)
 
             dialog.run()
 
@@ -187,13 +188,13 @@ class _EditArchiveDialog(Gtk.Dialog):
             for path in paths:
 
                 if image_tools.is_image_file(path):
-                    self._imported_files.append( path )
+                    self._imported_files.append(path)
                     self._image_area.add_extra_image(path)
 
                 elif os.path.isfile(path):
 
-                    if comment_re.search( path ):
-                        self._imported_files.append( path )
+                    if comment_re.search(path):
+                        self._imported_files.append(path)
                         self._comment_area.add_extra_file(path)
 
         elif response == Gtk.ResponseType.APPLY:
@@ -237,6 +238,7 @@ class _EditArchiveDialog(Gtk.Dialog):
     def destroy(self):
         self._image_area.cleanup()
         Gtk.Dialog.destroy(self)
+
 
 def open_dialog(action, window):
     global _dialog

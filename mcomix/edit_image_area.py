@@ -9,6 +9,7 @@ from mcomix import thumbnail_tools
 from mcomix import thumbnail_view
 from mcomix.preferences import prefs
 
+
 class _ImageArea(Gtk.ScrolledWindow):
 
     '''The area used for displaying and handling image files.'''
@@ -25,9 +26,9 @@ class _ImageArea(Gtk.ScrolledWindow):
         self._liststore = Gtk.ListStore(GdkPixbuf.Pixbuf, str, str, bool)
         self._iconview = thumbnail_view.ThumbnailIconView(
             self._liststore,
-            2, # UID
-            0, # pixbuf
-            3, # status
+            2,  # UID
+            0,  # pixbuf
+            3,  # status
         )
         self._iconview.generate_thumbnail = self._generate_thumbnail
         self._iconview.set_tooltip_column(1)

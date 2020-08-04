@@ -6,6 +6,7 @@ from mcomix import constants
 from mcomix import bookmark_menu_item
 from mcomix.tools import cmp
 
+
 class _BookmarksDialog(Gtk.Dialog):
 
     '''_BookmarksDialog lets the user remove or rearrange bookmarks.'''
@@ -150,7 +151,7 @@ class _BookmarksDialog(Gtk.Dialog):
 
         for field in user_data:
             result = cmp(getattr(bookmark1, field),
-                getattr(bookmark2, field))
+                         getattr(bookmark2, field))
             if result != 0:
                 return result
 

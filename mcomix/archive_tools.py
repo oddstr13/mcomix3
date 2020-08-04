@@ -74,6 +74,7 @@ _HANDLERS = {
     ),
 }
 
+
 def _get_handler(archive_type):
     ''' Return best archive class for format <archive_type> '''
 
@@ -83,56 +84,67 @@ def _get_handler(archive_type):
         if handler.is_available():
             return handler
 
+
 def _is_available(archive_type):
     ''' Return True if a handler supporting the <archive_type> format is available '''
     return _get_handler(archive_type) is not None
 
+
 def szip_available():
     return _is_available(constants.SEVENZIP)
+
 
 def rar_available():
     return _is_available(constants.RAR)
 
+
 def lha_available():
     return _is_available(constants.LHA)
+
 
 def pdf_available():
     return _is_available(constants.PDF)
 
+
 def squashfs_available():
     return _is_available(constants.SQUASHFS)
 
-SUPPORTED_ARCHIVE_EXTS=set()
-SUPPORTED_ARCHIVE_FORMATS={}
+
+SUPPORTED_ARCHIVE_EXTS = set()
+SUPPORTED_ARCHIVE_FORMATS = {}
+
 
 def init_supported_formats():
     for name, formats, is_available in (
-        ('ZIP', constants.ZIP_FORMATS , True            ),
-        ('Tar', constants.TAR_FORMATS , True            ),
-        ('RAR', constants.RAR_FORMATS , rar_available() ),
-        ('7z' , constants.SZIP_FORMATS, szip_available()),
-        ('LHA', constants.LHA_FORMATS , lha_available() ),
-        ('PDF', constants.PDF_FORMATS , pdf_available() ),
-        ('SquashFS', constants.SQUASHFS_FORMATS , squashfs_available() ),
+        ('ZIP', constants.ZIP_FORMATS, True),
+        ('Tar', constants.TAR_FORMATS, True),
+        ('RAR', constants.RAR_FORMATS, rar_available()),
+        ('7z', constants.SZIP_FORMATS, szip_available()),
+        ('LHA', constants.LHA_FORMATS, lha_available()),
+        ('PDF', constants.PDF_FORMATS, pdf_available()),
+        ('SquashFS', constants.SQUASHFS_FORMATS, squashfs_available()),
     ):
         if not is_available:
             continue
-        SUPPORTED_ARCHIVE_FORMATS[name]=(set(),set())
+        SUPPORTED_ARCHIVE_FORMATS[name] = (set(), set())
         for ext, mime in formats:
             SUPPORTED_ARCHIVE_FORMATS[name][0].add(mime.lower())
             SUPPORTED_ARCHIVE_FORMATS[name][1].add(ext.lower())
         # also add to supported extensions list
         SUPPORTED_ARCHIVE_EXTS.update(SUPPORTED_ARCHIVE_FORMATS[name][1])
 
+
 def get_supported_formats():
     if not SUPPORTED_ARCHIVE_FORMATS:
         init_supported_formats()
     return SUPPORTED_ARCHIVE_FORMATS
 
+
 def is_archive_file(path):
     if not SUPPORTED_ARCHIVE_FORMATS:
         init_supported_formats()
     return path.lower().endswith(tuple(SUPPORTED_ARCHIVE_EXTS))
+
 
 def archive_mime_type(path):
     '''Return the archive type of <path> or None for non-archives.'''
@@ -177,19 +189,20 @@ def archive_mime_type(path):
             if magic[0:6] == b'7z\xbc\xaf\x27\x1c':
                 return constants.SEVENZIP
 
-            if magic[2:].startswith((b'-lh',b'-lz')):
+            if magic[2:].startswith((b'-lh', b'-lz')):
                 return constants.LHA
 
             if magic[0:4] == b'%PDF':
                 return constants.PDF
 
-            if magic.startswith((b'sqsh',b'hsqs')):
+            if magic.startswith((b'sqsh', b'hsqs')):
                 return constants.SQUASHFS
 
     except Exception:
         log.warning(_('! Could not read %s'), path)
 
     return None
+
 
 def get_archive_info(path):
     '''Return a tuple (mime, num_pages, size) with info about the archive
@@ -207,6 +220,7 @@ def get_archive_info(path):
 
         return (mime, num_pages, size)
 
+
 def get_archive_handler(path, type=None):
     ''' Returns a fitting extractor handler for the archive passed
     in <path> (with optional mime type <type>. Returns None if no matching
@@ -222,6 +236,7 @@ def get_archive_handler(path, type=None):
         return None
 
     return handler(path)
+
 
 def get_recursive_archive_handler(path, type=None, **kwargs):
     ''' Same as <get_archive_handler> but the handler will transparently handle

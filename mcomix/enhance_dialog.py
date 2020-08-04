@@ -8,6 +8,7 @@ from mcomix.preferences import prefs
 
 _dialog = None
 
+
 class _EnhanceImageDialog(Gtk.Dialog):
 
     '''A Gtk.Dialog which allows modification of the values belonging to
@@ -169,6 +170,7 @@ def open_dialog(action, window):
         _dialog = _EnhanceImageDialog(window)
     else:
         _dialog.present()
+
 
 def _close_dialog(*args):
     '''Destroy the image enhancement dialog.'''

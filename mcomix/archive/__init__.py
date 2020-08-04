@@ -7,6 +7,7 @@ if tools.use_gui():
     from mcomix import main
     from mcomix import message_dialog
 
+
 def ask_for_password(archive):
     if not tools.use_gui():
         return None

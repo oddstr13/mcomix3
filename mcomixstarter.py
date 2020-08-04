@@ -20,14 +20,14 @@
 
 import sys
 
-py2msg='''PROGRAM TERMINATED
+py2msg = '''PROGRAM TERMINATED
 Python 2.x is no longer supported.
 '''
 
-if sys.version_info.major<3:
+if sys.version_info.major < 3:
     sys.stderr.write(py2msg)
     sys.exit(1)
 
-if __name__=='__main__':
+if __name__ == '__main__':
     import mcomix.run
     mcomix.run.run()

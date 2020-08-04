@@ -4,6 +4,7 @@ from gi.repository import Gtk
 
 from mcomix import labels
 
+
 class _PreferenceSection(Gtk.VBox):
 
     '''The _PreferenceSection is a convenience class for making one

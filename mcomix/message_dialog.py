@@ -42,7 +42,7 @@ class MessageDialog(Gtk.MessageDialog):
         '''
         if primary:
             self.set_markup('<span weight="bold" size="larger">' +
-                primary + '</span>')
+                            primary + '</span>')
         if secondary:
             self.format_secondary_markup(secondary)
 

@@ -133,8 +133,8 @@ class MagnifyingLens(object):
                                       has_alpha=True, bits_per_sample=8,
                                       width=prefs['lens size'],
                                       height=prefs['lens size'])
-        r,g,b,a = [int(p*255) for p in self._window.get_bg_color()]
-        canvas.fill(image_tools.convert_rgb16list_to_rgba8int([r,g,b]))
+        r, g, b, a = [int(p * 255) for p in self._window.get_bg_color()]
+        canvas.fill(image_tools.convert_rgb16list_to_rgba8int([r, g, b]))
         cb = self._window.layout.get_content_boxes()
         source_pixbufs = self._window.imagehandler.get_pixbufs(len(cb))
         for i in range(len(cb)):
@@ -142,7 +142,7 @@ class MagnifyingLens(object):
                 continue
             cpos = cb[i].get_position()
             self._add_subpixbuf(canvas, x - cpos[0], y - cpos[1],
-                cb[i].get_size(), source_pixbufs[i])
+                                cb[i].get_size(), source_pixbufs[i])
 
         return image_tools.add_border(canvas, 1)
 
@@ -216,7 +216,7 @@ class MagnifyingLens(object):
             return
 
         subpixbuf = source_pixbuf.new_subpixbuf(int(src_x), int(src_y),
-            int(width), int(height))
+                                                int(width), int(height))
         subpixbuf = subpixbuf.scale_simple(
             int(math.ceil(source_mag * subpixbuf.get_width())),
             int(math.ceil(source_mag * subpixbuf.get_height())),
@@ -249,9 +249,9 @@ class MagnifyingLens(object):
 
         if subpixbuf.get_has_alpha() and prefs['checkered bg for transparent images']:
             subpixbuf = subpixbuf.composite_color_simple(subpixbuf.get_width(), subpixbuf.get_height(),
-                GdkPixbuf.InterpType.NEAREST, 255, 8, 0x777777, 0x999999)
+                                                         GdkPixbuf.InterpType.NEAREST, 255, 8, 0x777777, 0x999999)
 
         subpixbuf.copy_area(0, 0, subpixbuf.get_width(),
-            subpixbuf.get_height(), canvas, dest_x, dest_y)
+                            subpixbuf.get_height(), canvas, dest_x, dest_y)
 
 # vim: expandtab:sw=4:ts=4

@@ -5,8 +5,8 @@ import argparse
 import signal
 
 if __name__ == '__main__':
-    print('PROGRAM TERMINATED',file=sys.stderr)
-    print('Please do not run this script directly! Use mcomixstarter.py instead.',file=sys.stderr)
+    print('PROGRAM TERMINATED', file=sys.stderr)
+    print('Please do not run this script directly! Use mcomixstarter.py instead.', file=sys.stderr)
     sys.exit(1)
 
 # These modules must not depend on GTK, PIL,
@@ -18,6 +18,7 @@ from mcomix import (
     preferences,
 )
 
+
 def wait_and_exit():
     ''' Wait for the user pressing ENTER before closing. This should help
     the user find possibly missing dependencies when starting, since the
@@ -27,10 +28,12 @@ def wait_and_exit():
         input('Press ENTER to continue...')
     sys.exit(1)
 
+
 def print_version():
     '''Print the version number and exit.'''
     print(constants.APPNAME, constants.VERSION)
     sys.exit(0)
+
 
 def parse_arguments():
     ''' Parse the command line passed in <argv>. Returns a tuple containing
@@ -85,6 +88,7 @@ def parse_arguments():
 
     return args
 
+
 def run():
     '''Run the program.'''
 
@@ -105,7 +109,7 @@ def run():
     # Check for PyGTK and PIL dependencies.
     try:
         from gi import version_info as gi_version_info
-        if gi_version_info < (3,21,0):
+        if gi_version_info < (3, 21, 0):
             log.error(_('You do not have the required versions of PyGObject installed.'))
             wait_and_exit()
 
@@ -127,19 +131,19 @@ def run():
         wait_and_exit()
 
     try:
-        #FIXME
+        # FIXME
         # check Pillow version carefully here.
         # from 5.1.0 to 5.4.1, PILLOW_VERSION is used,
         # but since 6.0.0, only __version__ should be used.
         # clean up these code once python 3.6 goes EOL (maybe 2021)
         # (https://pillow.readthedocs.io/en/stable/releasenotes/5.2.0.html)
         import PIL.Image
-        pilver=getattr(PIL.Image,'__version__',None)
+        pilver = getattr(PIL.Image, '__version__', None)
         if not pilver:
-            pilver=getattr(PIL.Image,'PILLOW_VERSION')
+            pilver = getattr(PIL.Image, 'PILLOW_VERSION')
             log.warning(_('Please download latest version of Pillow from {}').format(
                 'https://pypi.org/project/Pillow/'))
-            setattr(PIL.Image,'__version__',pilver)
+            setattr(PIL.Image, '__version__', pilver)
 
     except AttributeError:
         log.error(_('You don\'t have the required version of the Pillow installed.'))
@@ -159,7 +163,7 @@ def run():
             wait_and_exit()
 
     log.info('Image loaders: Pillow [%s], GDK [%s])',
-             PIL.Image.__version__,GdkPixbuf.PIXBUF_VERSION)
+             PIL.Image.__version__, GdkPixbuf.PIXBUF_VERSION)
 
     if not os.path.exists(constants.DATA_DIR):
         os.makedirs(constants.DATA_DIR, 0o700)
@@ -175,7 +179,7 @@ def run():
 
     if isinstance(open_path, list):
         n = 0
-        while n<len(open_path):
+        while n < len(open_path):
             p = os.path.join(constants.STARTDIR, open_path[n])
             p = os.path.normpath(p)
             if not os.path.exists(p):
@@ -204,10 +208,10 @@ def run():
     settings.props.gtk_menu_images = True
 
     from mcomix import main
-    window = main.MainWindow(fullscreen = args.fullscreen, is_slideshow = args.slideshow,
-                             show_library = args.library, manga_mode = args.manga,
-                             double_page = args.doublepage, zoom_mode = args.zoommode,
-                             open_path = open_path, open_page = open_page)
+    window = main.MainWindow(fullscreen=args.fullscreen, is_slideshow=args.slideshow,
+                             show_library=args.library, manga_mode=args.manga,
+                             double_page=args.doublepage, zoom_mode=args.zoommode,
+                             open_path=open_path, open_page=open_page)
     main.set_main_window(window)
 
     if 'win32' != sys.platform:
@@ -223,7 +227,7 @@ def run():
         signal.signal(sig, lambda signum, stack: GLib.idle_add(window.terminate_program))
     try:
         Gtk.main()
-    except KeyboardInterrupt: # Will not always work because of threading.
+    except KeyboardInterrupt:  # Will not always work because of threading.
         window.terminate_program()
 
 # vim: expandtab:sw=4:ts=4

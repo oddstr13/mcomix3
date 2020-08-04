@@ -18,6 +18,7 @@ from mcomix import tools
 from mcomix.lib import mountmanager
 from mcomix.preferences import prefs
 
+
 class BaseArchive(object):
     ''' Base archive interface. All filenames passed from and into archives
     are expected to be Unicode objects. Archive files are converted to
@@ -143,6 +144,7 @@ class BaseArchive(object):
             self._password_required()
         self._event.wait()
 
+
 class NonUnicodeArchive(BaseArchive):
     ''' Base class for archives that manage a conversion of byte member names ->
     Unicode member names internally. Required for formats that do not provide
@@ -180,6 +182,7 @@ class NonUnicodeArchive(BaseArchive):
             return self.unicode_mapping[filename]
         else:
             return i18n.to_utf8(filename)
+
 
 class ExternalExecutableArchive(NonUnicodeArchive):
     ''' For archives that are extracted by spawning an external
@@ -234,7 +237,7 @@ class ExternalExecutableArchive(NonUnicodeArchive):
     def extract(self, filename, destination_dir):
         ''' Extract <filename> from the archive to <destination_dir>. '''
         assert isinstance(filename, str) and \
-                isinstance(destination_dir, str)
+            isinstance(destination_dir, str)
 
         if not self._get_executable():
             return
@@ -251,22 +254,23 @@ class ExternalExecutableArchive(NonUnicodeArchive):
                          stdout=output)
         return destination_path
 
+
 class MountArchive(BaseArchive):
-    def __init__(self,archive,mounter,options=[]):
-        super(MountArchive,self).__init__(archive)
-        self._src=self.archive
-        self._mounter=mounter
-        self._mountoptions=options
+    def __init__(self, archive, mounter, options=[]):
+        super(MountArchive, self).__init__(archive)
+        self._src = self.archive
+        self._mounter = mounter
+        self._mountoptions = options
         try:
-            self._mgr=mountmanager.MountManager(self._mounter)
+            self._mgr = mountmanager.MountManager(self._mounter)
         except mountmanager.MountManager.CommandNotFound:
-            self._mgr=None
+            self._mgr = None
             return
-        self._contents=[]
-        self._lock=threading.Lock()
+        self._contents = []
+        self._lock = threading.Lock()
 
         with self._lock:
-            with self._mgr(self._src,options=self._mountoptions) as m:
+            with self._mgr(self._src, options=self._mountoptions) as m:
                 for paths in tools.walkpath(m.mountpoint):
                     self._contents.append(os.path.join(*paths))
         self._contents.sort()
@@ -280,29 +284,29 @@ class MountArchive(BaseArchive):
     def is_solid(self):
         return True
 
-    def extract(self,fn,dstdir):
+    def extract(self, fn, dstdir):
         with self._lock:
-            dstfile=os.path.join(dstdir,fn)
+            dstfile = os.path.join(dstdir, fn)
             if self._mgr.is_mounted():
-                with open(os.path.join(self._mgr.mountpoint,fn),mode='rb') as src:
-                    data=src.read()
+                with open(os.path.join(self._mgr.mountpoint, fn), mode='rb') as src:
+                    data = src.read()
             else:
-                with self._mgr(self._src,options=self._mountoptions) as m:
-                    with open(os.path.join(m.mountpoint,fn),mode='rb') as src:
-                        data=src.read()
+                with self._mgr(self._src, options=self._mountoptions) as m:
+                    with open(os.path.join(m.mountpoint, fn), mode='rb') as src:
+                        data = src.read()
             with self._create_file(dstfile) as dst:
                 dst.write(data)
         return dstfile
 
-    def iter_extract(self,names,dstdir):
+    def iter_extract(self, names, dstdir):
         with self._lock:
             self._create_directory(dstdir)
             if self._mgr.is_mounted():
-                if dstdir!=self._mgr.mountpoint:
+                if dstdir != self._mgr.mountpoint:
                     # umount before change mountpoint
                     self._mgr.umount()
             if not self._mgr.is_mounted():
-                self._mgr.mount(self._src,options=self._mountoptions,
+                self._mgr.mount(self._src, options=self._mountoptions,
                                 mountpoint=dstdir)
             for name in names:
                 if name in self._contents:
@@ -318,7 +322,7 @@ class MountArchive(BaseArchive):
 
     @staticmethod
     def _is_available(mounter):
-        if sys.platform!='linux':
+        if sys.platform != 'linux':
             return False
         if not prefs['mount']:
             return False

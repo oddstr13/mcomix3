@@ -5,6 +5,7 @@ from gi.repository import Gtk
 from mcomix import bookmark_backend
 from mcomix import bookmark_dialog
 
+
 class BookmarksMenu(Gtk.Menu):
 
     '''BookmarksMenu extends Gtk.Menu with convenience methods relating to

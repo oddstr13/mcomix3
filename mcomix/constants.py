@@ -45,9 +45,9 @@ FIRST_INDEX = 0
 LAST_INDEX = -1
 UNION_INDEX = -2
 ANIMATION_DISABLED = 0
-ANIMATION_NORMAL = 1 # loop as animation setting
-ANIMATION_ONCE = 1<<1 # loop only once
-ANIMATION_INF = 1<<2 # loop infinity
+ANIMATION_NORMAL = 1  # loop as animation setting
+ANIMATION_ONCE = 1 << 1  # loop only once
+ANIMATION_INF = 1 << 2  # loop infinity
 
 ZIP, RAR, RAR5, TAR, GZIP, BZIP2, XZ, PDF, SEVENZIP, LHA, ZIP_EXTERNAL, SQUASHFS = range(12)
 NORMAL_CURSOR, GRAB_CURSOR, WAIT_CURSOR, NO_CURSOR = range(4)
@@ -102,25 +102,25 @@ TAR_FORMATS = (
     # for compressed tar
 
     # gzip
-    ('.tar.gz',   'application/x-compressed-tar'),
-    ('.tgz',      'application/x-compressed-tar'),
+    ('.tar.gz', 'application/x-compressed-tar'),
+    ('.tgz', 'application/x-compressed-tar'),
     # bzip2
-    ('.tar.bz2',  'application/x-bzip-compressed-tar'),
-    ('.tar.bz',   'application/x-bzip-compressed-tar'),
-    ('.tbz2',     'application/x-bzip-compressed-tar'),
-    ('.tbz',      'application/x-bzip-compressed-tar'),
-    ('.tb2',      'application/x-bzip-compressed-tar'),
+    ('.tar.bz2', 'application/x-bzip-compressed-tar'),
+    ('.tar.bz', 'application/x-bzip-compressed-tar'),
+    ('.tbz2', 'application/x-bzip-compressed-tar'),
+    ('.tbz', 'application/x-bzip-compressed-tar'),
+    ('.tb2', 'application/x-bzip-compressed-tar'),
     # lzma
     ('.tar.lzma', 'application/x-lzma-compressed-tar'),
-    ('.tlz',      'application/x-lzma-compressed-tar'),
+    ('.tlz', 'application/x-lzma-compressed-tar'),
     # xz
-    ('.tar.xz',   'application/x-xz-compressed-tar'),
-    ('.txz',      'application/x-xz-compressed-tar'),
+    ('.tar.xz', 'application/x-xz-compressed-tar'),
+    ('.txz', 'application/x-xz-compressed-tar'),
 )
 
 SZIP_FORMATS = (
     # not registed in IANA
-    ('.7z',  'application/x-7z-compressed'),
+    ('.7z', 'application/x-7z-compressed'),
     # not registed in IANA
     ('.cb7', 'application/x-cb7'),
 )
@@ -134,7 +134,7 @@ LHA_FORMATS = (
 
 PDF_FORMATS = (
     # https://www.iana.org/assignments/media-types/application/pdf
-    ('.pdf','application/pdf'),
+    ('.pdf', 'application/pdf'),
 )
 
 SQUASHFS_FORMATS = (

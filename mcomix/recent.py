@@ -15,6 +15,7 @@ from mcomix import archive_tools
 from mcomix import image_tools
 from mcomix import log
 
+
 class RecentFilesMenu(Gtk.RecentChooserMenu):
 
     def __init__(self, ui, window):
@@ -35,7 +36,7 @@ class RecentFilesMenu(Gtk.RecentChooserMenu):
         supported_formats.update(archive_tools.get_supported_formats())
         for name in sorted(supported_formats):
             mime_types, extensions = supported_formats[name]
-            patterns = ['*'+ext for ext in extensions]
+            patterns = ['*' + ext for ext in extensions]
             for mime in mime_types:
                 rfilter.add_mime_type(mime)
             for pat in patterns:

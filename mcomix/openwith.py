@@ -15,7 +15,9 @@ from mcomix import callback
 
 DEBUGGING_CONTEXT, NO_FILE_CONTEXT, IMAGE_FILE_CONTEXT, ARCHIVE_CONTEXT = -1, 0, 1, 2
 
-class OpenWithException(Exception): pass
+
+class OpenWithException(Exception):
+    pass
 
 
 class OpenWithManager(object):
@@ -65,8 +67,8 @@ class OpenWithCommand(object):
         ''' Spawns a new process with the given executable
         and arguments. '''
         if (self.is_disabled_for_archives() and
-            window.filehandler.archive_type is not None):
-            window.osd.show(_('"%s" is disabled for archives.') % \
+                window.filehandler.archive_type is not None):
+            window.osd.show(_('"%s" is disabled for archives.') %
                             self.get_label())
             return
 
@@ -142,39 +144,39 @@ class OpenWithCommand(object):
         result = shlex.split(line)
         variables = self._create_format_dict(window, context_type)
         for i, arg in enumerate(result):
-            result[i]=self._format_argument(arg, variables)
+            result[i] = self._format_argument(arg, variables)
         return result
 
     def _create_format_dict(self, window, context_type):
         variables = {}
         if context_type == NO_FILE_CONTEXT:
             # dummy variables for preview if no file opened
-            variables.update((head+tail,'{{{}{}}}'.format(head, tail))
+            variables.update((head + tail, '{{{}{}}}'.format(head, tail))
                              for head in ('image', 'archive', 'container')
                              for tail in ('', 'dir', 'base', 'dirbase'))
             return variables
         variables.update((
-            ('image', os.path.normpath(window.imagehandler.get_path_to_page())), # %F
-            ('imagebase', window.imagehandler.get_page_filename()), # %f
+            ('image', os.path.normpath(window.imagehandler.get_path_to_page())),  # %F
+            ('imagebase', window.imagehandler.get_page_filename()),  # %f
         ))
-        variables['imagedir'] = os.path.dirname(variables['image']) # %D
-        variables['imagedirbase'] = os.path.basename(variables['imagedir']) # %d
+        variables['imagedir'] = os.path.dirname(variables['image'])  # %D
+        variables['imagedirbase'] = os.path.basename(variables['imagedir'])  # %d
         if context_type & ARCHIVE_CONTEXT:
             variables.update((
-                ('archive', window.filehandler.get_path_to_base()), # %A
-                ('archivebase', window.filehandler.get_base_filename()), # %a
+                ('archive', window.filehandler.get_path_to_base()),  # %A
+                ('archivebase', window.filehandler.get_base_filename()),  # %a
             ))
-            variables['archivedir'] = os.path.dirname(variables['archive']) # %C
-            variables['archivedirbase'] = os.path.basename(variables['archivedir']) # %c
-            container = 'archive' # currently opened archive
+            variables['archivedir'] = os.path.dirname(variables['archive'])  # %C
+            variables['archivedirbase'] = os.path.basename(variables['archivedir'])  # %c
+            container = 'archive'  # currently opened archive
         else:
-            container = 'imagedir' # directory containing the currently opened image file
+            container = 'imagedir'  # directory containing the currently opened image file
         variables.update((
-            ('container', variables[container]), # %B
-            ('containerbase', variables[container+'base']), # %b
+            ('container', variables[container]),  # %B
+            ('containerbase', variables[container + 'base']),  # %b
         ))
-        variables['containerdir'] = os.path.dirname(variables['container']) # %S
-        variables['containerdirbase'] = os.path.basename(variables['containerdir']) # %s
+        variables['containerdir'] = os.path.dirname(variables['container'])  # %S
+        variables['containerdirbase'] = os.path.basename(variables['containerdir'])  # %s
         return variables
 
     def _format_argument(self, string, variables):
@@ -186,16 +188,16 @@ class OpenWithCommand(object):
 
     def _get_context_type(self, window, check_restrictions=True):
         if not check_restrictions:
-            return DEBUGGING_CONTEXT # ignore context, reflect variable name
+            return DEBUGGING_CONTEXT  # ignore context, reflect variable name
         context = 0
         if not window.filehandler.file_loaded:
-            context = NO_FILE_CONTEXT # no file loaded
+            context = NO_FILE_CONTEXT  # no file loaded
         elif window.filehandler.archive_type is not None:
-            context = IMAGE_FILE_CONTEXT|ARCHIVE_CONTEXT # archive loaded
+            context = IMAGE_FILE_CONTEXT | ARCHIVE_CONTEXT  # archive loaded
         else:
-            context = IMAGE_FILE_CONTEXT # image loaded (no archive)
+            context = IMAGE_FILE_CONTEXT  # image loaded (no archive)
         if not window.imagehandler.get_current_page():
-            context &= ~IMAGE_FILE_CONTEXT # empty archive
+            context &= ~IMAGE_FILE_CONTEXT  # empty archive
         return context
 
 
@@ -371,7 +373,7 @@ class OpenWithEditor(Gtk.Dialog):
     def _item_selected(self, selection):
         ''' Enable or disable buttons that depend on an item being selected. '''
         for button in (self._remove_button, self._up_button,
-                self._down_button):
+                       self._down_button):
             button.set_sensitive(selection.count_selected_rows() > 0)
 
         if selection.count_selected_rows() > 0:
@@ -441,15 +443,15 @@ class OpenWithEditor(Gtk.Dialog):
         for x, hints in enumerate(hints_all):
             for y, (key, desc) in enumerate(hints):
                 hints_grid.attach(Gtk.Label(label=key, halign=Gtk.Align.CENTER, margin=4),
-                                  x*2, y, 1, 1)
+                                  x * 2, y, 1, 1)
                 hints_grid.attach(Gtk.Label(label=desc, halign=Gtk.Align.START, margin=4),
-                                  x*2+1, y, 1, 1)
+                                  x * 2 + 1, y, 1, 1)
 
-        return # keep infomations below for reference
+        return  # keep infomations below for reference
         linklabel = Gtk.Label()
         linklabel.set_markup(_('Please refer to the <a href="%s">external command documentation</a> '
-            'for a list of usable variables and other hints.') % \
-                'https://sourceforge.net/p/mcomix/wiki/External_Commands')
+                               'for a list of usable variables and other hints.') %
+                             'https://sourceforge.net/p/mcomix/wiki/External_Commands')
         linklabel.set_alignment(0, 0)
         content.pack_start(linklabel, False, False, 4)
 
@@ -468,18 +470,18 @@ class OpenWithEditor(Gtk.Dialog):
         # The 'Disabled in archives' field is shown as toggle button
         renderer = Gtk.CellRendererToggle()
         renderer.connect('toggled', self._value_changed,
-                len(self._command_tree.get_columns()))
+                         len(self._command_tree.get_columns()))
         column = Gtk.TreeViewColumn(_('Disabled in archives'), renderer)
         column.set_attributes(renderer, active=len(self._command_tree.get_columns()),
-                activatable=4)
+                              activatable=4)
         self._command_tree.append_column(column)
 
         # Label, command, working dir, disabled for archives, line is editable
         model = Gtk.ListStore(GObject.TYPE_STRING, GObject.TYPE_STRING, GObject.TYPE_STRING,
-                GObject.TYPE_BOOLEAN, GObject.TYPE_BOOLEAN)
+                              GObject.TYPE_BOOLEAN, GObject.TYPE_BOOLEAN)
         for command in self._openwith.get_commands():
             model.append((command.get_label(), command.get_command(), command.get_cwd(),
-                command.is_disabled_for_archives(), not command.is_separator()))
+                          command.is_disabled_for_archives(), not command.is_separator()))
         self._command_tree.set_model(model)
 
         self._command_tree.set_headers_visible(True)
@@ -495,6 +497,7 @@ class OpenWithEditor(Gtk.Dialog):
         iter = model.get_iter(path)
         # Editing the model in the cellrenderercallback stops the editing
         # operation, causing GTK warnings. Delay until callback is finished.
+
         def delayed_set_value():
             old_value = model.get_value(iter, column)
             model.set_value(iter, column, new_text)
@@ -508,6 +511,7 @@ class OpenWithEditor(Gtk.Dialog):
         iter = model.get_iter(path)
         # Editing the model in the cellrenderercallback stops the editing
         # operation, causing GTK warnings. Delay until callback is finished.
+
         def delayed_set_value():
             value = not renderer.get_active()
             model.set_value(iter, column, value)

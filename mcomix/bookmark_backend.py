@@ -16,6 +16,7 @@ from mcomix import message_dialog
 from mcomix import tools
 from mcomix.preferences import prefs
 
+
 class __BookmarksStore(object):
 
     '''The _BookmarksStore is a backend for both the bookmarks menu and dialog.
@@ -73,7 +74,7 @@ class __BookmarksStore(object):
         name = self._image_handler.get_pretty_current_filename()
         path = self._image_handler.get_real_path()
 
-        path = tools.relpath2root(path,abs_fallback=prefs['portable allow abspath'])
+        path = tools.relpath2root(path, abs_fallback=prefs['portable allow abspath'])
         if not path:
             # path is None, means running in portable mode
             # and currect image is out of same mount point
@@ -142,7 +143,7 @@ class __BookmarksStore(object):
             try:
                 mtime = os.stat(path).st_mtime
                 with open(path, mode='rt', encoding='utf8') as fd:
-                    version,packs = json.load(fd)
+                    version, packs = json.load(fd)
             except Exception:
                 log.error(_('! Could not parse bookmarks file %s'), path)
             else:
@@ -183,7 +184,6 @@ class __BookmarksStore(object):
 
         self._bookmarks_mtime = time.time()
 
-
     def show_replace_bookmark_dialog(self, old_bookmarks, new_page):
         ''' Present a confirmation dialog to replace old bookmarks.
         @return RESPONSE_YES to create replace bookmarks,
@@ -213,7 +213,7 @@ class __BookmarksStore(object):
 
             _('The current book already contains marked pages. '
               'Do you want to replace them with a new bookmark on page %d? ') % new_page +
-              '\n\n' +
+            '\n\n' +
             _('Selecting "No" will create a new bookmark without affecting the other bookmarks.'))
 
         return dialog.run()

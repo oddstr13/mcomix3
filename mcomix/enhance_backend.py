@@ -5,6 +5,7 @@ brightness etc.)
 from mcomix.preferences import prefs
 from mcomix import image_tools
 
+
 class ImageEnhancer(object):
 
     '''The ImageEnhancer keeps track of the "enhancement" values and performs
@@ -25,7 +26,7 @@ class ImageEnhancer(object):
 
         if (self.brightness != 1.0 or self.contrast != 1.0 or
             self.saturation != 1.0 or self.sharpness != 1.0 or
-            self.autocontrast):
+                self.autocontrast):
 
             return image_tools.enhance(pixbuf, self.brightness, self.contrast,
                                        self.saturation, self.sharpness, self.autocontrast)

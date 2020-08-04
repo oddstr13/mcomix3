@@ -10,16 +10,18 @@ import zipfile
 from mcomix import log
 from mcomix.archive import archive_base
 
+
 def is_py_supported_zipfile(path):
     '''Check if a given zipfile has all internal files stored with Python supported compression
     '''
     with zipfile.ZipFile(path, mode='r') as zip_file:
         for file_info in zip_file.infolist():
             try:
-                descr=zipfile._get_decompressor(file_info.compress_type)
+                descr = zipfile._get_decompressor(file_info.compress_type)
             except:
                 return False
     return True
+
 
 class ZipArchive(archive_base.NonUnicodeArchive):
     def __init__(self, archive):
@@ -79,7 +81,7 @@ class ZipArchive(archive_base.NonUnicodeArchive):
         ''' Checks all files in the archive for encryption.
         Returns True if at least one encrypted file was found. '''
         for info in self._contents_info.values():
-            if info.flag_bits & 0x1: # File is encrypted
+            if info.flag_bits & 0x1:  # File is encrypted
                 return True
         return False
 

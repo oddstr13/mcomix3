@@ -235,7 +235,7 @@ class EventHandler(object):
         manager.register('minimize',
                          self._window.minimize)
         manager.register('fullscreen',
-                         lambda:self._window.actiongroup.get_action('fullscreen').set_active(True))
+                         lambda: self._window.actiongroup.get_action('fullscreen').set_active(True))
         manager.register('toggle_fullscreen',
                          self._window.actiongroup.get_action('fullscreen').activate)
         manager.register('toolbar',
@@ -283,7 +283,7 @@ class EventHandler(object):
             # convert it to lower case and remove SHIFT from the consumed flags
             # to match how keys are registered (<Shift> + lowercase)
             if (event.get_state() & Gdk.ModifierType.SHIFT_MASK and
-                keyval != Gdk.keyval_to_lower(keyval)):
+                    keyval != Gdk.keyval_to_lower(keyval)):
                 keyval = Gdk.keyval_to_lower(keyval)
                 consumed &= ~Gdk.ModifierType.SHIFT_MASK
 
@@ -464,8 +464,8 @@ class EventHandler(object):
                 if (new_x != event.x_root) or (new_y != event.y_root):
                     display = screen.get_display()
                     display.warp_pointer(screen, int(new_x), int(new_y))
-                    ## This might be (or might not be) necessary to avoid
-                    ## doing one warp multiple times.
+                    # This might be (or might not be) necessary to avoid
+                    # doing one warp multiple times.
                     event = _get_latest_event_of_same_type(event)
 
                 self._last_pointer_pos_x = new_x
@@ -549,16 +549,16 @@ class EventHandler(object):
         distance = prefs['smart scroll percentage']
         if small_step is None:
             max_scroll = [distance * viewport_size[0],
-                          distance * viewport_size[1]] # 2D only
+                          distance * viewport_size[1]]  # 2D only
         else:
-            max_scroll = [small_step] * 2 # 2D only
+            max_scroll = [small_step] * 2  # 2D only
         swap_axes = constants.SWAPPED_AXES if prefs['invert smart scroll'] \
             else constants.NORMAL_AXES
         self._window.update_layout_position()
 
         # Scroll to the new position
         new_index = self._window.layout.scroll_smartly(max_scroll, backwards, swap_axes)
-        n = 2 if self._window.displayed_double() else 1 # XXX limited to at most 2 pages
+        n = 2 if self._window.displayed_double() else 1  # XXX limited to at most 2 pages
 
         if new_index == -1:
             self._previous_page_with_protection()
@@ -567,7 +567,6 @@ class EventHandler(object):
         else:
             # Update actual viewport
             self._window.update_viewport_position()
-
 
     def _next_page_with_protection(self):
         ''' Advances to the next page. If L{_scroll_protection} is enabled,
@@ -581,7 +580,7 @@ class EventHandler(object):
 
         if (not self._scroll_protection
             or self._extra_scroll_events >= prefs['number of key presses before page turn'] - 1
-            or not self._window.is_scrollable()):
+                or not self._window.is_scrollable()):
 
             self._flip_page(1)
             return True
@@ -606,7 +605,7 @@ class EventHandler(object):
 
         if (not self._scroll_protection
             or self._extra_scroll_events <= -prefs['number of key presses before page turn'] + 1
-            or not self._window.is_scrollable()):
+                or not self._window.is_scrollable()):
 
             self._flip_page(-1)
             return True
@@ -618,7 +617,6 @@ class EventHandler(object):
         else:
             # This path should not be reached.
             assert False, 'Programmer is moron, incorrect assertion.'
-
 
     def _flip_page(self, number_of_pages, single_step=False):
         ''' Switches a number of pages forwards/backwards. If C{single_step} is True,

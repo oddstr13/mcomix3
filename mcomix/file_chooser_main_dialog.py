@@ -7,6 +7,7 @@ from mcomix import file_chooser_base_dialog
 
 _main_filechooser_dialog = None
 
+
 class _MainFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog):
 
     '''The normal filechooser dialog used with the "Open" menu item.'''
@@ -32,7 +33,7 @@ class _MainFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog):
 
     def files_chosen(self, paths):
         if paths:
-            try: # For some reason this fails sometimes (GTK+ bug?)
+            try:  # For some reason this fails sometimes (GTK+ bug?)
                 filter_index = self.filechooser.list_filters().index(
                     self.filechooser.get_filter())
                 prefs['last filter in main filechooser'] = filter_index
@@ -43,13 +44,14 @@ class _MainFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog):
             # If more than one file is selected, restrict opening
             # further files to the selection.
             if len(paths) > 1:
-                files = [ path for path in paths ]
+                files = [path for path in paths]
             else:
                 files = paths[0]
 
             self._window.filehandler.open_file(files)
         else:
             _close_main_filechooser_dialog()
+
 
 def open_main_filechooser_dialog(action, window):
     '''Open the main filechooser dialog.'''

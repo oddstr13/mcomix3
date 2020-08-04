@@ -16,6 +16,7 @@ from mcomix import file_chooser_main_dialog
 from mcomix.preferences import prefs
 from mcomix.library import main_dialog as library_main_dialog
 
+
 class MainUI(Gtk.UIManager):
 
     def __init__(self, window):
@@ -76,7 +77,7 @@ class MainUI(Gtk.UIManager):
                 window.save_and_terminate_program),
             ('rotate_90', 'mcomix-rotate-90', _('_Rotate 90 degrees CW'),
                 None, None, window.rotate_90),
-            ('rotate_180','mcomix-rotate-180', _('Rotate 180 de_grees'),
+            ('rotate_180', 'mcomix-rotate-180', _('Rotate 180 de_grees'),
                 None, None, window.rotate_180),
             ('rotate_270', 'mcomix-rotate-270', _('Rotat_e 90 degrees CCW'),
                 None, None, window.rotate_270),
@@ -178,7 +179,7 @@ class MainUI(Gtk.UIManager):
 
         self._actiongroup.add_actions([
             ('properties', Gtk.STOCK_PROPERTIES, _('Proper_ties'),
-            None, None, dialog_handler.open_dialog)], (window,'properties-dialog'))
+             None, None, dialog_handler.open_dialog)], (window, 'properties-dialog'))
 
         self._actiongroup.add_actions([
             ('preferences', Gtk.STOCK_PREFERENCES, _('Pr_eferences'),

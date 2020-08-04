@@ -3,6 +3,7 @@ from datetime import datetime
 
 from gi.repository import Gtk
 
+
 class _Bookmark(Gtk.ImageMenuItem):
 
     '''_Bookmark represents one bookmark. It extends the Gtk.ImageMenuItem

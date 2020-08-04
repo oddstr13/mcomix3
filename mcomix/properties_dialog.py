@@ -16,6 +16,7 @@ from mcomix import properties_page
 from mcomix import strings
 from mcomix import tools
 
+
 class _PropertiesDialog(Gtk.Dialog):
 
     def __init__(self, window):
@@ -84,7 +85,7 @@ class _PropertiesDialog(Gtk.Dialog):
         main_info = (
             _('%d pages') % window.imagehandler.get_number_of_pages(),
             _('%d comments') %
-                window.filehandler.get_number_of_comments(),
+            window.filehandler.get_number_of_comments(),
             strings.ARCHIVE_DESCRIPTIONS[window.filehandler.archive_type]
         )
         page.set_main_info(main_info)
@@ -129,9 +130,9 @@ class _PropertiesDialog(Gtk.Dialog):
         secondary_info.extend((
             (_('Size'), tools.format_byte_size(stats.st_size)),
             (_('Accessed'), time.strftime('%Y-%m-%d, %H:%M:%S',
-            time.localtime(stats.st_atime))),
+                                          time.localtime(stats.st_atime))),
             (_('Modified'), time.strftime('%Y-%m-%d, %H:%M:%S',
-            time.localtime(stats.st_mtime))),
+                                          time.localtime(stats.st_mtime))),
             (_('Permissions'), oct(stat.S_IMODE(stats.st_mode))),
             (_('Owner'), uid)
         ))

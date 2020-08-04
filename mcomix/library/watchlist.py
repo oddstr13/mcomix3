@@ -14,6 +14,7 @@ COL_COLLECTION = 0
 COL_COLLECTION_ID = 1
 COL_RECURSIVE = 2
 
+
 class WatchListDialog(Gtk.Dialog):
     ''' Dialog for managing watched directories. '''
 
@@ -59,14 +60,14 @@ class WatchListDialog(Gtk.Dialog):
         collection_renderer.connect('changed', self._collection_changed_cb, collection_model)
         collection_column = Gtk.TreeViewColumn(_('Collection'), collection_renderer)
         collection_column.set_cell_data_func(collection_renderer,
-                self._treeview_collection_id_to_name)
+                                             self._treeview_collection_id_to_name)
         self._treeview.append_column(collection_column)
 
         recursive_renderer = Gtk.CellRendererToggle()
         recursive_renderer.set_activatable(True)
         recursive_renderer.connect('toggled', self._recursive_changed_cb)
         recursive_column = Gtk.TreeViewColumn(_('With subdirectories'),
-                recursive_renderer)
+                                              recursive_renderer)
         recursive_column.add_attribute(recursive_renderer, 'active', COL_RECURSIVE)
         self._treeview.append_column(recursive_column)
 
@@ -195,7 +196,7 @@ class WatchListDialog(Gtk.Dialog):
         else:
             directory = u''
         filechooser.destroy()
-        directory = tools.relpath2root(directory,abs_fallback=prefs['portable allow abspath'])
+        directory = tools.relpath2root(directory, abs_fallback=prefs['portable allow abspath'])
         if not directory:
             # directory is None, means running in portable mode
             # and currect path is out of same mount point
@@ -203,7 +204,7 @@ class WatchListDialog(Gtk.Dialog):
             return
 
         if result == Gtk.ResponseType.ACCEPT \
-            and os.path.isdir(directory):
+                and os.path.isdir(directory):
 
             self.library.backend.watchlist.add_directory(directory)
             self._fill_model(self._treeview.get_model())

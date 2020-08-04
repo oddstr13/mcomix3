@@ -40,9 +40,9 @@ class ThumbnailSidebar(Gtk.ScrolledWindow):
         # view - responsible for laying out the columns
         self._treeview = thumbnail_view.ThumbnailTreeView(
             self._thumbnail_liststore,
-            0, # UID
-            1, # pixbuf
-            2, # status
+            0,  # UID
+            1,  # pixbuf
+            2,  # status
         )
         self._treeview.set_headers_visible(False)
         self._treeview.generate_thumbnail = self._generate_thumbnail
@@ -53,11 +53,10 @@ class ThumbnailSidebar(Gtk.ScrolledWindow):
         self._treeview.connect('row-activated', self._row_activated_event)
         self._treeview.connect('button_press_event', self._mouse_press_event)
 
-
         # enable drag and dropping of images from thumbnail bar to some file
         # manager
         self._treeview.enable_model_drag_source(Gdk.ModifierType.BUTTON1_MASK,
-            [('text/uri-list', 0, 0)], Gdk.DragAction.COPY)
+                                                [('text/uri-list', 0, 0)], Gdk.DragAction.COPY)
 
         # Page column
         self._thumbnail_page_treeviewcolumn = Gtk.TreeViewColumn(None)
@@ -157,7 +156,7 @@ class ThumbnailSidebar(Gtk.ScrolledWindow):
 
         if (not self._window.filehandler.file_loaded or
             self._window.imagehandler.get_number_of_pages() == 0 or
-            self._loaded):
+                self._loaded):
             return
 
         self.toggle_page_numbers_visible()
@@ -184,7 +183,7 @@ class ThumbnailSidebar(Gtk.ScrolledWindow):
         assert isinstance(uid, int)
         page = uid
         pixbuf = self._window.imagehandler.get_thumbnail(page,
-                prefs['thumbnail size'], prefs['thumbnail size'], nowait=True)
+                                                         prefs['thumbnail size'], prefs['thumbnail size'], nowait=True)
         if pixbuf is not None:
             pixbuf = image_tools.add_border(pixbuf, self._BORDER_SIZE)
 
@@ -251,10 +250,10 @@ class ThumbnailSidebar(Gtk.ScrolledWindow):
     def _get_empty_thumbnail(self):
         ''' Create an empty filler pixmap. '''
         pixbuf = GdkPixbuf.Pixbuf.new(colorspace=GdkPixbuf.Colorspace.RGB,
-                                has_alpha=True,
-                                bits_per_sample=8,
-                                width=self._pixbuf_size,
-                                height=self._pixbuf_size)
+                                      has_alpha=True,
+                                      bits_per_sample=8,
+                                      width=self._pixbuf_size,
+                                      height=self._pixbuf_size)
 
         # Make the pixbuf transparent.
         pixbuf.fill(0)

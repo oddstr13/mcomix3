@@ -10,6 +10,7 @@ import threading
 from mcomix import log
 from mcomix.archive import archive_base
 
+
 class TarArchive(archive_base.NonUnicodeArchive):
     def __init__(self, archive):
         super(TarArchive, self).__init__(archive)

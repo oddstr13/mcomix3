@@ -18,7 +18,7 @@ try:
     import sqlite3
     log.debug('SQLite: {0.sqlite_version} sqlite3 version: {0.version}'.format(sqlite3))
 except ImportError:
-    log.warning( _('! Could find sqlite3.') )
+    log.warning(_('! Could find sqlite3.'))
     sqlite3 = None
 
 
@@ -48,7 +48,7 @@ class _LibraryBackend(object):
 
         if sqlite3 is not None:
             self._con = sqlite3.connect(constants.LIBRARY_DATABASE_PATH,
-                check_same_thread=False, isolation_level=None)
+                                        check_same_thread=False, isolation_level=None)
             self._con.row_factory = row_factory
             self.enabled = True
 
@@ -77,7 +77,7 @@ class _LibraryBackend(object):
         else:
             books = []
             subcollections = self.get_all_collections_in_collection(collection)
-            for coll in [ collection ] + subcollections:
+            for coll in [collection] + subcollections:
                 if filter_string is None:
                     cur = self._con.execute('''select id from Book
                         where id in (select book from Contain where collection = ?)
@@ -94,7 +94,7 @@ class _LibraryBackend(object):
         If the book doesn't exist, None is returned. Otherwise, a
         L{backend_types._Book} instance is returned. '''
 
-        path = tools.relpath2root(path,abs_fallback=prefs['portable allow abspath'])
+        path = tools.relpath2root(path, abs_fallback=prefs['portable allow abspath'])
         if not path:
             # path is None, means running in portable mode
             # and currect path is out of same mount point
@@ -136,7 +136,7 @@ class _LibraryBackend(object):
             path = self._con.execute('''select path from Book
                 where id = ?''', (book,)).fetchone()
         except Exception:
-            log.error( _('! Non-existant book #%i'), book )
+            log.error(_('! Non-existant book #%i'), book)
             return None
 
         return self.get_book_thumbnail(path)
@@ -149,7 +149,7 @@ class _LibraryBackend(object):
             path = self._con.execute('''select path from Book
                 where id = ?''', (book,)).fetchone()
         except Exception:
-            log.error( _('! Non-existant book #%i'), book )
+            log.error(_('! Non-existant book #%i'), book)
             return None
 
         return path
@@ -167,7 +167,8 @@ class _LibraryBackend(object):
                                                         constants.MAX_LIBRARY_COVER_SIZE))
         thumb = thumbnailer.thumbnail(path)
 
-        if thumb is None: log.warning( _('! Could not get cover for book "%s"'), path )
+        if thumb is None:
+            log.warning(_('! Could not get cover for book "%s"'), path)
         return thumb
 
     def get_book_name(self, book):
@@ -225,10 +226,11 @@ class _LibraryBackend(object):
         that is, even subcollections that are again a subcollection of one
         of the previous subcollections. '''
 
-        if collection is None: raise ValueError('Collection must not be <None>')
+        if collection is None:
+            raise ValueError('Collection must not be <None>')
 
-        to_search = [ collection ]
-        collections = [ ]
+        to_search = [collection]
+        collections = []
         # This assumes that the library is built like a tree, so no circular references.
         while len(to_search) > 0:
             collection = to_search.pop()
@@ -309,7 +311,7 @@ class _LibraryBackend(object):
         Return True if the book was successfully added (or was already
         added).
         '''
-        path = tools.relpath2root(path,abs_fallback=prefs['portable allow abspath'])
+        path = tools.relpath2root(path, abs_fallback=prefs['portable allow abspath'])
         if not path:
             # path is None, means running in portable mode
             # and currect path is out of same mount point
@@ -336,11 +338,11 @@ class _LibraryBackend(object):
                 cursor.execute('''insert into Book
                     (name, path, pages, format, size)
                     values (?, ?, ?, ?, ?)''',
-                    (name, path, pages, format, size))
+                               (name, path, pages, format, size))
                 book_id = cursor.lastrowid
 
                 book = backend_types._Book(book_id, name, path, pages,
-                        format, size, datetime.datetime.now().isoformat())
+                                           format, size, datetime.datetime.now().isoformat())
                 self.book_added(book)
 
             cursor.close()
@@ -350,7 +352,7 @@ class _LibraryBackend(object):
 
             return True
         except sqlite3.Error:
-            log.error( _('! Could not add book "%s" to the library'), path )
+            log.error(_('! Could not add book "%s" to the library'), path)
             return False
 
     @callback.Callback
@@ -370,7 +372,6 @@ class _LibraryBackend(object):
         '''
         pass
 
-
     def add_collection(self, name):
         '''Add a new collection with <name> to the library. Return True
         if the collection was successfully added.
@@ -389,7 +390,7 @@ class _LibraryBackend(object):
                     (name) values (?)''', (name,))
             return True
         except sqlite3.Error:
-            log.error( _('! Could not add collection "%s"'), name )
+            log.error(_('! Could not add collection "%s"'), name)
         return False
 
     def add_book_to_collection(self, book, collection):
@@ -398,12 +399,12 @@ class _LibraryBackend(object):
             self._con.execute('''insert into Contain
                 (collection, book) values (?, ?)''', (collection, book))
             self.book_added_to_collection(self.get_book_by_id(book),
-                collection)
-        except sqlite3.DatabaseError: # E.g. book already in collection.
+                                          collection)
+        except sqlite3.DatabaseError:  # E.g. book already in collection.
             pass
         except sqlite3.Error:
-            log.error( _('! Could not add book %(book)s to collection %(collection)s'),
-                       {'book' : book, 'collection' : collection} )
+            log.error(_('! Could not add book %(book)s to collection %(collection)s'),
+                      {'book': book, 'collection': collection})
 
     def add_collection_to_collection(self, subcollection, supercollection):
         '''Put <subcollection> into <supercollection>, or put
@@ -426,10 +427,10 @@ class _LibraryBackend(object):
             self._con.execute('''update Collection set name = ?
                 where id = ?''', (name, collection))
             return True
-        except sqlite3.DatabaseError: # E.g. name taken.
+        except sqlite3.DatabaseError:  # E.g. name taken.
             pass
         except sqlite3.Error:
-            log.error( _('! Could not rename collection to "%s"'), name )
+            log.error(_('! Could not rename collection to "%s"'), name)
         return False
 
     def duplicate_collection(self, collection):
@@ -438,12 +439,12 @@ class _LibraryBackend(object):
         successful.
         '''
         name = self.get_collection_name(collection)
-        if name is None: # Original collection does not exist.
+        if name is None:  # Original collection does not exist.
             return False
         copy_name = name + ' ' + _('(Copy)')
         while self.get_collection_by_name(copy_name):
             copy_name = copy_name + ' ' + _('(Copy)')
-        if self.add_collection(copy_name) is None: # Could not create the new.
+        if self.add_collection(copy_name) is None:  # Could not create the new.
             return False
         copy_collection = self._con.execute('''select id from Collection
             where name = ?''', (copy_name,)).fetchone()
@@ -480,7 +481,7 @@ class _LibraryBackend(object):
             where collection = ?''', (collection,))
         self._con.execute('delete from Collection where id = ?', (collection,))
         self._con.execute('delete from Contain where collection = ?',
-            (collection,))
+                          (collection,))
         self._con.execute('''update Collection set supercollection = NULL
             where supercollection = ?''', (collection,))
 
@@ -572,7 +573,7 @@ class _LibraryBackend(object):
         if from_version != to_version:
             upgrades = range(from_version, to_version)
             log.info(_('Upgrading library database version from %(from)d to %(to)d.'),
-                     { 'from' : from_version, 'to' : to_version })
+                     {'from': from_version, 'to': to_version})
 
             if 5 in upgrades:
                 # Changed all 'string' columns into 'text' columns
@@ -621,7 +622,7 @@ class _LibraryBackend(object):
             value text)''')
         self._con.execute('''insert into info
             (key, value) values ('version', ?)''',
-            (str(_LibraryBackend.DB_VERSION),))
+                          (str(_LibraryBackend.DB_VERSION),))
 
     def _create_table_watchlist(self):
         self._con.execute('''create table if not exists watchlist (

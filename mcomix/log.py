@@ -14,13 +14,14 @@ from mcomix import i18n
 __all__ = ['debug', 'info', 'warning', 'error', 'setLevel',
            'DEBUG', 'INFO', 'WARNING', 'ERROR']
 
-levels={
-    'all':   DEBUG,
+levels = {
+    'all': DEBUG,
     'debug': DEBUG,
-    'info':  INFO,
-    'warn':  WARNING,
+    'info': INFO,
+    'warn': WARNING,
     'error': ERROR,
 }
+
 
 def print_old(*args, **options):
     # keep this function for reference only
@@ -36,16 +37,20 @@ def print_old(*args, **options):
 
     args = [i18n.to_unicode(val) for val in args]
 
-    if 'sep' in options: sep = options['sep']
-    else: sep = ' '
-    if 'end' in options: end = options['end']
-    else: end = '\n'
+    if 'sep' in options:
+        sep = options['sep']
+    else:
+        sep = ' '
+    if 'end' in options:
+        end = options['end']
+    else:
+        end = '\n'
 
     def print_generic(text):
         if text:
             if (sys.stdout and
                 hasattr(sys.stdout, 'encoding') and
-                sys.stdout.encoding is not None):
+                    sys.stdout.encoding is not None):
                 encoding = sys.stdout.encoding
             else:
                 encoding = locale.getpreferredencoding() or sys.getfilesystemencoding()
@@ -53,7 +58,8 @@ def print_old(*args, **options):
             sys.stdout.write(text)
 
     def print_win32(text):
-        if not text: return
+        if not text:
+            return
 
         import ctypes
         INVALID_HANDLE_VALUE, STD_OUTPUT_HANDLE = -1, -11
@@ -61,7 +67,7 @@ def print_old(*args, **options):
         if outhandle != INVALID_HANDLE_VALUE and outhandle:
             chars_written = ctypes.c_int(0)
             ctypes.windll.kernel32.WriteConsoleW(outhandle,
-                text, len(text), ctypes.byref(chars_written), None)
+                                                 text, len(text), ctypes.byref(chars_written), None)
         else:
             print_generic(text)
 
@@ -75,8 +81,10 @@ def print_old(*args, **options):
 
     print_function(end)
 
-def print_(*args,**kwargs):
-    return print(*map(i18n.to_unicode,args),**kwargs)
+
+def print_(*args, **kwargs):
+    return print(*map(i18n.to_unicode, args), **kwargs)
+
 
 class PrintHandler(logging.Handler):
     ''' Handler using L{print_} to output messages. '''
@@ -86,6 +94,7 @@ class PrintHandler(logging.Handler):
 
     def emit(self, record):
         print_(self.format(record))
+
 
 # Set up default logger.
 __logger = logging.getLogger('mcomix')

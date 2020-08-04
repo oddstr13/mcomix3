@@ -12,6 +12,7 @@ from mcomix.archive import archive_base
 # Filled on-demand by RarArchive
 _rar_executable = -1
 
+
 class RarArchive(archive_base.ExternalExecutableArchive):
     ''' RAR file extractor using the unrar/rar executable. '''
 
@@ -25,7 +26,7 @@ class RarArchive(archive_base.ExternalExecutableArchive):
         self._is_solid = False
         self._contents = []
 
-        self.is_encrypted =  False
+        self.is_encrypted = False
         self.is_encrypted = self._has_encryption()
 
     def _get_executable(self):
@@ -85,7 +86,7 @@ class RarArchive(archive_base.ExternalExecutableArchive):
                            stderr=process.STDOUT,
                            universal_newlines=True) as proc:
             for line in proc.stdout:
-                line=line.strip()
+                line = line.strip()
                 if line.startswith('Details: ') and 'encrypted headers' in line:
                     return True
                 if line.startswith('Flags: ') and 'encrypted' in line:
@@ -122,7 +123,7 @@ class RarArchive(archive_base.ExternalExecutableArchive):
     def extract(self, filename, destination_dir):
         ''' Extract <filename> from the archive to <destination_dir>. '''
         assert isinstance(filename, str) and \
-                isinstance(destination_dir, str)
+            isinstance(destination_dir, str)
 
         if not self._get_executable():
             return
@@ -171,12 +172,12 @@ class RarArchive(archive_base.ExternalExecutableArchive):
         global _rar_executable
         if _rar_executable == -1:
             if 'win32' == sys.platform:
-                is_not_unrar_free = lambda exe: True
+                def is_not_unrar_free(exe): return True
             else:
                 def is_not_unrar_free(exe):
                     real_exe = exe
                     while os.path.islink(real_exe):
-                          real_exe = os.readlink(real_exe)
+                        real_exe = os.readlink(real_exe)
                     if real_exe.endswith(os.path.sep + 'unrar-free'):
                         log.warning('RAR executable %s is unrar-free, ignoring', exe)
                         return False

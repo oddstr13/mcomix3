@@ -51,16 +51,16 @@ class _BookArea(Gtk.ScrolledWindow):
         # The SORT_ constants must correspond to the correct column here,
         # i.e. SORT_SIZE must be 3, since 3 is the size column in the ListStore.
         self._liststore = Gtk.ListStore(GdkPixbuf.Pixbuf,
-                GObject.TYPE_INT, GObject.TYPE_STRING, GObject.TYPE_INT64,
-                GObject.TYPE_STRING, GObject.TYPE_BOOLEAN)
+                                        GObject.TYPE_INT, GObject.TYPE_STRING, GObject.TYPE_INT64,
+                                        GObject.TYPE_STRING, GObject.TYPE_BOOLEAN)
         self._liststore.set_sort_func(constants.SORT_NAME, self._sort_by_name, None)
         self._liststore.set_sort_func(constants.SORT_PATH, self._sort_by_path, None)
         self.set_sort_order()
         self._iconview = thumbnail_view.ThumbnailIconView(
             self._liststore,
-            1, # UID
-            0, # pixbuf
-            5, # status
+            1,  # UID
+            0,  # pixbuf
+            5,  # status
         )
         self._iconview.generate_thumbnail = self._get_pixbuf
         self._iconview.connect('item_activated', self._book_activated)
@@ -90,7 +90,7 @@ class _BookArea(Gtk.ScrolledWindow):
 
         self._ui_manager = Gtk.UIManager()
         self._tooltipstatus = status.TooltipStatusHelper(self._ui_manager,
-            self._library.get_status_bar())
+                                                         self._library.get_status_bar())
 
         ui_description = '''
         <ui>
@@ -165,7 +165,7 @@ class _BookArea(Gtk.ScrolledWindow):
              _('Changes the sort order of the library.'), None),
             ('cover size', None, _('Cover si_ze'), None,
              _('Changes the book cover size.'), None)
-       ])
+        ])
         # Sorting the view
         actiongroup.add_radio_actions([
             ('by name', None, _('Book name'), None, None, constants.SORT_NAME),
@@ -173,7 +173,7 @@ class _BookArea(Gtk.ScrolledWindow):
             ('by size', None, _('File size'), None, None, constants.SORT_SIZE),
             ('by date added', None, _('Date added'), None, None, constants.SORT_LAST_MODIFIED)
         ],
-                                      prefs['lib sort key'], self._sort_changed
+            prefs['lib sort key'], self._sort_changed
         )
         actiongroup.add_radio_actions([
             ('ascending', Gtk.STOCK_SORT_ASCENDING, _('Ascending'), None, None,
@@ -181,7 +181,7 @@ class _BookArea(Gtk.ScrolledWindow):
             ('descending', Gtk.STOCK_SORT_DESCENDING, _('Descending'), None, None,
              constants.SORT_DESCENDING)
         ],
-                                      prefs['lib sort order'], self._sort_changed
+            prefs['lib sort order'], self._sort_changed
         )
 
         # Library cover size
@@ -198,14 +198,14 @@ class _BookArea(Gtk.ScrolledWindow):
              None, None, constants.SIZE_TINY),
             ('custom', None, _('Custom...'), None, None, 0)
         ],
-                                      prefs['library cover size']
-                                      if prefs['library cover size'] in (
-                                              constants.SIZE_HUGE,
-                                              constants.SIZE_LARGE, constants.SIZE_NORMAL,
-                                              constants.SIZE_SMALL, constants.SIZE_TINY
-                                      )
-                                      else 0,
-                                      self._book_size_changed
+            prefs['library cover size']
+            if prefs['library cover size'] in (
+            constants.SIZE_HUGE,
+            constants.SIZE_LARGE, constants.SIZE_NORMAL,
+            constants.SIZE_SMALL, constants.SIZE_TINY
+        )
+            else 0,
+            self._book_size_changed
         )
 
         self._ui_manager.insert_action_group(actiongroup, 0)
@@ -263,7 +263,7 @@ class _BookArea(Gtk.ScrolledWindow):
             collection = _COLLECTION_ALL
 
         if (collection == self._library.collection_area.get_current_collection() or
-            self._library.collection_area.get_current_collection() == _COLLECTION_ALL):
+                self._library.collection_area.get_current_collection() == _COLLECTION_ALL):
             # Make sure not to show a book twice when COLLECTION_ALL is selected
             # and the book is added to another collection, triggering this event.
             if self.is_book_displayed(book):
@@ -446,7 +446,7 @@ class _BookArea(Gtk.ScrolledWindow):
             # icon background of book
             pixbuf = GdkPixbuf.Pixbuf.new(
                 GdkPixbuf.Colorspace.RGB, True, 8, width, height)
-            pixbuf.fill(0x00000000) # full transparency
+            pixbuf.fill(0x00000000)  # full transparency
             offset_x = (width - src_width) // 2
             offset_y = (height - src_height) // 2
             cover.copy_area(0, 0, src_width, src_height,
@@ -638,7 +638,7 @@ class _BookArea(Gtk.ScrolledWindow):
             cover = image_tools.MISSING_IMAGE_ICON
 
         cover = cover.scale_simple(max(0, cover.get_width() // 2),
-            max(0, cover.get_height() // 2), prefs['scaling quality'])
+                                   max(0, cover.get_height() // 2), prefs['scaling quality'])
         cover = image_tools.add_border(cover, 1, 0xFFFFFFFF)
         cover = image_tools.add_border(cover, 1)
 
@@ -651,7 +651,7 @@ class _BookArea(Gtk.ScrolledWindow):
                                            height=max(30, cover_height + 10))
             pointer.fill(0x00000000)
             cover.composite(pointer, 0, 0, cover_width, cover_height, 0, 0,
-            1, 1, prefs['scaling quality'], 255)
+                            1, 1, prefs['scaling quality'], 255)
             im = Image.new('RGBA', (30, 30), 0x00000000)
             draw = ImageDraw.Draw(im)
             draw.polygon(
@@ -662,7 +662,7 @@ class _BookArea(Gtk.ScrolledWindow):
                 fill=(128, 0, 0), outline=(255, 255, 255))
             text = str(num_books)
             draw.text((15 - (6 * len(text) // 2), 9), text,
-                fill=(255, 255, 255))
+                      fill=(255, 255, 255))
             circle = image_tools.pil_to_pixbuf(im)
             circle.composite(
                 pointer, max(0, cover_width - 15),
@@ -680,10 +680,10 @@ class _BookArea(Gtk.ScrolledWindow):
         paths = iconview.get_selected_items()
         text = ','.join([str(path[0]) for path in paths])
 
-        #FIXME
-        #tmp workaround for GTK bug, 2018
-        #sending as bytearray instead of text
-        #see also _drag_data_received in collection_area
+        # FIXME
+        # tmp workaround for GTK bug, 2018
+        # sending as bytearray instead of text
+        # see also _drag_data_received in collection_area
 
         selection.set(selection.get_target(), -1, text.encode())
         #selection.set_text(text, -1)

@@ -10,6 +10,7 @@ from mcomix import log
 from mcomix.lib import mt
 from mcomix.preferences import prefs
 
+
 class Extractor(object):
 
     '''Extractor is a threaded class for extracting different archive formats.
@@ -52,7 +53,7 @@ class Extractor(object):
         self._extract_started = False
         self._condition = threading.Condition()
         self._threadpool.apply_async(
-            self._list_contents,callback=self._list_contents_cb,
+            self._list_contents, callback=self._list_contents_cb,
             error_callback=self._list_contents_errcb)
         self._setupped = True
 
@@ -126,7 +127,7 @@ class Extractor(object):
                     and not self._archive.is_solid()
                 if mt:
                     self._threadpool.ucbmap(
-                        self._extract_file,self._files,
+                        self._extract_file, self._files,
                         callback=self._extraction_finished,
                         error_callback=self._extract_files_errcb)
                 else:
@@ -170,7 +171,8 @@ class Extractor(object):
         log.debug('Extracting from "%s" to "%s": "%s"',
                   self._src, self._dst, '", "'.join(files))
         for name in self._archive.iter_extract(files, self._dst):
-            if self._extraction_finished(name):return
+            if self._extraction_finished(name):
+                return
 
     def _extract_file(self, name):
         '''Extract the file named <name> to the destination directory,
@@ -204,6 +206,7 @@ class Extractor(object):
         log.error(_('! Extraction error: %s'), value)
         log.debug('Traceback:\n%s',
                   ''.join(traceback.format_tb(tb)).strip())
+
 
 class ArchiveException(Exception):
     ''' Indicate error during extraction operations. '''

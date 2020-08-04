@@ -145,7 +145,7 @@ class _ControlArea(Gtk.HBox):
             infotext.append('%.1f MiB' % (size / 1048576.0))
 
         if (pages is not None and last_page is not None and
-            last_date is not None and last_page == pages):
+                last_date is not None and last_page == pages):
             infotext.append(_('Finished reading on %(date)s, %(time)s') % {
                 'date': last_date.strftime('%x'),
                 'time': last_date.strftime('%X'),

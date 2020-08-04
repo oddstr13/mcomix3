@@ -42,6 +42,7 @@ from mcomix.preferences import prefs
 default_prefs = {}
 default_prefs.update(prefs)
 
+
 class MComixTest(unittest.TestCase):
 
     def setUp(self):
@@ -94,6 +95,6 @@ class MComixTest(unittest.TestCase):
 
 # Helper to get path to testsuite sample files.
 
+
 def get_testfile_path(*components):
     return unicode(os.path.join(os.path.dirname(__file__), 'files', *components))
-

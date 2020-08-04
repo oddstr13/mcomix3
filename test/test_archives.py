@@ -31,10 +31,12 @@ class UnsupportedFormat(Exception):
     def __init__(self, format):
         super(UnsupportedFormat, self).__init__('unsuported %s format' % format)
 
+
 class UnsupportedOption(Exception):
 
     def __init__(self, format, option):
         super(UnsupportedOption, self).__init__('unsuported option for %s format: %s' % (format, option))
+
 
 def make_archive(outfile, contents, format='zip', solid=False, password=None, header_encryption=False):
     if os.path.exists(outfile):
@@ -135,10 +137,12 @@ def make_archive(outfile, contents, format='zip', solid=False, password=None, he
             ' '.join(cmd), stdout, stderr
         ))
 
+
 def md5(path):
     hash = hashlib.md5()
     hash.update(open(path, 'rb').read())
     return hash.hexdigest()
+
 
 class ArchiveFormatTest(object):
 
@@ -260,17 +264,17 @@ class RecursiveArchiveFormatTest(ArchiveFormatTest):
 
 
 for name, handler, is_available, format, not_solid, solid, password, header_encryption in (
-    ('7z (external)'    , sevenzip_external.SevenZipArchive, sevenzip_external.SevenZipArchive.is_available(), '7z'     , True , True , True , True  ),
-    ('7z (external) lha', sevenzip_external.SevenZipArchive, sevenzip_external.SevenZipArchive.is_available(), 'lha'    , True , False, False, False ),
-    ('7z (external) rar', sevenzip_external.SevenZipArchive, sevenzip_external.SevenZipArchive.is_available(), 'rar'    , True , True , True , True  ),
-    ('7z (external) zip', sevenzip_external.SevenZipArchive, sevenzip_external.SevenZipArchive.is_available(), 'zip'    , True , False, True , False ),
-    ('tar'              , tar.TarArchive                   , True                                            , 'tar'    , False, True , False, False ),
-    ('tar (gzip)'       , tar.TarArchive                   , True                                            , 'tar.gz' , False, True , False, False ),
-    ('tar (bzip2)'      , tar.TarArchive                   , True                                            , 'tar.bz2', False, True , False, False ),
-    ('rar (external)'   , rar_external.RarArchive          , rar_external.RarArchive.is_available()          , 'rar'    , True , True , True , True  ),
-    ('rar (dll)'        , rar.RarArchive                   , rar.RarArchive.is_available()                   , 'rar'    , True , True , True , True  ),
-    ('zip'              , zip.ZipArchive                   , True                                            , 'zip'    , True , False, True , False ),
-    ('zip (external)'   , zip_external.ZipArchive          , zip_external.ZipArchive.is_available()          , 'zip'    , True , False, True , False ),
+    ('7z (external)', sevenzip_external.SevenZipArchive, sevenzip_external.SevenZipArchive.is_available(), '7z', True, True, True, True),
+    ('7z (external) lha', sevenzip_external.SevenZipArchive, sevenzip_external.SevenZipArchive.is_available(), 'lha', True, False, False, False),
+    ('7z (external) rar', sevenzip_external.SevenZipArchive, sevenzip_external.SevenZipArchive.is_available(), 'rar', True, True, True, True),
+    ('7z (external) zip', sevenzip_external.SevenZipArchive, sevenzip_external.SevenZipArchive.is_available(), 'zip', True, False, True, False),
+    ('tar', tar.TarArchive, True, 'tar', False, True, False, False),
+    ('tar (gzip)', tar.TarArchive, True, 'tar.gz', False, True, False, False),
+    ('tar (bzip2)', tar.TarArchive, True, 'tar.bz2', False, True, False, False),
+    ('rar (external)', rar_external.RarArchive, rar_external.RarArchive.is_available(), 'rar', True, True, True, True),
+    ('rar (dll)', rar.RarArchive, rar.RarArchive.is_available(), 'rar', True, True, True, True),
+    ('zip', zip.ZipArchive, True, 'zip', True, False, True, False),
+    ('zip (external)', zip_external.ZipArchive, zip_external.ZipArchive.is_available(), 'zip', True, False, True, False),
 ):
     base_class_name = 'ArchiveFormat'
     base_class_name += ''.join([part.capitalize() for part in re.sub(r'[^\w]+', ' ', name).split()])
@@ -301,9 +305,9 @@ for name, handler, is_available, format, not_solid, solid, password, header_encr
             params['password'] = 'password'
             params['contents'] = (
                 ('arg.jpeg', 'arg.jpeg', 'images/01-JPG-Indexed.jpg'),
-                ('foo.JPG' , 'foo.JPG' , 'images/04-PNG-Indexed.png'),
-                ('bar.jpg' , 'bar.jpg' , 'images/02-JPG-RGB.jpg'    ),
-                ('meh.png' , 'meh.png' , 'images/03-PNG-RGB.png'    ),
+                ('foo.JPG', 'foo.JPG', 'images/04-PNG-Indexed.png'),
+                ('bar.jpg', 'bar.jpg', 'images/02-JPG-RGB.jpg'),
+                ('meh.png', 'meh.png', 'images/03-PNG-RGB.png'),
             )
             class_list.append((variant, params))
             if header_encryption:
@@ -316,45 +320,45 @@ for name, handler, is_available, format, not_solid, solid, password, header_encr
 
     for sub_variant, is_supported, contents in (
         ('Flat', True, (
-            ('arg.jpeg'            , 'arg.jpeg'            , 'images/01-JPG-Indexed.jpg'),
-            ('foo.JPG'             , 'foo.JPG'             , 'images/04-PNG-Indexed.png'),
-            ('bar.jpg'             , 'bar.jpg'             , 'images/02-JPG-RGB.jpg'    ),
-            ('meh.png'             , 'meh.png'             , 'images/03-PNG-RGB.png'    ),
+            ('arg.jpeg', 'arg.jpeg', 'images/01-JPG-Indexed.jpg'),
+            ('foo.JPG', 'foo.JPG', 'images/04-PNG-Indexed.png'),
+            ('bar.jpg', 'bar.jpg', 'images/02-JPG-RGB.jpg'),
+            ('meh.png', 'meh.png', 'images/03-PNG-RGB.png'),
         )),
         ('Tree', True, (
-            ('dir1/arg.jpeg'       , 'dir1/arg.jpeg'       , 'images/01-JPG-Indexed.jpg'),
+            ('dir1/arg.jpeg', 'dir1/arg.jpeg', 'images/01-JPG-Indexed.jpg'),
             ('dir1/subdir1/foo.JPG', 'dir1/subdir1/foo.JPG', 'images/04-PNG-Indexed.png'),
-            ('dir2/subdir1/bar.jpg', 'dir2/subdir1/bar.jpg', 'images/02-JPG-RGB.jpg'    ),
-            ('meh.png'             , 'meh.png'             , 'images/03-PNG-RGB.png'    ),
+            ('dir2/subdir1/bar.jpg', 'dir2/subdir1/bar.jpg', 'images/02-JPG-RGB.jpg'),
+            ('meh.png', 'meh.png', 'images/03-PNG-RGB.png'),
         )),
         ('Unicode', True, (
-            (u'1-قفهسا.jpg'        , u'1-قفهسا.jpg'        , 'images/01-JPG-Indexed.jpg'),
-            (u'2-רדןקמא.png'       , u'2-רדןקמא.png'       , 'images/04-PNG-Indexed.png'),
-            (u'3-りえsち.jpg'      , u'3-りえsち.jpg'      , 'images/02-JPG-RGB.jpg'    ),
-            (u'4-щжвщджл.png'      , u'4-щжвщджл.png'      , 'images/03-PNG-RGB.png'    ),
+            (u'1-قفهسا.jpg', u'1-قفهسا.jpg', 'images/01-JPG-Indexed.jpg'),
+            (u'2-רדןקמא.png', u'2-רדןקמא.png', 'images/04-PNG-Indexed.png'),
+            (u'3-りえsち.jpg', u'3-りえsち.jpg', 'images/02-JPG-RGB.jpg'),
+            (u'4-щжвщджл.png', u'4-щжвщджл.png', 'images/03-PNG-RGB.png'),
         )),
         # Check we don't treat an entry name as an option or command line switch.
         ('OptEntry', True, (
-            ('-rg.jpeg'            , '-rg.jpeg'            , 'images/01-JPG-Indexed.jpg'),
-            ('--o.JPG'             , '--o.JPG'             , 'images/04-PNG-Indexed.png'),
-            ('+ar.jpg'             , '+ar.jpg'             , 'images/02-JPG-RGB.jpg'    ),
-            ('@eh.png'             , '@eh.png'             , 'images/03-PNG-RGB.png'    ),
+            ('-rg.jpeg', '-rg.jpeg', 'images/01-JPG-Indexed.jpg'),
+            ('--o.JPG', '--o.JPG', 'images/04-PNG-Indexed.png'),
+            ('+ar.jpg', '+ar.jpg', 'images/02-JPG-RGB.jpg'),
+            ('@eh.png', '@eh.png', 'images/03-PNG-RGB.png'),
         )),
         # Check an entry name is not used as glob pattern.
         ('GlobEntries', 'win32' != sys.platform, (
-            ('[rg.jpeg'            , '[rg.jpeg'            , 'images/01-JPG-Indexed.jpg'),
-            ('[]rg.jpeg'           , '[]rg.jpeg'           , 'images/02-JPG-RGB.jpg'    ),
-            ('*oo.JPG'             , '*oo.JPG'             , 'images/04-PNG-Indexed.png'),
-            ('?eh.png'             , '?eh.png'             , 'images/03-PNG-RGB.png'    ),
+            ('[rg.jpeg', '[rg.jpeg', 'images/01-JPG-Indexed.jpg'),
+            ('[]rg.jpeg', '[]rg.jpeg', 'images/02-JPG-RGB.jpg'),
+            ('*oo.JPG', '*oo.JPG', 'images/04-PNG-Indexed.png'),
+            ('?eh.png', '?eh.png', 'images/03-PNG-RGB.png'),
             # ('\\r.jpg'             , '\\r.jpg'             , 'images/blue.png'          ),
             # ('ba\\.jpg'            , 'ba\\.jpg'            , 'images/red.png'           ),
         )),
         # Same, Windows version.
         ('GlobEntries', 'win32' == sys.platform, (
-            ('[rg.jpeg'            , '[rg.jpeg'            , 'images/01-JPG-Indexed.jpg'),
-            ('[]rg.jpeg'           , '[]rg.jpeg'           , 'images/02-JPG-RGB.jpg'    ),
-            ('*oo.JPG'             , '_oo.JPG'             , 'images/04-PNG-Indexed.png'),
-            ('?eh.png'             , '_eh.png'             , 'images/03-PNG-RGB.png'    ),
+            ('[rg.jpeg', '[rg.jpeg', 'images/01-JPG-Indexed.jpg'),
+            ('[]rg.jpeg', '[]rg.jpeg', 'images/02-JPG-RGB.jpg'),
+            ('*oo.JPG', '_oo.JPG', 'images/04-PNG-Indexed.png'),
+            ('?eh.png', '_eh.png', 'images/03-PNG-RGB.png'),
             # ('\\r.jpg'             , '\\r.jpg'             , 'images/blue.png'          ),
             # ('ba\\.jpg'            , 'ba\\.jpg'            , 'images/red.png'           ),
         )),
@@ -410,6 +414,7 @@ class RecursiveArchiveFormatRedAndBluesTest(RecursiveArchiveFormatTest):
             for archive_name, filename in
             cls.contents])
 
+
 class RecursiveArchiveFormatTarRedAndBluesTest(RecursiveArchiveFormatRedAndBluesTest, MComixTest):
 
     base_handler = tar.TarArchive
@@ -419,13 +424,14 @@ class RecursiveArchiveFormatTarRedAndBluesTest(RecursiveArchiveFormatRedAndBlues
         ('red_and_blues.7z/blues.rar/blue0.png', 'images/blue.png'),
         ('red_and_blues.7z/blues.rar/blue1.png', 'images/blue.png'),
         ('red_and_blues.7z/blues.rar/blue2.png', 'images/blue.png'),
-        ('red_and_blues.7z/red.png'            , 'images/red.png' ),
+        ('red_and_blues.7z/red.png', 'images/red.png'),
         ('red_and_blues.rar/blues.7z/blue0.png', 'images/blue.png'),
         ('red_and_blues.rar/blues.7z/blue1.png', 'images/blue.png'),
         ('red_and_blues.rar/blues.7z/blue2.png', 'images/blue.png'),
-        ('red_and_blues.rar/red.png'           , 'images/red.png' ),
+        ('red_and_blues.rar/red.png', 'images/red.png'),
     )
     solid = True
+
 
 class RecursiveArchiveFormat7zRedAndBluesTest(RecursiveArchiveFormatRedAndBluesTest, MComixTest):
 
@@ -436,9 +442,10 @@ class RecursiveArchiveFormat7zRedAndBluesTest(RecursiveArchiveFormatRedAndBluesT
         ('blues.rar/blue0.png', 'images/blue.png'),
         ('blues.rar/blue1.png', 'images/blue.png'),
         ('blues.rar/blue2.png', 'images/blue.png'),
-        ('red.png'            , 'images/red.png' ),
+        ('red.png', 'images/red.png'),
     )
     solid = True
+
 
 class RecursiveArchiveFormatExternalRarRedAndBluesTest(RecursiveArchiveFormatRedAndBluesTest, MComixTest):
 
@@ -449,9 +456,10 @@ class RecursiveArchiveFormatExternalRarRedAndBluesTest(RecursiveArchiveFormatRed
         ('blues.7z/blue0.png', 'images/blue.png'),
         ('blues.7z/blue1.png', 'images/blue.png'),
         ('blues.7z/blue2.png', 'images/blue.png'),
-        ('red.png'           , 'images/red.png' ),
+        ('red.png', 'images/red.png'),
     )
     solid = True
+
 
 class RecursiveArchiveFormatExternalRarEmbeddedRedAndBluesRarTest(RecursiveArchiveFormatExternalRarRedAndBluesTest):
 
@@ -460,18 +468,21 @@ class RecursiveArchiveFormatExternalRarEmbeddedRedAndBluesRarTest(RecursiveArchi
         ('red_and_blues.rar/blues.7z/blue0.png', 'images/blue.png'),
         ('red_and_blues.rar/blues.7z/blue1.png', 'images/blue.png'),
         ('red_and_blues.rar/blues.7z/blue2.png', 'images/blue.png'),
-        ('red_and_blues.rar/red.png'           , 'images/red.png' ),
+        ('red_and_blues.rar/red.png', 'images/red.png'),
     )
+
 
 class RecursiveArchiveFormatRarRedAndBluesTest(RecursiveArchiveFormatExternalRarRedAndBluesTest):
 
     base_handler = rar.RarArchive
     is_available = rar.RarArchive.is_available()
 
+
 class RecursiveArchiveFormatRarEmbeddedRedAndBluesRarTest(RecursiveArchiveFormatExternalRarEmbeddedRedAndBluesRarTest):
 
     base_handler = rar.RarArchive
     is_available = rar.RarArchive.is_available()
+
 
 class RecursiveArchiveFormat7zExternalTarXzTest(RecursiveArchiveFormatTest, MComixTest):
 
@@ -482,60 +493,61 @@ class RecursiveArchiveFormat7zExternalTarXzTest(RecursiveArchiveFormatTest, MCom
     archive = 'SolidFlat'
     contents = (
         ('arg.jpeg', os.path.join('archive.tar', 'arg.jpeg'), 'images/01-JPG-Indexed.jpg'),
-        ('foo.JPG' , os.path.join('archive.tar', 'foo.JPG' ), 'images/04-PNG-Indexed.png'),
-        ('bar.jpg' , os.path.join('archive.tar', 'bar.jpg' ), 'images/02-JPG-RGB.jpg'    ),
-        ('meh.png' , os.path.join('archive.tar', 'meh.png' ), 'images/03-PNG-RGB.png'    ),
+        ('foo.JPG', os.path.join('archive.tar', 'foo.JPG'), 'images/04-PNG-Indexed.png'),
+        ('bar.jpg', os.path.join('archive.tar', 'bar.jpg'), 'images/02-JPG-RGB.jpg'),
+        ('meh.png', os.path.join('archive.tar', 'meh.png'), 'images/03-PNG-RGB.png'),
     )
+
 
 xfail_list = [
     # No password support when using some external tools.
-    ('ZipExternalEncrypted'             , 'test_extract'      ),
-    ('ZipExternalEncrypted'             , 'test_iter_extract' ),
+    ('ZipExternalEncrypted', 'test_extract'),
+    ('ZipExternalEncrypted', 'test_iter_extract'),
 ]
 
 if 'win32' == sys.platform:
     xfail_list.extend([
         # Bug...
-        ('RarDllGlobEntries'      , 'test_iter_contents'),
-        ('RarDllGlobEntries'      , 'test_list_contents'),
-        ('RarDllGlobEntries'      , 'test_iter_extract' ),
-        ('RarDllGlobEntries'      , 'test_extract'      ),
-        ('RarDllSolidGlobEntries' , 'test_iter_contents'),
-        ('RarDllSolidGlobEntries' , 'test_list_contents'),
-        ('RarDllSolidGlobEntries' , 'test_iter_extract' ),
-        ('RarDllSolidGlobEntries' , 'test_extract'      ),
+        ('RarDllGlobEntries', 'test_iter_contents'),
+        ('RarDllGlobEntries', 'test_list_contents'),
+        ('RarDllGlobEntries', 'test_iter_extract'),
+        ('RarDllGlobEntries', 'test_extract'),
+        ('RarDllSolidGlobEntries', 'test_iter_contents'),
+        ('RarDllSolidGlobEntries', 'test_list_contents'),
+        ('RarDllSolidGlobEntries', 'test_iter_extract'),
+        ('RarDllSolidGlobEntries', 'test_extract'),
         # Not supported by 7z executable...
-        ('7zExternalLhaUnicode'   , 'test_iter_contents'),
-        ('7zExternalLhaUnicode'   , 'test_list_contents'),
-        ('7zExternalLhaUnicode'   , 'test_iter_extract' ),
-        ('7zExternalLhaUnicode'   , 'test_extract'      ),
+        ('7zExternalLhaUnicode', 'test_iter_contents'),
+        ('7zExternalLhaUnicode', 'test_list_contents'),
+        ('7zExternalLhaUnicode', 'test_iter_extract'),
+        ('7zExternalLhaUnicode', 'test_extract'),
         # Unicode not supported by the tar executable we used.
-        ('TarBzip2SolidUnicode'   , 'test_iter_contents'),
-        ('TarBzip2SolidUnicode'   , 'test_list_contents'),
-        ('TarBzip2SolidUnicode'   , 'test_iter_extract' ),
-        ('TarBzip2SolidUnicode'   , 'test_extract'      ),
-        ('TarGzipSolidUnicode'    , 'test_iter_contents'),
-        ('TarGzipSolidUnicode'    , 'test_list_contents'),
-        ('TarGzipSolidUnicode'    , 'test_iter_extract' ),
-        ('TarGzipSolidUnicode'    , 'test_extract'      ),
-        ('TarSolidUnicode'        , 'test_iter_contents'),
-        ('TarSolidUnicode'        , 'test_list_contents'),
-        ('TarSolidUnicode'        , 'test_iter_extract' ),
-        ('TarSolidUnicode'        , 'test_extract'      ),
+        ('TarBzip2SolidUnicode', 'test_iter_contents'),
+        ('TarBzip2SolidUnicode', 'test_list_contents'),
+        ('TarBzip2SolidUnicode', 'test_iter_extract'),
+        ('TarBzip2SolidUnicode', 'test_extract'),
+        ('TarGzipSolidUnicode', 'test_iter_contents'),
+        ('TarGzipSolidUnicode', 'test_list_contents'),
+        ('TarGzipSolidUnicode', 'test_iter_extract'),
+        ('TarGzipSolidUnicode', 'test_extract'),
+        ('TarSolidUnicode', 'test_iter_contents'),
+        ('TarSolidUnicode', 'test_list_contents'),
+        ('TarSolidUnicode', 'test_iter_extract'),
+        ('TarSolidUnicode', 'test_extract'),
         # Idem with unzip...
-        ('ZipExternalUnicode'     , 'test_iter_contents'),
-        ('ZipExternalUnicode'     , 'test_list_contents'),
-        ('ZipExternalUnicode'     , 'test_iter_extract' ),
-        ('ZipExternalUnicode'     , 'test_extract'      ),
+        ('ZipExternalUnicode', 'test_iter_contents'),
+        ('ZipExternalUnicode', 'test_list_contents'),
+        ('ZipExternalUnicode', 'test_iter_extract'),
+        ('ZipExternalUnicode', 'test_extract'),
         # ...and unrar!
-        ('RarExternalUnicode'     , 'test_iter_contents'),
-        ('RarExternalUnicode'     , 'test_list_contents'),
-        ('RarExternalUnicode'     , 'test_iter_extract' ),
-        ('RarExternalUnicode'     , 'test_extract'      ),
+        ('RarExternalUnicode', 'test_iter_contents'),
+        ('RarExternalUnicode', 'test_list_contents'),
+        ('RarExternalUnicode', 'test_iter_extract'),
+        ('RarExternalUnicode', 'test_extract'),
         ('RarExternalSolidUnicode', 'test_iter_contents'),
         ('RarExternalSolidUnicode', 'test_list_contents'),
-        ('RarExternalSolidUnicode', 'test_iter_extract' ),
-        ('RarExternalSolidUnicode', 'test_extract'      ),
+        ('RarExternalSolidUnicode', 'test_iter_extract'),
+        ('RarExternalSolidUnicode', 'test_extract'),
     ])
 
 # Expected failures.
@@ -548,4 +560,3 @@ for test, attr in xfail_list:
             continue
         klass = globals()[name]
         setattr(klass, attr, unittest.expectedFailure(getattr(klass, attr)))
-

@@ -35,14 +35,15 @@ from mcomix import constants
 from mcomix import log
 from mcomix import keybindings_map
 
+
 class _KeybindingManager(object):
     def __init__(self, window):
         #: Main window instance
         self._window = window
 
-        self._action_to_callback = {} # action name => (func, args, kwargs)
-        self._action_to_bindings = defaultdict(list) # action name => [ (key code, key modifier), ]
-        self._binding_to_action = {} # (key code, key modifier) => action name
+        self._action_to_callback = {}  # action name => (func, args, kwargs)
+        self._action_to_bindings = defaultdict(list)  # action name => [ (key code, key modifier), ]
+        self._binding_to_action = {}  # (key code, key modifier) => action name
 
         self._initialize()
 
@@ -79,7 +80,6 @@ class _KeybindingManager(object):
             Gtk.AccelMap.change_entry('<Actions>/mcomix-main/%s' % name, key, mod, True)
 
         self._action_to_callback[name] = (callback, args, kwargs)
-
 
     def edit_accel(self, name, new_binding, old_binding):
         ''' Changes binding for an action
@@ -182,7 +182,7 @@ class _KeybindingManager(object):
             if action in stored_action_bindings:
                 bindings = [
                     Gtk.accelerator_parse(keyname)
-                    for keyname in stored_action_bindings[action] ]
+                    for keyname in stored_action_bindings[action]]
                 self._action_to_bindings[action] = bindings
                 for binding in bindings:
                     self._binding_to_action[binding] = action
@@ -192,6 +192,7 @@ class _KeybindingManager(object):
     def get_bindings_for_action(self, name):
         ''' Returns a list of (keycode, modifier) for the action C{name}. '''
         return self._action_to_bindings[name]
+
 
 _manager = None
 

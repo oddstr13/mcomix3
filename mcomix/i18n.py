@@ -23,9 +23,11 @@ _translation = None
 _unicode_cache = {}
 _lock = threading.Lock()
 
+
 def to_unicode(s):
     with _lock:
         return os.path.join(*map(_to_unicode, tools.splitpath(s)))
+
 
 def _to_unicode(string):
     '''Convert <string> to unicode. First try the default filesystem
@@ -58,8 +60,9 @@ def _to_unicode(string):
     if newstr is None:
         newstr = string.decode('utf-8', 'replace')
 
-    _unicode_cache[string]=newstr
+    _unicode_cache[string] = newstr
     return newstr
+
 
 def to_utf8(string):
     ''' Helper function that converts unicode objects to UTF-8 encoded
@@ -70,6 +73,7 @@ def to_utf8(string):
         return string.encode('utf-8')
     else:
         return string
+
 
 def install_gettext():
     ''' Initialize gettext with the correct directory that contains
@@ -109,7 +113,7 @@ def install_gettext():
         resource_path = tools.pkg_path('messages', lang,
                                        'LC_MESSAGES', '%s.mo' % domain)
         try:
-            with open(resource_path, mode = 'rb') as fp:
+            with open(resource_path, mode='rb') as fp:
                 translation = gettext.GNUTranslations(fp)
             break
         except IOError:
@@ -121,6 +125,7 @@ def install_gettext():
 
     global _translation
     _translation = translation
+
 
 def get_translation():
     ''' Returns the gettext.Translation instance that has been initialized with

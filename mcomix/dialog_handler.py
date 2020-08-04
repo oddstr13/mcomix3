@@ -12,6 +12,7 @@ dialog_windows['about-dialog'] = [None, about_dialog._AboutDialog]
 dialog_windows['comments-dialog'] = [None, comment_dialog._CommentsDialog]
 dialog_windows['properties-dialog'] = [None, properties_dialog._PropertiesDialog]
 
+
 def open_dialog(action, data):
     '''Create and display the given dialog.'''
 
@@ -27,6 +28,7 @@ def open_dialog(action, data):
     else:
         # if the dialog window already exists bring it to the forefront of the screen
         _dialog[0].present()
+
 
 def _close_dialog(action, exit_response, name_of_dialog):
 

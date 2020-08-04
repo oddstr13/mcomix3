@@ -7,6 +7,7 @@ from mcomix import constants
 from mcomix.library import backend
 from mcomix.library import backend_types
 
+
 class CollectionTest(unittest.TestCase):
 
     def setUp(self):
@@ -38,7 +39,7 @@ class CollectionTest(unittest.TestCase):
         self.library.add_book(tar_archive, None)
         self.library.add_book(rar_archive, test_col.id)
         self.library.add_book(sz_archive, sub_col.id)
- 
+
     def tearDown(self):
         self.library.close()
         # Remove singleton instance
@@ -81,7 +82,7 @@ class CollectionTest(unittest.TestCase):
         test_col = self.library.get_collection_by_name("Test")
 
         self.library.add_collection("New test")
-        new_col  = self.library.get_collection_by_name("New test")
+        new_col = self.library.get_collection_by_name("New test")
         test_col.add_collection(new_col)
 
         self.assertIsNone(test_col.supercollection, None)
@@ -116,7 +117,7 @@ class CollectionTest(unittest.TestCase):
         col = self.library.get_collection_by_name("Test")
         subcol = self.library.get_collection_by_name("Subtest")
         self.library.add_collection("New test")
-        new_col  = self.library.get_collection_by_name("New test")
+        new_col = self.library.get_collection_by_name("New test")
         subcol.add_collection(new_col)
 
         self.assertEqual(len(backend_types.DefaultCollection.get_all_collections()), 4)
@@ -125,7 +126,7 @@ class CollectionTest(unittest.TestCase):
     def test_get_default_collection(self):
         collection = self.library.get_collection_by_id(None)
         self.assertEqual(collection, backend_types.DefaultCollection)
-    
+
 
 class WatchListEntryTest(unittest.TestCase):
 

@@ -6,6 +6,7 @@ import traceback
 
 from mcomix import log
 
+
 class WorkerThread(object):
 
     def __init__(self, process_order, name=None, max_threads=1,
@@ -45,7 +46,7 @@ class WorkerThread(object):
             thread = threading.Thread(target=self._run)
             if self._name is not None:
                 thread.name += '-' + self._name
-            thread.daemon=False
+            thread.daemon = False
             thread.start()
             self._threads.append(thread)
 
@@ -71,7 +72,7 @@ class WorkerThread(object):
                 self._process_order(order)
             except Exception as e:
                 log.error(_('! Worker thread processing %(function)r failed: %(error)s'),
-                          { 'function' : self._process_order, 'error' : e })
+                          {'function': self._process_order, 'error': e})
                 log.debug('Traceback:\n%s', traceback.format_exc())
 
     def must_stop(self):

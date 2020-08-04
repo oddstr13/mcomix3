@@ -10,6 +10,7 @@ from mcomix.archive import archive_base
 from mcomix import archive_tools
 from mcomix import log
 
+
 class RecursiveArchive(archive_base.BaseArchive):
 
     def __init__(self, archive, prefix='mcomix.'):
@@ -35,7 +36,7 @@ class RecursiveArchive(archive_base.BaseArchive):
         if archive.is_encrypted and not decrypt:
             return
         if not root:
-            root = os.path.join(self.destdir,'main_archive')
+            root = os.path.join(self.destdir, 'main_archive')
         self._archive_list.append(archive)
         self._archive_root[archive] = root
         sub_archive_list = []
@@ -120,7 +121,7 @@ class RecursiveArchive(archive_base.BaseArchive):
         # Unfortunately we can't just rely on BaseArchive default
         # implementation if solid archives are to be correctly supported:
         # we need to call iter_extract (not extract) for each archive ourselves.
-        wanted = set(entries)|self._sub_archives
+        wanted = set(entries) | self._sub_archives
         for archive in self._archive_list:
             archive_wanted = {}
             for name in wanted:

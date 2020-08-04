@@ -4,6 +4,7 @@ from gi.repository import Gdk, GLib
 
 from mcomix import constants
 
+
 class CursorHandler(object):
 
     def __init__(self, window):

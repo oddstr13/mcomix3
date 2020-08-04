@@ -22,18 +22,18 @@ _IMAGE_MODES = (
     # Can be
     # saved    GDK     PIL
     # to PNG?  mode    mode
-    ( True  , 'RGB'  , '1'     ), # (1-bit pixels, black and white, stored with one pixel per byte)
-    ( True  , 'RGB'  , 'L'     ), # (8-bit pixels, black and white)
-    ( True  , 'RGBA' , 'LA'    ), # (8-bit pixels, black and white with alpha)
-    ( True  , 'RGBA' , 'P'     ), # (8-bit pixels, mapped to any other mode using a color palette)
-    ( True  , 'RGB'  , 'RGB'   ), # (3x8-bit pixels, true color)
-    ( True  , 'RGBA' , 'RGBA'  ), # (4x8-bit pixels, true color with transparency mask)
-    ( False , 'RGB'  , 'RGBX'  ), # (4x8-bit pixels, true color with padding)
-    ( False , 'RGB'  , 'CMYK'  ), # (4x8-bit pixels, color separation)
-    ( False , 'RGB'  , 'YCbCr' ), # (3x8-bit pixels, color video format)
-    ( False , 'RGB'  , 'HSV'   ), # (3x8-bit pixels, Hue, Saturation, Value color space)
-    ( False , 'RGB'  , 'I'     ), # (32-bit signed integer pixels)
-    ( False , 'RGB'  , 'F'     ), # (32-bit floating point pixels)
+    (True, 'RGB', '1'),  # (1-bit pixels, black and white, stored with one pixel per byte)
+    (True, 'RGB', 'L'),  # (8-bit pixels, black and white)
+    (True, 'RGBA', 'LA'),  # (8-bit pixels, black and white with alpha)
+    (True, 'RGBA', 'P'),  # (8-bit pixels, mapped to any other mode using a color palette)
+    (True, 'RGB', 'RGB'),  # (3x8-bit pixels, true color)
+    (True, 'RGBA', 'RGBA'),  # (4x8-bit pixels, true color with transparency mask)
+    (False, 'RGB', 'RGBX'),  # (4x8-bit pixels, true color with padding)
+    (False, 'RGB', 'CMYK'),  # (4x8-bit pixels, color separation)
+    (False, 'RGB', 'YCbCr'),  # (3x8-bit pixels, color video format)
+    (False, 'RGB', 'HSV'),  # (3x8-bit pixels, Hue, Saturation, Value color space)
+    (False, 'RGB', 'I'),  # (32-bit signed integer pixels)
+    (False, 'RGB', 'F'),  # (32-bit floating point pixels)
 )
 
 _PIL_MODE_TO_GDK_MODE = dict([(pil_mode, gdk_mode)
@@ -43,29 +43,29 @@ _PIL_MODE_TO_GDK_MODE = dict([(pil_mode, gdk_mode)
 _TestImage = namedtuple('TestImage', 'name format size mode has_alpha rotation')
 
 _TEST_IMAGES = (
-    _TestImage('01-JPG-Indexed.jpg'             , 'JPEG', (  1,   1), 'L'   , False, 0  ),
-    _TestImage('02-JPG-RGB.jpg'                 , 'JPEG', (  1,   1), 'RGB' , False, 0  ),
-    _TestImage('03-PNG-RGB.png'                 , 'PNG' , (  1,   1), 'RGB' , False, 0  ),
-    _TestImage('04-PNG-Indexed.png'             , 'PNG' , (  1,   1), 'P'   , False, 0  ),
-    _TestImage('05-PNG-RGBA.png'                , 'PNG' , (  1,   1), 'RGBA', True , 0  ),
-    _TestImage('animated.gif'                   , 'GIF' , (210, 210), 'RGBA', True , 0  ),
-    _TestImage('blue.png'                       , 'PNG' , (100, 100), 'RGB' , False, 0  ),
-    _TestImage('checkerboard.png'               , 'PNG' , (128, 128), 'RGBA', True , 0  ),
-    _TestImage('landscape-exif-270-rotation.jpg', 'JPEG', (210, 297), 'L'   , False, 270),
-    _TestImage('landscape-exif-270-rotation.png', 'PNG' , (210, 297), 'LA'  , True , 270),
-    _TestImage('landscape-no-exif.jpg'          , 'JPEG', (297, 210), 'L'   , False, 0  ),
-    _TestImage('landscape-no-exif.png'          , 'PNG' , (297, 210), 'LA'  , True , 0  ),
-    _TestImage('pattern.jpg'                    , 'JPEG', (200, 100), 'RGB' , False, 0  ),
-    _TestImage('pattern-opaque-rgba.png'        , 'PNG' , (200, 100), 'RGBA', True , 0  ),
-    _TestImage('pattern-opaque-rgb.png'         , 'PNG' , (200, 100), 'RGB' , False, 0  ),
-    _TestImage('pattern-transparent-rgba.png'   , 'PNG' , (200, 100), 'RGBA', True , 0  ),
-    _TestImage('portrait-exif-180-rotation.jpg' , 'JPEG', (210, 297), 'L'   , False, 180),
-    _TestImage('portrait-exif-180-rotation.png' , 'PNG' , (210, 297), 'LA'  , True , 180),
-    _TestImage('portrait-no-exif.jpg'           , 'JPEG', (210, 297), 'L'   , False, 0  ),
-    _TestImage('portrait-no-exif.png'           , 'PNG' , (210, 297), 'LA'  , True , 0  ),
-    _TestImage('red.png'                        , 'PNG' , (100, 100), 'RGB' , False, 0  ),
-    _TestImage('transparent.png'                , 'PNG' , (200, 150), 'RGBA', True , 0  ),
-    _TestImage('transparent-indexed.png'        , 'PNG' , (200, 150), 'P'   , True , 0  ),
+    _TestImage('01-JPG-Indexed.jpg', 'JPEG', (1, 1), 'L', False, 0),
+    _TestImage('02-JPG-RGB.jpg', 'JPEG', (1, 1), 'RGB', False, 0),
+    _TestImage('03-PNG-RGB.png', 'PNG', (1, 1), 'RGB', False, 0),
+    _TestImage('04-PNG-Indexed.png', 'PNG', (1, 1), 'P', False, 0),
+    _TestImage('05-PNG-RGBA.png', 'PNG', (1, 1), 'RGBA', True, 0),
+    _TestImage('animated.gif', 'GIF', (210, 210), 'RGBA', True, 0),
+    _TestImage('blue.png', 'PNG', (100, 100), 'RGB', False, 0),
+    _TestImage('checkerboard.png', 'PNG', (128, 128), 'RGBA', True, 0),
+    _TestImage('landscape-exif-270-rotation.jpg', 'JPEG', (210, 297), 'L', False, 270),
+    _TestImage('landscape-exif-270-rotation.png', 'PNG', (210, 297), 'LA', True, 270),
+    _TestImage('landscape-no-exif.jpg', 'JPEG', (297, 210), 'L', False, 0),
+    _TestImage('landscape-no-exif.png', 'PNG', (297, 210), 'LA', True, 0),
+    _TestImage('pattern.jpg', 'JPEG', (200, 100), 'RGB', False, 0),
+    _TestImage('pattern-opaque-rgba.png', 'PNG', (200, 100), 'RGBA', True, 0),
+    _TestImage('pattern-opaque-rgb.png', 'PNG', (200, 100), 'RGB', False, 0),
+    _TestImage('pattern-transparent-rgba.png', 'PNG', (200, 100), 'RGBA', True, 0),
+    _TestImage('portrait-exif-180-rotation.jpg', 'JPEG', (210, 297), 'L', False, 180),
+    _TestImage('portrait-exif-180-rotation.png', 'PNG', (210, 297), 'LA', True, 180),
+    _TestImage('portrait-no-exif.jpg', 'JPEG', (210, 297), 'L', False, 0),
+    _TestImage('portrait-no-exif.png', 'PNG', (210, 297), 'LA', True, 0),
+    _TestImage('red.png', 'PNG', (100, 100), 'RGB', False, 0),
+    _TestImage('transparent.png', 'PNG', (200, 150), 'RGBA', True, 0),
+    _TestImage('transparent-indexed.png', 'PNG', (200, 150), 'P', True, 0),
 )
 
 _TEST_IMAGE_BY_NAME = dict([(im.name, im) for im in _TEST_IMAGES])
@@ -74,11 +74,14 @@ _TEST_IMAGE_BY_NAME = dict([(im.name, im) for im in _TEST_IMAGES])
 def pil_mode_to_gdk_mode(mode):
     return _PIL_MODE_TO_GDK_MODE[mode]
 
+
 def get_test_image(name):
     return _TEST_IMAGE_BY_NAME[name]
 
+
 def get_image_path(basename):
     return get_testfile_path('images', basename)
+
 
 def new_pixbuf(size, with_alpha, fill_colour):
     pixbuf = GdkPixbuf.Pixbuf.new(colorspace=GdkPixbuf.Colorspace.RGB,
@@ -98,12 +101,14 @@ def new_pixbuf(size, with_alpha, fill_colour):
 #
 #    ^____ data address, or size of repeated content
 #
+
+
 def xhexdump(data, group_size=4):
     addr, size = 0, 0
     io = StringIO(data)
     chunk_size = group_size * 8
     prev_addr, prev_hex = (0, '')
-    format_line = lambda addr, hex: '%07x: %s' % (addr, hex)
+    def format_line(addr, hex): return '%07x: %s' % (addr, hex)
     while True:
         chunk = io.read(chunk_size)
         if not chunk:
@@ -114,7 +119,7 @@ def xhexdump(data, group_size=4):
         chunk = binascii.hexlify(chunk)
         hex = []
         for s in range(0, chunk_size * 2, group_size * 2):
-            hex.append(chunk[s:s+(group_size*2)])
+            hex.append(chunk[s:s + (group_size * 2)])
         hex = ' '.join(hex)
         if hex != prev_hex:
             if addr > (prev_addr + chunk_size):
@@ -125,8 +130,10 @@ def xhexdump(data, group_size=4):
     if size != prev_addr:
         yield '%07x' % size
 
+
 def hexdump(data, group_size=4):
     return [line for line in xhexdump(data, group_size=group_size)]
+
 
 def composite_image(im1, im2):
     if isinstance(im1, GdkPixbuf.Pixbuf):
@@ -137,7 +144,7 @@ def composite_image(im1, im2):
                    (im1.size[0] + im2.size[0],
                     max(im1.size[1], im2.size[1])))
     im.paste(im1, (0, 0, im1.size[0], im1.size[1]))
-    im.paste(im2, (im1.size[0], 0, im1.size[0]+im2.size[0], im2.size[1]))
+    im.paste(im2, (im1.size[0], 0, im1.size[0] + im2.size[0], im2.size[1]))
     return im
 
 
@@ -167,6 +174,7 @@ class ImageToolsTest(object):
                 'diff_type': diff_type,
                 'diff': diff_fmt % args,
             })
+
         def info(im):
             if isinstance(im, GdkPixbuf.Pixbuf):
                 width, stride = im.get_width(), im.get_rowstride()
@@ -421,24 +429,24 @@ class ImageToolsTest(object):
         for input_size, target_size, scale_up, keep_ratio, expected_size in (
             # Exactly the same size.
             ((200, 100), (200, 100), False, False, (200, 100)),
-            ((200, 100), (200, 100), False,  True, (200, 100)),
-            ((200, 100), (200, 100),  True, False, (200, 100)),
-            ((200, 100), (200, 100),  True,  True, (200, 100)),
+            ((200, 100), (200, 100), False, True, (200, 100)),
+            ((200, 100), (200, 100), True, False, (200, 100)),
+            ((200, 100), (200, 100), True, True, (200, 100)),
             # Smaller.
             ((200, 100), (400, 400), False, False, (200, 100)),
-            ((200, 100), (400, 400), False,  True, (200, 100)),
-            ((200, 100), (400, 400),  True, False, (400, 400)),
-            ((200, 100), (400, 400),  True,  True, (400, 200)),
+            ((200, 100), (400, 400), False, True, (200, 100)),
+            ((200, 100), (400, 400), True, False, (400, 400)),
+            ((200, 100), (400, 400), True, True, (400, 200)),
             # Bigger.
             ((800, 600), (200, 200), False, False, (200, 200)),
-            ((800, 600), (200, 200), False,  True, (200, 150)),
-            ((800, 600), (200, 200),  True, False, (200, 200)),
-            ((800, 600), (200, 200),  True,  True, (200, 150)),
+            ((800, 600), (200, 200), False, True, (200, 150)),
+            ((800, 600), (200, 200), True, False, (200, 200)),
+            ((800, 600), (200, 200), True, True, (200, 150)),
             # One dimension bigger, the other smaller.
             ((200, 400), (200, 200), False, False, (200, 200)),
-            ((200, 400), (200, 200), False,  True, (100, 200)),
-            ((200, 400), (200, 200),  True, False, (200, 200)),
-            ((200, 400), (200, 200),  True,  True, (100, 200)),
+            ((200, 400), (200, 200), False, True, (100, 200)),
+            ((200, 400), (200, 200), True, False, (200, 200)),
+            ((200, 400), (200, 200), True, True, (100, 200)),
         ):
             for invert_dimensions in (False, True):
                 if invert_dimensions:
@@ -591,7 +599,7 @@ class_list = []
 if hasattr(image_tools, 'USE_PIL'):
     class_list.extend((
         ('GDK', {'set_use_pil': True, 'use_pil': False}),
-        ('PIL', {'set_use_pil': True, 'use_pil': True }),
+        ('PIL', {'set_use_pil': True, 'use_pil': True}),
     ))
 else:
     if 'win32' == sys.platform:
@@ -605,4 +613,3 @@ else:
 for class_variant, class_dict in class_list:
     class_name = 'ImageTools%sTest' % class_variant
     globals()[class_name] = type(class_name, (ImageToolsTest, MComixTest), class_dict)
-

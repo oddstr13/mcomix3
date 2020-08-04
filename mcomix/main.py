@@ -43,8 +43,8 @@ class MainWindow(Gtk.Window):
     '''
 
     def __init__(self, fullscreen=False, is_slideshow=slideshow,
-            show_library=False, manga_mode=False, double_page=False,
-            zoom_mode=None, open_path=None, open_page=1):
+                 show_library=False, manga_mode=False, double_page=False,
+                 zoom_mode=None, open_path=None, open_page=1):
         super(MainWindow, self).__init__(type=Gtk.WindowType.TOPLEVEL)
 
         # ----------------------------------------------------------------
@@ -64,7 +64,7 @@ class MainWindow(Gtk.Window):
         self._spacing = 2
         self._waiting_for_redraw = False
 
-        self._image_box = Gtk.HBox(homogeneous=False, spacing=2) # XXX transitional(kept for osd.py)
+        self._image_box = Gtk.HBox(homogeneous=False, spacing=2)  # XXX transitional(kept for osd.py)
         self._main_layout = Gtk.Layout()
         # Wrap main layout into an event box so
         # we  can change its background color.
@@ -99,7 +99,7 @@ class MainWindow(Gtk.Window):
         self.popup = self.uimanager.get_widget('/Popup')
         self.actiongroup = self.uimanager.get_action_groups()[0]
 
-        self.images = [Gtk.Image(), Gtk.Image()] # XXX limited to at most 2 pages
+        self.images = [Gtk.Image(), Gtk.Image()]  # XXX limited to at most 2 pages
 
         # ----------------------------------------------------------------
         # Setup
@@ -129,20 +129,20 @@ class MainWindow(Gtk.Window):
 
         table = Gtk.Table(n_rows=2, n_columns=2, homogeneous=False)
         table.attach(self.thumbnailsidebar, 0, 1, 2, 5, Gtk.AttachOptions.FILL,
-            Gtk.AttachOptions.FILL|Gtk.AttachOptions.EXPAND, 0, 0)
+                     Gtk.AttachOptions.FILL | Gtk.AttachOptions.EXPAND, 0, 0)
 
-        table.attach(self._event_box, 1, 2, 2, 3, Gtk.AttachOptions.FILL|Gtk.AttachOptions.EXPAND,
-            Gtk.AttachOptions.FILL|Gtk.AttachOptions.EXPAND, 0, 0)
-        table.attach(self._scroll[constants.HEIGHT_AXIS], 2, 3, 2, 3, Gtk.AttachOptions.FILL|Gtk.AttachOptions.SHRINK,
-            Gtk.AttachOptions.FILL|Gtk.AttachOptions.SHRINK, 0, 0)
-        table.attach(self._scroll[constants.WIDTH_AXIS], 1, 2, 4, 5, Gtk.AttachOptions.FILL|Gtk.AttachOptions.SHRINK,
-            Gtk.AttachOptions.FILL, 0, 0)
-        table.attach(self.menubar, 0, 3, 0, 1, Gtk.AttachOptions.FILL|Gtk.AttachOptions.SHRINK,
-            Gtk.AttachOptions.FILL, 0, 0)
-        table.attach(self.toolbar, 0, 3, 1, 2, Gtk.AttachOptions.FILL|Gtk.AttachOptions.SHRINK,
-            Gtk.AttachOptions.FILL, 0, 0)
-        table.attach(self.statusbar, 0, 3, 5, 6, Gtk.AttachOptions.FILL|Gtk.AttachOptions.SHRINK,
-            Gtk.AttachOptions.FILL, 0, 0)
+        table.attach(self._event_box, 1, 2, 2, 3, Gtk.AttachOptions.FILL | Gtk.AttachOptions.EXPAND,
+                     Gtk.AttachOptions.FILL | Gtk.AttachOptions.EXPAND, 0, 0)
+        table.attach(self._scroll[constants.HEIGHT_AXIS], 2, 3, 2, 3, Gtk.AttachOptions.FILL | Gtk.AttachOptions.SHRINK,
+                     Gtk.AttachOptions.FILL | Gtk.AttachOptions.SHRINK, 0, 0)
+        table.attach(self._scroll[constants.WIDTH_AXIS], 1, 2, 4, 5, Gtk.AttachOptions.FILL | Gtk.AttachOptions.SHRINK,
+                     Gtk.AttachOptions.FILL, 0, 0)
+        table.attach(self.menubar, 0, 3, 0, 1, Gtk.AttachOptions.FILL | Gtk.AttachOptions.SHRINK,
+                     Gtk.AttachOptions.FILL, 0, 0)
+        table.attach(self.toolbar, 0, 3, 1, 2, Gtk.AttachOptions.FILL | Gtk.AttachOptions.SHRINK,
+                     Gtk.AttachOptions.FILL, 0, 0)
+        table.attach(self.statusbar, 0, 3, 5, 6, Gtk.AttachOptions.FILL | Gtk.AttachOptions.SHRINK,
+                     Gtk.AttachOptions.FILL, 0, 0)
 
         if prefs['default double page'] or double_page:
             self.actiongroup.get_action('double_page').activate()
@@ -152,11 +152,11 @@ class MainWindow(Gtk.Window):
 
         # Determine zoom mode. If zoom_mode is passed, it overrides
         # the zoom mode preference.
-        zoom_actions = { constants.ZOOM_MODE_BEST : 'best_fit_mode',
-                constants.ZOOM_MODE_WIDTH : 'fit_width_mode',
-                constants.ZOOM_MODE_HEIGHT : 'fit_height_mode',
-                constants.ZOOM_MODE_SIZE : 'fit_size_mode',
-                constants.ZOOM_MODE_MANUAL : 'fit_manual_mode' }
+        zoom_actions = {constants.ZOOM_MODE_BEST: 'best_fit_mode',
+                        constants.ZOOM_MODE_WIDTH: 'fit_width_mode',
+                        constants.ZOOM_MODE_HEIGHT: 'fit_height_mode',
+                        constants.ZOOM_MODE_SIZE: 'fit_size_mode',
+                        constants.ZOOM_MODE_MANUAL: 'fit_manual_mode'}
 
         if zoom_mode is not None:
             zoom_action = zoom_actions[zoom_mode]
@@ -190,21 +190,21 @@ class MainWindow(Gtk.Window):
         # List of "toggles" than can be shown/hidden by the user.
         self._toggle_list = (
             # Preference        Action        Widget(s)
-            ('show menubar'   , 'menubar'   , (self.menubar,)         ),
-            ('show scrollbar' , 'scrollbar' , self._scroll            ),
-            ('show statusbar' , 'statusbar' , (self.statusbar,)       ),
+            ('show menubar', 'menubar', (self.menubar,)),
+            ('show scrollbar', 'scrollbar', self._scroll),
+            ('show statusbar', 'statusbar', (self.statusbar,)),
             ('show thumbnails', 'thumbnails', (self.thumbnailsidebar,)),
-            ('show toolbar'   , 'toolbar'   , (self.toolbar,)         ),
+            ('show toolbar', 'toolbar', (self.toolbar,)),
         )
 
         # Each "toggle" widget "eats" part of the main layout visible area.
         self._toggle_axis = {
-            self.thumbnailsidebar              : constants.WIDTH_AXIS ,
-            self._scroll[constants.HEIGHT_AXIS]: constants.WIDTH_AXIS ,
-            self._scroll[constants.WIDTH_AXIS] : constants.HEIGHT_AXIS,
-            self.statusbar                     : constants.HEIGHT_AXIS,
-            self.toolbar                       : constants.HEIGHT_AXIS,
-            self.menubar                       : constants.HEIGHT_AXIS,
+            self.thumbnailsidebar: constants.WIDTH_AXIS,
+            self._scroll[constants.HEIGHT_AXIS]: constants.WIDTH_AXIS,
+            self._scroll[constants.WIDTH_AXIS]: constants.HEIGHT_AXIS,
+            self.statusbar: constants.HEIGHT_AXIS,
+            self.toolbar: constants.HEIGHT_AXIS,
+            self.menubar: constants.HEIGHT_AXIS,
         }
 
         # Start with all "toggle" widgets hidden to avoid ugly transitions.
@@ -246,15 +246,15 @@ class MainWindow(Gtk.Window):
         self.connect('window-state-event', self._event_handler.window_state_event)
 
         self._main_layout.connect('button_release_event',
-            self._event_handler.mouse_release_event)
+                                  self._event_handler.mouse_release_event)
         self._main_layout.connect('scroll_event',
-            self._event_handler.scroll_wheel_event)
+                                  self._event_handler.scroll_wheel_event)
         self._main_layout.connect('button_press_event',
-            self._event_handler.mouse_press_event)
+                                  self._event_handler.mouse_press_event)
         self._main_layout.connect('motion_notify_event',
-            self._event_handler.mouse_move_event)
+                                  self._event_handler.mouse_move_event)
         self._main_layout.connect('drag_data_received',
-            self._event_handler.drag_n_drop_event)
+                                  self._event_handler.drag_n_drop_event)
 
         self.uimanager.set_sensitivities()
         self.show()
@@ -285,6 +285,7 @@ class MainWindow(Gtk.Window):
         self.cursor_handler.auto_hide_on()
         # Make sure we receive *all* mouse motion events,
         # even if a modal dialog is being shown.
+
         def _on_event(event):
             if Gdk.EventType.MOTION_NOTIFY == event.type:
                 self.cursor_handler.refresh()
@@ -298,16 +299,16 @@ class MainWindow(Gtk.Window):
         if not path:
             return self.reset_style()
         # load userstyle from path
-        provider=None
+        provider = None
         try:
-            csspath=tools.relpath2root(path)
+            csspath = tools.relpath2root(path)
             if not csspath:
                 raise Exception('userstyle out of mount point is not allowed.')
-            provider=Gtk.CssProvider.new()
+            provider = Gtk.CssProvider.new()
             provider.load_from_path(csspath)
         except Exception as e:
-            provider=None
-            text=_('Failed to load userstyle: "{}", {}').format(path,e)
+            provider = None
+            text = _('Failed to load userstyle: "{}", {}').format(path, e)
             log.warning(text)
             self.osd.show(text)
         finally:
@@ -317,7 +318,7 @@ class MainWindow(Gtk.Window):
         if not provider:
             # failed to load userstyle, stop
             return
-        self.styleprovider=provider
+        self.styleprovider = provider
         Gtk.StyleContext.add_provider_for_screen(
             self.get_screen(),
             self.styleprovider,
@@ -331,7 +332,7 @@ class MainWindow(Gtk.Window):
                 self.get_screen(),
                 self.styleprovider
             )
-            self.styleprovider=None
+            self.styleprovider = None
 
     def gained_focus(self, *args):
         self.was_out_of_focus = False
@@ -351,7 +352,7 @@ class MainWindow(Gtk.Window):
         if not self._waiting_for_redraw:  # Don't stack up redraws.
             self._waiting_for_redraw = True
             GLib.idle_add(self._draw_image, scroll_to,
-                             priority=GLib.PRIORITY_HIGH_IDLE)
+                          priority=GLib.PRIORITY_HIGH_IDLE)
 
     def _update_toggle_preference(self, preference, toggleaction):
         ''' Update "toggle" widget corresponding <preference>.
@@ -409,7 +410,7 @@ class MainWindow(Gtk.Window):
         if self.imagehandler.page_is_available():
             distribution_axis = constants.DISTRIBUTION_AXIS
             alignment_axis = constants.ALIGNMENT_AXIS
-            pixbuf_count = 2 if self.displayed_double() else 1 # XXX limited to at most 2 pages
+            pixbuf_count = 2 if self.displayed_double() else 1  # XXX limited to at most 2 pages
             pixbuf_list = list(self.imagehandler.get_pixbufs(pixbuf_count))
             do_not_transform = [image_tools.disable_transform(x) for x in pixbuf_list]
             size_list = [[pixbuf.get_width(), pixbuf.get_height()]
@@ -454,7 +455,7 @@ class MainWindow(Gtk.Window):
             if prefs['horizontal flip'] and rotation in (0, 180):
                 orientation = tools.vector_opposite(orientation)
 
-            viewport_size = () # dummy
+            viewport_size = ()  # dummy
             expand_area = False
             scrollbar_requests = [False] * len(self._scroll)
             # Visible area size is recomputed depending on scrollbar visibility
@@ -483,7 +484,7 @@ class MainWindow(Gtk.Window):
                 )]
                 if len(tuple(filter(None, scrollbar_requests))) > 1 and not expand_area:
                     expand_area = True
-                    viewport_size = () # start anew
+                    viewport_size = ()  # start anew
 
             for i in range(pixbuf_count):
                 pixbuf_list[i] = image_tools.fit_pixbuf_to_rectangle(
@@ -523,7 +524,7 @@ class MainWindow(Gtk.Window):
             content_boxes = self.layout.get_content_boxes()
             for i in range(pixbuf_count):
                 self._main_layout.move(self.images[i],
-                    *content_boxes[i].get_position())
+                                       *content_boxes[i].get_position())
 
             for i in range(pixbuf_count):
                 self.images[i].show()
@@ -626,7 +627,7 @@ class MainWindow(Gtk.Window):
         # Use first page as application icon when opening archives.
         if (page == 1
             and self.filehandler.archive_type is not None
-            and prefs['archive thumbnail as icon']):
+                and prefs['archive thumbnail as icon']):
             pixbuf = self.imagehandler.get_thumbnail(page, 48, 48)
             self.set_icon(pixbuf)
 
@@ -676,7 +677,7 @@ class MainWindow(Gtk.Window):
     def next_book(self):
         archive_open = self.filehandler.archive_type is not None
         next_archive_opened = False
-        if (self.slideshow.is_running() and \
+        if (self.slideshow.is_running() and
             prefs['slideshow can go to next archive']) or \
            prefs['auto open next archive']:
             next_archive_opened = self.filehandler._open_next_archive()
@@ -691,16 +692,16 @@ class MainWindow(Gtk.Window):
     def previous_book(self):
         archive_open = self.filehandler.archive_type is not None
         previous_archive_opened = False
-        if (self.slideshow.is_running() and \
-            prefs['slideshow can go to next archive']) or \
-            prefs['auto open next archive']:
+        if (self.slideshow.is_running() and
+                prefs['slideshow can go to next archive']) or \
+                prefs['auto open next archive']:
             previous_archive_opened = self.filehandler._open_previous_archive()
 
         # If "Auto open next archive" is disabled, do not go to the previous
         # directory if current file was an archive.
         if not previous_archive_opened and \
-            prefs['auto open next directory'] and \
-            (not archive_open or prefs['auto open next archive']):
+                prefs['auto open next directory'] and \
+                (not archive_open or prefs['auto open next archive']):
             self.filehandler.open_previous_directory()
 
     def flip_page(self, step, single_step=False):
@@ -715,7 +716,7 @@ class MainWindow(Gtk.Window):
         if (1 == abs(step) and
             not single_step and
             prefs['default double page'] and
-            prefs['double step in double page mode']):
+                prefs['double step in double page mode']):
             if +1 == step and not self.imagehandler.get_virtual_double_page():
                 new_page += 1
             elif -1 == step and not self.imagehandler.get_virtual_double_page(new_page - 1):
@@ -902,10 +903,10 @@ class MainWindow(Gtk.Window):
 
         if bound == 'first':
             hadjust_upper = max(0, hadjust_upper -
-                self.images[1].size_request().width - 2) # XXX transitional(double page limitation)
+                                self.images[1].size_request().width - 2)  # XXX transitional(double page limitation)
 
         elif bound == 'second':
-            hadjust_lower = self.images[0].size_request().width + 2 # XXX transitional(double page limitation)
+            hadjust_lower = self.images[0].size_request().width + 2  # XXX transitional(double page limitation)
 
         new_hadjust = old_hadjust + x
         new_vadjust = old_vadjust + y
@@ -929,8 +930,8 @@ class MainWindow(Gtk.Window):
 
     def update_viewport_position(self):
         viewport_position = self.layout.get_viewport_box().get_position()
-        self._hadjust.set_value(viewport_position[0]) # 2D only
-        self._vadjust.set_value(viewport_position[1]) # 2D only
+        self._hadjust.set_value(viewport_position[0])  # 2D only
+        self._vadjust.set_value(viewport_position[1])  # 2D only
         self._scroll[0].queue_resize_no_redraw()
         self._scroll[1].queue_resize_no_redraw()
 
@@ -1003,7 +1004,7 @@ class MainWindow(Gtk.Window):
                    self.imagehandler.get_pretty_current_filename()]
 
         if self.slideshow.is_running():
-            strings.insert(0,'[{}]'.format(_('SLIDESHOW')))
+            strings.insert(0, '[{}]'.format(_('SLIDESHOW')))
 
         self.set_title(' '.join(strings))
 
@@ -1040,7 +1041,7 @@ class MainWindow(Gtk.Window):
 
         if save_dialog.run() == Gtk.ResponseType.ACCEPT and save_dialog.get_filename():
             shutil.copy(self.imagehandler.get_path_to_page(),
-                save_dialog.get_filename())
+                        save_dialog.get_filename())
 
         save_dialog.destroy()
 
@@ -1121,7 +1122,7 @@ class MainWindow(Gtk.Window):
 
         if prefs['auto load last file'] and self.filehandler.file_loaded:
             path = self.imagehandler.get_real_path()
-            path = tools.relpath2root(path,abs_fallback=prefs['portable allow abspath'])
+            path = tools.relpath2root(path, abs_fallback=prefs['portable allow abspath'])
 
             if not path:
                 # path is None, means running in portable mode
@@ -1148,6 +1149,7 @@ class MainWindow(Gtk.Window):
             main_dialog._dialog.close()
         backend.LibraryBackend().close()
 
+
 #: Main window instance
 __main_window = None
 
@@ -1163,7 +1165,7 @@ def set_main_window(window):
 
 
 def _dummy_layout():
-    return layout.FiniteLayout(((1,1),), (1,1), (1,1), 0, False, 0, 0)
+    return layout.FiniteLayout(((1, 1),), (1, 1), (1, 1), 0, False, 0, 0)
 
 
 # vim: expandtab:sw=4:ts=4

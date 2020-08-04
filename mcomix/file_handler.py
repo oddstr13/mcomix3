@@ -290,9 +290,9 @@ class FileHandler(object):
 
         files = self._extractor.get_files()
         archive_images = [image for image in files
-            if image_tools.is_image_file(image)
-            # Remove MacOS meta files from image list
-            and not '__MACOSX' in os.path.normpath(image).split(os.sep)]
+                          if image_tools.is_image_file(image)
+                          # Remove MacOS meta files from image list
+                          and not '__MACOSX' in os.path.normpath(image).split(os.sep)]
 
         self._sort_archive_images(archive_images)
         image_files = [os.path.join(self._tmp_dir, f)
@@ -357,13 +357,13 @@ class FileHandler(object):
             buttons=Gtk.ButtonsType.YES_NO)
         dialog.set_default_response(Gtk.ResponseType.YES)
         dialog.set_should_remember_choice('resume-from-last-read-page',
-            (Gtk.ResponseType.YES, Gtk.ResponseType.NO))
+                                          (Gtk.ResponseType.YES, Gtk.ResponseType.NO))
         dialog.set_text(
             (_('Continue reading from page %d?') % last_read_page),
             _('You stopped reading here on %(date)s, %(time)s. '
-            'If you choose "Yes", reading will resume on page %(page)d. Otherwise, '
-            'the first page will be loaded.') % {'date': read_date.date().strftime("%x"),
-                'time': read_date.time().strftime('%X'), 'page': last_read_page})
+              'If you choose "Yes", reading will resume on page %(page)d. Otherwise, '
+              'the first page will be loaded.') % {'date': read_date.date().strftime("%x"),
+                                                   'time': read_date.time().strftime('%X'), 'page': last_read_page})
         result = dialog.run()
 
         return result == Gtk.ResponseType.YES
@@ -456,7 +456,8 @@ class FileHandler(object):
 
             files = self._file_provider.list_files(file_provider.FileProvider.ARCHIVES)
             absolute_path = os.path.abspath(self._base_path)
-            if absolute_path not in files: return
+            if absolute_path not in files:
+                return
             current_index = files.index(absolute_path)
 
             for path in files[current_index + 1:]:
@@ -476,7 +477,8 @@ class FileHandler(object):
 
             files = self._file_provider.list_files(file_provider.FileProvider.ARCHIVES)
             absolute_path = os.path.abspath(self._base_path)
-            if absolute_path not in files: return
+            if absolute_path not in files:
+                return
             current_index = files.index(absolute_path)
 
             for path in reversed(files[:current_index]):
@@ -621,7 +623,7 @@ class FileHandler(object):
             if not path:
                 # no file is loaded
                 return
-            path = tools.relpath2root(path,abs_fallback=prefs['portable allow abspath'])
+            path = tools.relpath2root(path, abs_fallback=prefs['portable allow abspath'])
 
             if not path:
                 # path is None, means running in portable mode
@@ -646,7 +648,7 @@ class FileHandler(object):
                     fileinfo = json.load(config)
             except Exception as ex:
                 log.error(_('! Corrupt preferences file "%s", deleting...'),
-                          constants.FILEINFO_JSON_PATH )
+                          constants.FILEINFO_JSON_PATH)
                 log.info('Error was: %s', ex)
                 os.remove(constants.FILEINFO_JSON_PATH)
 

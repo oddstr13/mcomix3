@@ -5,6 +5,7 @@ from gi.repository import Gtk
 
 from mcomix import i18n
 
+
 class _CommentsDialog(Gtk.Dialog):
 
     def __init__(self, window):

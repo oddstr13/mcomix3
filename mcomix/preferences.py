@@ -9,7 +9,7 @@ from hashlib import md5
 from mcomix import constants
 from mcomix import log
 
-_prefs_status={'md5':None}
+_prefs_status = {'md5': None}
 
 # All the preferences are stored here.
 prefs = {
@@ -40,12 +40,12 @@ prefs = {
     'lens magnification': 2,
     'lens size': 200,
     'virtual double page for fitting images': constants.SHOW_DOUBLE_AS_ONE_TITLE | \
-                                              constants.SHOW_DOUBLE_AS_ONE_WIDE,
+    constants.SHOW_DOUBLE_AS_ONE_WIDE,
     'double step in double page mode': True,
     'show page numbers on thumbnails': True,
     'thumbnail size': 80,
     'create thumbnails': True,
-    'archive thumbnail as icon' : False,
+    'archive thumbnail as icon': False,
     'number of pixels to scroll per key event': 50,
     'number of pixels to scroll per mouse wheel event': 50,
     'slideshow delay': 3000,
@@ -95,7 +95,7 @@ prefs = {
     'lib sort order': constants.SORT_ASCENDING,
     'language': 'auto',
     'statusbar fields': constants.STATUS_PAGE | constants.STATUS_RESOLUTION | \
-                        constants.STATUS_PATH | constants.STATUS_FILENAME | constants.STATUS_FILESIZE,
+    constants.STATUS_PATH | constants.STATUS_FILENAME | constants.STATUS_FILESIZE,
     'max thumbnail threads': 3,
     'max extract threads': 1,
     'wrap mouse scroll': False,
@@ -111,7 +111,7 @@ prefs = {
     'animation transform': False,
     'temporary directory': None,
     'portable allow abspath': False,
-    'osd max font size': 16, # hard limited from 8 to 60
+    'osd max font size': 16,  # hard limited from 8 to 60
     'osd color': [1, 1, 1, 1],
     'osd bg color': [0, 0, 0, 1],
     'osd timeout': 3.0,  # in seconds, hard limited from 0.5 to 30.0
@@ -121,8 +121,10 @@ prefs = {
     'try FLIF support': False,
 }
 
+
 def _md5str(s):
     return md5(s.encode('utf8')).hexdigest()
+
 
 def check_old_preferences(saved_prefs):
     bookmarks_pickle = os.path.join(constants.DATA_DIR, 'bookmarks.pickle')
@@ -136,13 +138,14 @@ def check_old_preferences(saved_prefs):
         from mcomix import upgrade_tools
         if old_prefs:
             upgrade_tools.openwith_conv(saved_prefs)
-            os.rename(constants.PREFERENCE_PATH, constants.PREFERENCE_PATH+'.bak')
+            os.rename(constants.PREFERENCE_PATH, constants.PREFERENCE_PATH + '.bak')
         if old_bookmarks:
             upgrade_tools.bookmarks_conv(
                 bookmarks_pickle, constants.BOOKMARK_JSON_PATH)
         if old_fileinfo:
             upgrade_tools.fileinfo_conv(
                 fileinfo_pickle, constants.FILEINFO_JSON_PATH)
+
 
 def read_preferences_file():
     '''Read preferences data from disk.'''
@@ -165,9 +168,10 @@ def read_preferences_file():
 
     check_old_preferences(saved_prefs)
 
-    prefs.update(filter(lambda i:i[0] in prefs,saved_prefs.items()))
+    prefs.update(filter(lambda i: i[0] in prefs, saved_prefs.items()))
 
     _prefs_status['md5'] = _md5str(json.dumps(prefs, indent=2, sort_keys=True))
+
 
 def write_preferences_file():
     '''Write preference data to disk.'''

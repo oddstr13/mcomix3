@@ -7,6 +7,7 @@ from mcomix import file_chooser_base_dialog
 
 _library_filechooser_dialog = None
 
+
 class _LibraryFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog):
 
     '''The filechooser dialog used when adding books to the library.'''
@@ -51,7 +52,7 @@ class _LibraryFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog)
 
     def files_chosen(self, paths):
         if paths:
-            try: # For some reason this fails sometimes (GTK+ bug?)
+            try:  # For some reason this fails sometimes (GTK+ bug?)
                 filter_index = self.filechooser.list_filters().index(
                     self.filechooser.get_filter())
                 prefs['last filter in library filechooser'] = filter_index
@@ -65,6 +66,7 @@ class _LibraryFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog)
         else:
             close_library_filechooser_dialog()
 
+
 def open_library_filechooser_dialog(library):
     '''Open the library filechooser dialog.'''
     global _library_filechooser_dialog
@@ -73,6 +75,7 @@ def open_library_filechooser_dialog(library):
         _library_filechooser_dialog = _LibraryFileChooserDialog(library)
     else:
         _library_filechooser_dialog.present()
+
 
 def close_library_filechooser_dialog(*args):
     '''Close the library filechooser dialog.'''

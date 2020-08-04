@@ -6,6 +6,7 @@ from mcomix import i18n
 from mcomix import image_tools
 from mcomix import labels
 
+
 class _Page(Gtk.ScrolledWindow):
 
     '''A page to put in the Gtk.Notebook. Contains info about a file (an
@@ -61,7 +62,7 @@ class _Page(Gtk.ScrolledWindow):
         label.set_alignment(0, 0.5)
         label.set_selectable(True)
         self._mainbox.pack_start(label, False, False, 0)
-        self._mainbox.pack_start(Gtk.VBox(homogeneous=True, spacing=0), True, True, 0) # Just to add space (better way?)
+        self._mainbox.pack_start(Gtk.VBox(homogeneous=True, spacing=0), True, True, 0)  # Just to add space (better way?)
 
     def set_main_info(self, info):
         '''Set the information in the main info box (below the filename) to

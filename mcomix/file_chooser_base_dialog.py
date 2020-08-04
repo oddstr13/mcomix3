@@ -16,6 +16,7 @@ from mcomix import mimetypes
 from mcomix import file_provider
 from mcomix import tools
 
+
 class _BaseFileChooserDialog(Gtk.Dialog):
 
     '''We roll our own FileChooserDialog because the one in GTK seems
@@ -71,7 +72,7 @@ class _BaseFileChooserDialog(Gtk.Dialog):
         pango_scale_small = (1 / 1.2)
 
         self._namelabel = labels.FormattedLabel(weight=Pango.Weight.BOLD,
-            scale=pango_scale_small)
+                                                scale=pango_scale_small)
         self._namelabel.set_ellipsize(Pango.EllipsizeMode.MIDDLE)
         preview_box.pack_start(self._namelabel, False, False, 0)
 
@@ -82,7 +83,7 @@ class _BaseFileChooserDialog(Gtk.Dialog):
         preview_box.show_all()
         self.filechooser.connect('update-preview', self._update_preview)
 
-        self._all_files_filter = self.add_filter( _('All files'), [], ['*'])
+        self._all_files_filter = self.add_filter(_('All files'), [], ['*'])
 
         try:
             current_file = self._current_file()
@@ -103,7 +104,7 @@ class _BaseFileChooserDialog(Gtk.Dialog):
                     self.filechooser.set_current_folder(
                         constants.HOME_DIR)
 
-        except Exception as ex: # E.g. broken prefs values.
+        except Exception as ex:  # E.g. broken prefs values.
             log.debug(ex)
 
         self.show_all()
@@ -116,8 +117,8 @@ class _BaseFileChooserDialog(Gtk.Dialog):
 
         ffilter = Gtk.FileFilter()
         ffilter.add_custom(
-                Gtk.FileFilterFlags.FILENAME | Gtk.FileFilterFlags.MIME_TYPE,
-                self._filter, (patterns, mimes))
+            Gtk.FileFilterFlags.FILENAME | Gtk.FileFilterFlags.MIME_TYPE,
+            self._filter, (patterns, mimes))
 
         ffilter.set_name(name)
         self.filechooser.add_filter(ffilter)
@@ -132,7 +133,7 @@ class _BaseFileChooserDialog(Gtk.Dialog):
         supported_formats = archive_tools.get_supported_formats()
         for name in sorted(supported_formats):
             mime_types, extensions = supported_formats[name]
-            patterns = ['*'+ext for ext in extensions]
+            patterns = ['*' + ext for ext in extensions]
             self.add_filter(_('%s archives') % name, mime_types, patterns)
             for mime in mime_types:
                 ffilter.add_mime_type(mime)
@@ -148,7 +149,7 @@ class _BaseFileChooserDialog(Gtk.Dialog):
         supported_formats = image_tools.get_supported_formats()
         for name in sorted(supported_formats):
             mime_types, extensions = supported_formats[name]
-            patterns = ['*'+ext for ext in extensions]
+            patterns = ['*' + ext for ext in extensions]
             self.add_filter(_('%s images') % name, mime_types, patterns)
             for mime in mime_types:
                 ffilter.add_mime_type(mime)
@@ -208,12 +209,12 @@ class _BaseFileChooserDialog(Gtk.Dialog):
 
             # Collect files, if necessary also from subdirectories
             filter = self.filechooser.get_filter()
-            paths = [ ]
+            paths = []
             for path in self.filechooser.get_filenames():
 
                 if os.path.isdir(path):
                     subdir_files = list(self.collect_files_from_subdir(path, filter,
-                        self.should_open_recursive()))
+                                                                       self.should_open_recursive()))
                     file_provider.FileProvider.sort_files(subdir_files)
                     paths.extend(subdir_files)
                 else:
@@ -224,7 +225,7 @@ class _BaseFileChooserDialog(Gtk.Dialog):
             first_path = self.filechooser.get_filenames()[0]
             if (self._action == Gtk.FileChooserAction.SAVE and
                 not os.path.isdir(first_path) and
-                os.path.exists(first_path)):
+                    os.path.exists(first_path)):
 
                 overwrite_dialog = message_dialog.MessageDialog(
                     self,

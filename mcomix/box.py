@@ -23,11 +23,9 @@ class Box(object):
             raise ValueError('different number of dimensions: ' +
                              str(len(self.position)) + ' != ' + str(len(self.size)))
 
-
     def __str__(self):
         ''' Returns a string representation of this Box. '''
         return '{' + str(self.get_position()) + ':' + str(self.get_size()) + '}'
-
 
     def __eq__(self, other):
         ''' Two Boxes are said to be equal if and only if the number of
@@ -36,23 +34,19 @@ class Box(object):
         return (self.get_position() == other.get_position()) and \
             (self.get_size() == other.get_size())
 
-
     def __len__(self):
         ''' Returns the number of dimensions of this Box. '''
         return len(self.position)
-
 
     def get_size(self):
         ''' Returns the size of this Box.
         @return: The size of this Box. '''
         return self.size
 
-
     def get_position(self):
         ''' Returns the position of this Box.
         @return: The position of this Box. '''
         return self.position
-
 
     def set_position(self, position):
         ''' Returns a new Box that has the same size as this Box and the
@@ -60,13 +54,11 @@ class Box(object):
         @return: A new Box as specified above. '''
         return Box(position, self.get_size())
 
-
     def set_size(self, size):
         ''' Returns a new Box that has the same position as this Box and the
         specified size.
         @return: A new Box as specified above. '''
         return Box(self.get_position(), size)
-
 
     def distance_point_squared(self, point):
         ''' Returns the square of the Euclidean distance between this Box and a
@@ -90,7 +82,6 @@ class Box(object):
             result += r * r
         return result
 
-
     def translate(self, delta):
         ''' Returns a new Box that has the same size as this Box and a
         translated position as specified by delta.
@@ -98,7 +89,6 @@ class Box(object):
         @return: A new Box as specified above. '''
         return Box(tools.vector_add(self.get_position(), delta),
                    self.get_size())
-
 
     def translate_opposite(self, delta):
         ''' Returns a new Box that has the same size as this Box and a
@@ -108,7 +98,6 @@ class Box(object):
         @return: A new Box as specified above. '''
         return Box(tools.vector_sub(self.get_position(), delta),
                    self.get_size())
-
 
     @staticmethod
     def closest_boxes(point, boxes, orientation=None):
@@ -138,12 +127,12 @@ class Box(object):
                 keep_append_replace = 2
             elif dist == mindist:
                 if orientation is not None:
-                # Take orientation into account.
-                # If result is small, a simple iteration shouldn't be a
-                # performance issue.
+                    # Take orientation into account.
+                    # If result is small, a simple iteration shouldn't be a
+                    # performance issue.
                     for ri in range(len(result)):
                         c = Box._compare_distance_to_origin(b,
-                            boxes[result[ri]], orientation)
+                                                            boxes[result[ri]], orientation)
                         if c < 0:
                             keep_append_replace = 2
                             break
@@ -158,7 +147,6 @@ class Box(object):
                 mindist = dist
                 result = [i]
         return result
-
 
     @staticmethod
     def _compare_distance_to_origin(box1, box2, orientation):
@@ -186,7 +174,6 @@ class Box(object):
                 return d
         return 0
 
-
     def get_center(self, orientation):
         ''' Returns the center of this Box. If the exact value is not equal to
         an integer, the integer that is closer to the origin (as implied by
@@ -203,13 +190,11 @@ class Box(object):
                                                      orientation[i]) + bp[i]
         return result
 
-
     @staticmethod
     def _box_to_center_offset_1d(box_size_delta, orientation):
         if orientation == -1:
             box_size_delta += 1
         return box_size_delta >> 1
-
 
     def current_box_index(self, orientation, boxes):
         ''' Calculates the index of the Box that is closest to the center of
@@ -218,8 +203,7 @@ class Box(object):
         @param boxes: The Boxes to examine.
         @return: The index as specified above. '''
         return Box.closest_boxes(self.get_center(orientation), boxes,
-            orientation)[0]
-
+                                 orientation)[0]
 
     @staticmethod
     def align_center(boxes, axis, fix, orientation):
@@ -234,7 +218,7 @@ class Box(object):
         center_box = boxes[fix]
         cs = center_box.get_size()[axis]
         if cs % 2 != 0:
-            cs +=1
+            cs += 1
         cp = center_box.get_position()[axis]
         result = []
         for b in boxes:
@@ -244,7 +228,6 @@ class Box(object):
                                                         orientation)
             result.append(Box(p, s))
         return result
-
 
     @staticmethod
     def distribute(boxes, axis, fix, spacing=0):
@@ -276,7 +259,6 @@ class Box(object):
             result[bi] = Box(p, s)
         return result
 
-
     def wrapper_box(self, viewport_size, orientation):
         ''' Returns a Box that covers the same area that is covered by a
         scrollable viewport showing this Box.
@@ -294,7 +276,6 @@ class Box(object):
             result_position[i] = Box._box_to_center_offset_1d(c - result_size[i],
                                                               orientation[i]) + position[i]
         return Box(result_position, result_size)
-
 
     @staticmethod
     def bounding_box(boxes):
@@ -317,9 +298,8 @@ class Box(object):
                     maxes[i] = ps
         return Box(mins, tools.vector_sub(maxes, mins))
 
-
     @staticmethod
-    def intersect(boxA, boxB): # TODO test! docs!
+    def intersect(boxA, boxB):  # TODO test! docs!
         aPos = boxA.get_position()
         bPos = boxB.get_position()
         aSize = boxA.get_size()

@@ -9,6 +9,7 @@ from mcomix.archive import archive_base
 # Filled on-demand by ZipArchive
 _zip_executable = -1
 
+
 class ZipArchive(archive_base.ExternalExecutableArchive):
     ''' ZIP file extractor using unzip executable. '''
 

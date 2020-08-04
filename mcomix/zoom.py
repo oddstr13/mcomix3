@@ -12,6 +12,7 @@ USER_ZOOM_LOG_SCALE1 = 4.0
 MIN_USER_ZOOM_LOG = -20
 MAX_USER_ZOOM_LOG = 12
 
+
 class ZoomModel(object):
     ''' Handles zoom and fit modes. '''
 
@@ -25,7 +26,7 @@ class ZoomModel(object):
 
     def set_fit_mode(self, fitmode):
         if fitmode < constants.ZOOM_MODE_BEST or \
-            fitmode > constants.ZOOM_MODE_SIZE:
+                fitmode > constants.ZOOM_MODE_SIZE:
             raise ValueError('No fit mode for id %d.' % fitmode)
         self._fitmode = fitmode
 
@@ -57,6 +58,7 @@ class ZoomModel(object):
         prescaled = [tuple(_scale_image_size(size, scale))
                      for size, scale in zip(fitted_image_sizes, preferred_scales)]
         prescaled_union_size = _union_size(prescaled, distribution_axis)
+
         def _other_preferences(limits, distribution_axis):
             for i in range(len(limits)):
                 if i == distribution_axis:
@@ -67,9 +69,9 @@ class ZoomModel(object):
         other_preferences = _other_preferences(limits, distribution_axis)
         if limits[distribution_axis] is not None and \
             (prescaled_union_size[distribution_axis] > screen_size[distribution_axis]
-            or not other_preferences):
+             or not other_preferences):
             distributed_scales = ZoomModel._scale_distributed(fitted_image_sizes,
-                distribution_axis, limits[distribution_axis], scale_up, do_not_transform)
+                                                              distribution_axis, limits[distribution_axis], scale_up, do_not_transform)
             if other_preferences:
                 preferred_scales = map(min, preferred_scales, distributed_scales)
             else:
@@ -109,13 +111,13 @@ class ZoomModel(object):
         preference for this axis. '''
         manual = fitmode == constants.ZOOM_MODE_MANUAL
         if fitmode == constants.ZOOM_MODE_BEST or \
-            (manual and allow_upscaling and all(tools.smaller(union_size, screen_size))):
+                (manual and allow_upscaling and all(tools.smaller(union_size, screen_size))):
             return screen_size
         result = [None] * len(screen_size)
         if not manual:
             fixed_size = None
             if fitmode == constants.ZOOM_MODE_SIZE:
-                fitmode = prefs['fit to size mode'] # reassigning fitmode
+                fitmode = prefs['fit to size mode']  # reassigning fitmode
                 fixed_size = int(prefs['fit to size px'])
             if fitmode == constants.ZOOM_MODE_WIDTH:
                 axis = constants.WIDTH_AXIS
@@ -128,7 +130,7 @@ class ZoomModel(object):
 
     @staticmethod
     def _scale_distributed(sizes, axis, max_size, allow_upscaling,
-        do_not_transform):
+                           do_not_transform):
         ''' Calculates scales for a list of boxes that are distributed along a
         given axis (without any gaps). If the resulting scales are applied to
         their respective boxes, their new total size along axis will be as close
@@ -152,14 +154,14 @@ class ZoomModel(object):
         if n >= max_size:
             # In this case, only one solution or only an approximation is available.
             # if n > max_size, the result won't fit into max_size.
-            return map(lambda x: tools.div(1, x[axis]), sizes) # FIXME ignores do_not_transform
+            return map(lambda x: tools.div(1, x[axis]), sizes)  # FIXME ignores do_not_transform
         total_axis_size = sum(map(lambda x: x[axis], sizes))
         if (total_axis_size <= max_size) and not allow_upscaling:
             # identity
             return [IDENTITY_ZOOM] * n
 
         # non-trival case
-        scale = tools.div(max_size, total_axis_size) # FIXME initial guess should take unscalable images into account
+        scale = tools.div(max_size, total_axis_size)  # FIXME initial guess should take unscalable images into account
         scaling_data = [None] * n
         total_axis_size = 0
         # This loop collects some data we need for the actual computations later.
@@ -169,7 +171,7 @@ class ZoomModel(object):
             if do_not_transform[i]:
                 total_axis_size += this_size[axis]
                 scaling_data[i] = [IDENTITY_ZOOM, IDENTITY_ZOOM, False,
-                    IDENTITY_ZOOM, 0.0]
+                                   IDENTITY_ZOOM, 0.0]
                 continue
             # Initial guess: The current scale works for all tuples.
             ideal = tools.scale(this_size, scale)
@@ -192,15 +194,15 @@ class ZoomModel(object):
                 forced_scale = None
                 forced_vol_err = None
             scaling_data[i] = [local_scale, ideal, can_be_downscaled,
-                forced_scale, forced_vol_err]
+                               forced_scale, forced_vol_err]
         # Now we need to find at most total_axis_size - max_size occasions to
         # scale down some tuples so the whole thing would fit into max_size. If
         # we are lucky, there will be no gaps at the end (or at least fewer gaps
         # than we would have if we always rounded down).
-        dirty=True # This flag prevents infinite loops if nothing can be made any smaller.
+        dirty = True  # This flag prevents infinite loops if nothing can be made any smaller.
         while dirty and (total_axis_size > max_size):
             # This algorithm needs O(n*n) time. Let's hope that n is small enough.
-            dirty=False
+            dirty = False
             current_index = 0
             current_min = None
             for i in range(n):
@@ -223,9 +225,9 @@ class ZoomModel(object):
                 if (not d[2]) or (d[1] != current_min[1]):
                     continue
                 d[0] = d[3]
-                d[2] = False # only once per tuple
+                d[2] = False  # only once per tuple
                 total_axis_size -= 1
-                dirty=True
+                dirty = True
         else:
             # If we are here and total_axis_size < max_size, we could try to
             # upscale some tuples similarily to the other loop (i.e. smallest
@@ -235,8 +237,10 @@ class ZoomModel(object):
             pass
         return map(lambda d: d[0], scaling_data)
 
+
 def _scale_image_size(size, scale):
     return _round_nonempty(tools.scale(size, scale))
+
 
 def _round_nonempty(t):
     result = [0] * len(t)
@@ -245,17 +249,19 @@ def _round_nonempty(t):
         result[i] = x if x > 0 else 1
     return result
 
+
 def _fix_page_sizes(image_sizes, distribution_axis, do_not_transform):
-    if len(image_sizes)<2:
+    if len(image_sizes) < 2:
         return image_sizes.copy()
     # in double page mode, resize the smaller image to fit the bigger one
-    sizes=list(zip(*image_sizes)) # [(x1,x2,...),(y1,y2,...)]
-    axis_sizes=sizes[int(not distribution_axis)] # use axis else of distribution_axis
-    max_size=max(axis_sizes) # max size of pages
-    ratios=[(1 if do_not_transform[n] else max_size/s)
-            for n,s in enumerate(axis_sizes)] # scale ratio of every page if do transform
-    return [(int(x*ratios[n]),int(y*ratios[n]))
-            for n,(x,y) in enumerate(image_sizes)] # scale every page
+    sizes = list(zip(*image_sizes))  # [(x1,x2,...),(y1,y2,...)]
+    axis_sizes = sizes[int(not distribution_axis)]  # use axis else of distribution_axis
+    max_size = max(axis_sizes)  # max size of pages
+    ratios = [(1 if do_not_transform[n] else max_size / s)
+              for n, s in enumerate(axis_sizes)]  # scale ratio of every page if do transform
+    return [(int(x * ratios[n]), int(y * ratios[n]))
+            for n, (x, y) in enumerate(image_sizes)]  # scale every page
+
 
 def _union_size(image_sizes, distribution_axis):
     if len(image_sizes) == 0:

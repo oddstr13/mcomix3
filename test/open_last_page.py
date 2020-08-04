@@ -8,6 +8,7 @@ from mcomix import constants
 from mcomix import last_read_page
 from mcomix.library import backend
 
+
 class OpenLastPageBasicTest(unittest.TestCase):
     def setUp(self):
         # Database file
@@ -72,13 +73,13 @@ class OpenLastPageBasicTest(unittest.TestCase):
 
     def test_nonexistant_file(self):
         self.assertRaises(ValueError, self.lastread.set_page,
-            '/root/mcomix/file-that-should-not-exist-hopefully', 1)
+                          '/root/mcomix/file-that-should-not-exist-hopefully', 1)
 
     def test_invalid_page(self):
         self.assertRaises(ValueError, self.lastread.set_page,
-            self.archive1, 0)
+                          self.archive1, 0)
         self.assertRaises(ValueError, self.lastread.set_page,
-            self.archive1, -1)
+                          self.archive1, -1)
 
     def test_date(self):
         self.lastread.set_page(self.archive1, 1)
@@ -96,8 +97,8 @@ class OpenLastPageBasicTest(unittest.TestCase):
         self.lastread.set_enabled(True)
 
         self.assertEqual(1, self.lastread.get_page(self.archive1),
-                'Page should be remembered after shutdown')
+                         'Page should be remembered after shutdown')
         self.assertEqual(2, self.lastread.get_page(self.archive2),
-                'Page should be remembered after shutdown')
+                         'Page should be remembered after shutdown')
 
 # vim: expandtab:sw=4:ts=4

@@ -3,8 +3,10 @@
 ''' Glue around libunrar.so/unrar.dll to extract RAR files without having to
 resort to calling rar/unrar manually. '''
 
-import sys, os
-import ctypes, ctypes.util
+import sys
+import os
+import ctypes
+import ctypes.util
 
 from mcomix import constants
 from mcomix.archive import archive_base
@@ -19,6 +21,7 @@ else:
                                      ctypes.c_long, ctypes.c_long,
                                      ctypes.c_long)
 
+
 class RarArchive(archive_base.BaseArchive):
     ''' Wrapper class for libunrar. All string values passed to this class must be unicode objects.
     In turn, all values returned are also unicode. '''
@@ -28,13 +31,13 @@ class RarArchive(archive_base.BaseArchive):
 
     class _OpenMode(object):
         ''' Rar open mode '''
-        RAR_OM_LIST    = 0
+        RAR_OM_LIST = 0
         RAR_OM_EXTRACT = 1
 
     class _ProcessingMode(object):
         ''' Rar file processing mode '''
-        RAR_SKIP       = 0
-        RAR_EXTRACT    = 2
+        RAR_SKIP = 0
+        RAR_EXTRACT = 2
 
     class _ErrorCode(object):
         ''' Rar error codes '''
@@ -95,7 +98,6 @@ class RarArchive(archive_base.BaseArchive):
             ('CmtState', ctypes.c_uint),
             ('Reserved', ctypes.c_uint * 1024),
         ]
-
 
     @staticmethod
     def is_available():
@@ -275,7 +277,7 @@ class RarArchive(archive_base.BaseArchive):
 
     def _password_callback(self, msg, userdata, buffer_address, buffer_size):
         ''' Called by the unrar library in case of missing password. '''
-        if msg == 2: # UCM_NEEDPASSWORD
+        if msg == 2:  # UCM_NEEDPASSWORD
             self._get_password()
             if len(self._password) == 0:
                 # Abort extraction
@@ -287,6 +289,7 @@ class RarArchive(archive_base.BaseArchive):
         else:
             # Continue operation
             return 1
+
 
 class UnrarException(Exception):
     ''' Exception class for RarArchive. '''
@@ -314,8 +317,10 @@ class UnrarException(Exception):
         else:
             return 'Unkown error'
 
+
 # Filled on-demand by _get_unrar_dll
 _unrar_dll = -1
+
 
 def _get_unrar_dll():
     ''' Tries to load libunrar and will return a handle of it.

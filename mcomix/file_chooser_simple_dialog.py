@@ -4,6 +4,7 @@ from gi.repository import Gtk
 
 from mcomix import file_chooser_base_dialog
 
+
 class SimpleFileChooserDialog(file_chooser_base_dialog._BaseFileChooserDialog):
 
     '''A simple filechooser dialog that is designed to be used with the

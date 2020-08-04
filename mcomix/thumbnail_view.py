@@ -65,7 +65,7 @@ class ThumbnailViewBase(object):
             # Currently invisible icons are always cached
             # only after the visible icons completed.
             mid = (start + end) // 2 + 1
-            harf = end - start + 1 # twice of current visible length
+            harf = end - start + 1  # twice of current visible length
             required = set(range(mid - harf, mid + harf))
 
             taskid = self._taskid
@@ -73,7 +73,7 @@ class ThumbnailViewBase(object):
                 taskid = uuid.uuid4().int
 
             model = self.get_model()
-            required &= set(range(len(model))) # filter invalid paths.
+            required &= set(range(len(model)))  # filter invalid paths.
             for path in required:
                 iter = model.get_iter(path)
                 uid, generated = model.get(
@@ -113,6 +113,7 @@ class ThumbnailViewBase(object):
                 model.set,
                 iter, self._status_column, True, self._pixbuf_column, pixbuf)
 
+
 class ThumbnailIconView(Gtk.IconView, ThumbnailViewBase):
     def __init__(self, model, uid_column, pixbuf_column, status_column):
         assert 0 != (model.get_flags() & Gtk.TreeModelFlags.ITERS_PERSIST)
@@ -122,6 +123,7 @@ class ThumbnailIconView(Gtk.IconView, ThumbnailViewBase):
 
         # Connect events
         self.connect('draw', self.draw_thumbnails_on_screen)
+
 
 class ThumbnailTreeView(Gtk.TreeView, ThumbnailViewBase):
     def __init__(self, model, uid_column, pixbuf_column, status_column):

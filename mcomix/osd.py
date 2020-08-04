@@ -56,7 +56,7 @@ class OnScreenDisplay(object):
         self._last_osd_rect = rect
         if self._timeout_event:
             GLib.source_remove(self._timeout_event)
-        self._timeout_event = GLib.timeout_add(prefs['osd timeout']*1000, self.clear)
+        self._timeout_event = GLib.timeout_add(prefs['osd timeout'] * 1000, self.clear)
 
     def clear(self):
         ''' Removes the OSD. '''
@@ -64,7 +64,7 @@ class OnScreenDisplay(object):
             GLib.source_remove(self._timeout_event)
         self._timeout_event = None
         self._clear_osd()
-        return 0 # To unregister timer event
+        return 0  # To unregister timer event
 
     def _wrap_text(self, text, width=70):
         ''' Wraps the text to be C{width} characters at most. '''
@@ -87,7 +87,7 @@ class OnScreenDisplay(object):
         ''' Scales the font used by C{layout} until max_width/max_height is reached. '''
 
         # hard limited from 8 to 60
-        SIZE_MIN, SIZE_MAX = 8, min(prefs['osd max font size'], 60)+1
+        SIZE_MIN, SIZE_MAX = 8, min(prefs['osd max font size'], 60) + 1
         for font_size in range(SIZE_MIN, SIZE_MAX):
             old_size = font.get_size()
             font.set_size(font_size * Pango.SCALE)

@@ -8,38 +8,43 @@ import shlex
 
 from mcomix import log
 
+
 def legacy_pickle_loader(fp):
-    return pickle.Unpickler(fp,fix_imports=True,encoding='latin1')
+    return pickle.Unpickler(fp, fix_imports=True, encoding='latin1')
 
-def fileinfo_conv(fileinfo_pickle,fileinfo_json):
-    try:
-        with open(fileinfo_pickle,mode='rb') as f:
-            loader=legacy_pickle_loader(f)
-            fileinfo=loader.load()
-    except Exception as e:
-        log.warning('! Failed to upgrade {}, {}'.format(fileinfo_pickle,str(e)))
-    else:
-        with open(fileinfo_json,mode='wt',encoding='utf8') as f:
-            json.dump(fileinfo,f,ensure_ascii=False,indent=2)
-        os.rename(fileinfo_pickle,fileinfo_pickle+'.bak')
 
-def bookmarks_conv(bookmarks_pickle,bookmarks_json):
+def fileinfo_conv(fileinfo_pickle, fileinfo_json):
     try:
-        with open(bookmarks_pickle,mode='rb') as f:
-            loader=legacy_pickle_loader(f)
-            version=loader.load()
-            bookmarks=[(name,path,page,numpages,packtype,date.timestamp())
-                       for name,path,page,numpages,packtype,date in loader.load()]
+        with open(fileinfo_pickle, mode='rb') as f:
+            loader = legacy_pickle_loader(f)
+            fileinfo = loader.load()
     except Exception as e:
-        log.warning('! Failed to upgrade {}, {}'.format(bookmarks_pickle,str(e)))
+        log.warning('! Failed to upgrade {}, {}'.format(fileinfo_pickle, str(e)))
     else:
-        with open(bookmarks_json,mode='wt',encoding='utf8') as f:
-            json.dump((version,bookmarks),f,ensure_ascii=False,indent=2)
-        os.rename(bookmarks_pickle,bookmarks_pickle+'.bak')
+        with open(fileinfo_json, mode='wt', encoding='utf8') as f:
+            json.dump(fileinfo, f, ensure_ascii=False, indent=2)
+        os.rename(fileinfo_pickle, fileinfo_pickle + '.bak')
+
+
+def bookmarks_conv(bookmarks_pickle, bookmarks_json):
+    try:
+        with open(bookmarks_pickle, mode='rb') as f:
+            loader = legacy_pickle_loader(f)
+            version = loader.load()
+            bookmarks = [(name, path, page, numpages, packtype, date.timestamp())
+                         for name, path, page, numpages, packtype, date in loader.load()]
+    except Exception as e:
+        log.warning('! Failed to upgrade {}, {}'.format(bookmarks_pickle, str(e)))
+    else:
+        with open(bookmarks_json, mode='wt', encoding='utf8') as f:
+            json.dump((version, bookmarks), f, ensure_ascii=False, indent=2)
+        os.rename(bookmarks_pickle, bookmarks_pickle + '.bak')
+
 
 def openwith_conv(prefs):
 
-    class OldOpenWithException(Exception): pass
+    class OldOpenWithException(Exception):
+        pass
 
     def _expand_variable_old(identifier, window, context_type):
         # keep this functions only for reference
@@ -71,12 +76,12 @@ def openwith_conv(prefs):
             return os.path.basename(os.path.dirname(window.filehandler.get_path_to_base()))
         elif identifier == 'b':
             if (context_type & ARCHIVE_CONTEXT):
-                return window.filehandler.get_base_filename() # same as %a
+                return window.filehandler.get_base_filename()  # same as %a
             else:
-                return os.path.basename(os.path.dirname(window.imagehandler.get_path_to_page())) # same as %d
+                return os.path.basename(os.path.dirname(window.imagehandler.get_path_to_page()))  # same as %d
         elif identifier == 's':
             if (context_type & ARCHIVE_CONTEXT):
-                return os.path.basename(os.path.dirname(window.filehandler.get_path_to_base())) # same as %c
+                return os.path.basename(os.path.dirname(window.filehandler.get_path_to_base()))  # same as %c
             else:
                 return os.path.basename(os.path.dirname(os.path.dirname(window.imagehandler.get_path_to_page())))
         elif identifier == 'A':
@@ -89,12 +94,12 @@ def openwith_conv(prefs):
             return os.path.dirname(window.filehandler.get_path_to_base())
         elif identifier == 'B':
             if (context_type & ARCHIVE_CONTEXT):
-                return window.filehandler.get_path_to_base() # same as %A
+                return window.filehandler.get_path_to_base()  # same as %A
             else:
-                return os.path.normpath(os.path.dirname(window.imagehandler.get_path_to_page())) # same as %D
+                return os.path.normpath(os.path.dirname(window.imagehandler.get_path_to_page()))  # same as %D
         elif identifier == 'S':
             if (context_type & ARCHIVE_CONTEXT):
-                return os.path.dirname(window.filehandler.get_path_to_base()) # same as %C
+                return os.path.dirname(window.filehandler.get_path_to_base())  # same as %C
             else:
                 return os.path.dirname(os.path.dirname(window.imagehandler.get_path_to_page()))
         else:
@@ -168,18 +173,18 @@ def openwith_conv(prefs):
             result.append(buf)
         return result
 
-    prefs['external commands']=[]
+    prefs['external commands'] = []
     # convert old style command if exists
     for label, command, *params in prefs['openwith commands']:
         if not params:
             params.extend(('', False))
         cwd, disabled_for_archives = params
-        for c in ('{','}'):
-            command = command.replace(c, c*2)
+        for c in ('{', '}'):
+            command = command.replace(c, c * 2)
         try:
             newcmd_args = _old_cmd_to_args(command.strip())
         except Exception as e:
-            log.warning('! '+str(e))
+            log.warning('! ' + str(e))
             continue
         new_command = ' '.join(map(shlex.quote, newcmd_args))
         prefs['external commands'].append(

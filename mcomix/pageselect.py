@@ -48,7 +48,7 @@ class Pageselector(Gtk.Dialog):
 
         self.connect('configure-event', self._size_changed_cb)
         self.set_size_request(prefs['pageselector width'],
-                prefs['pageselector height'])
+                              prefs['pageselector height'])
 
         # Group preview image and page selector next to each other
         preview_box = Gtk.HBox()

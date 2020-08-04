@@ -11,7 +11,6 @@ from mcomix import log
 from mcomix import i18n
 
 
-
 NULL = subprocess.DEVNULL
 PIPE = subprocess.PIPE
 STDOUT = subprocess.STDOUT
@@ -19,6 +18,8 @@ STDOUT = subprocess.STDOUT
 # Convert argument vector to system's file encoding where necessary
 # to prevent automatic conversion when appending Unicode strings
 # to byte strings later on.
+
+
 def _fix_args(args):
     fixed_args = []
     for arg in args:
@@ -27,6 +28,7 @@ def _fix_args(args):
         else:
             fixed_args.append(arg)
     return fixed_args
+
 
 def _get_creationflags():
     if 'win32' == sys.platform:
@@ -37,11 +39,14 @@ def _get_creationflags():
 
 # Cannot spawn processes with PythonW/Win32 unless stdin
 # and stderr are redirected to a pipe/devnull as well.
+
+
 def call(args, stdin=NULL, stdout=NULL, stderr=NULL, universal_newlines=False):
     return 0 == subprocess.call(_fix_args(args), stdin=stdin,
                                 stdout=stdout,
                                 universal_newlines=universal_newlines,
                                 creationflags=_get_creationflags())
+
 
 def popen(args, stdin=NULL, stdout=PIPE, stderr=NULL, universal_newlines=False):
     return subprocess.Popen(_fix_args(args), stdin=stdin,
@@ -49,18 +54,21 @@ def popen(args, stdin=NULL, stdout=PIPE, stderr=NULL, universal_newlines=False):
                             universal_newlines=universal_newlines,
                             creationflags=_get_creationflags())
 
+
 def call_thread(args):
     # call command in thread, so drop std* and set no buffer
-    params=dict(
-        stdin=NULL,stdout=NULL,stderr=NULL,
-        bufsize=0,creationflags=_get_creationflags()
+    params = dict(
+        stdin=NULL, stdout=NULL, stderr=NULL,
+        bufsize=0, creationflags=_get_creationflags()
     )
-    thread=Thread(target=subprocess.call,
-                  args=(args,),kwargs=params,daemon=True)
+    thread = Thread(target=subprocess.call,
+                    args=(args,), kwargs=params, daemon=True)
     thread.start()
+
 
 if 'win32' == sys.platform:
     _exe_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+
 
 def find_executable(candidates, workdir=None, is_valid_candidate=None):
     ''' Find executable in path.
@@ -80,7 +88,7 @@ def find_executable(candidates, workdir=None, is_valid_candidate=None):
     if callable(is_valid_candidate):
         is_valid = is_valid_candidate
     else:
-        is_valid = lambda exe: True
+        def is_valid(exe): return True
 
     for name in candidates:
         path = shutil.which(name)
@@ -125,6 +133,7 @@ def Win32Popen(cmd):
                     ('hStdInput', HANDLE),
                     ('hStdOutput', HANDLE),
                     ('hStdError', HANDLE)]
+
     class ProcessInformation(ctypes.Structure):
         _fields_ = [('hProcess', HANDLE),
                     ('hThread', HANDLE),
@@ -134,8 +143,8 @@ def Win32Popen(cmd):
     LPSTRARTUPINFO = ctypes.POINTER(StartupInfo)
     LPROCESS_INFORMATION = ctypes.POINTER(ProcessInformation)
     ctypes.windll.kernel32.CreateProcessW.argtypes = [LPTSTR, LPTSTR,
-        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_bool, DWORD,
-        ctypes.c_void_p, LPTSTR, LPSTRARTUPINFO, LPROCESS_INFORMATION]
+                                                      ctypes.c_void_p, ctypes.c_void_p, ctypes.c_bool, DWORD,
+                                                      ctypes.c_void_p, LPTSTR, LPSTRARTUPINFO, LPROCESS_INFORMATION]
     ctypes.windll.kernel32.CreateProcessW.restype = ctypes.c_bool
 
     # Convert list of arguments into a single string
@@ -153,8 +162,8 @@ def Win32Popen(cmd):
 
     # Spawn new process
     success = ctypes.windll.kernel32.CreateProcessW(exe, buffer,
-            None, None, False, 0, None, None, ctypes.byref(startupinfo),
-            ctypes.byref(processinfo))
+                                                    None, None, False, 0, None, None, ctypes.byref(startupinfo),
+                                                    ctypes.byref(processinfo))
 
     if success:
         ctypes.windll.kernel32.CloseHandle(processinfo.hProcess)
@@ -162,7 +171,7 @@ def Win32Popen(cmd):
         return processinfo.dwProcessId
     else:
         raise ctypes.WinError(ctypes.GetLastError(),
-                i18n.to_unicode(ctypes.FormatError()))
+                              i18n.to_unicode(ctypes.FormatError()))
 
 
 # vim: expandtab:sw=4:ts=4

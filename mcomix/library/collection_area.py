@@ -16,6 +16,7 @@ _dialog = None
 _COLLECTION_ALL = -1
 _COLLECTION_RECENT = -2
 
+
 class _CollectionArea(Gtk.ScrolledWindow):
 
     '''The _CollectionArea is the sidebar area in the library where
@@ -27,7 +28,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
         self._library = library
         self.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 
-        self._treestore = Gtk.TreeStore(str, int) # (Name, ID) of collections.
+        self._treestore = Gtk.TreeStore(str, int)  # (Name, ID) of collections.
         self._treeview = Gtk.TreeView(model=self._treestore)
         self._treeview.connect('cursor_changed', self._collection_selected)
         self._treeview.connect('drag_data_received', self._drag_data_received)
@@ -51,7 +52,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
 
         self._ui_manager = Gtk.UIManager()
         self._tooltipstatus = status.TooltipStatusHelper(self._ui_manager,
-            self._library.get_status_bar())
+                                                         self._library.get_status_bar())
         ui_description = '''
         <ui>
             <popup name="library collections">
@@ -115,10 +116,10 @@ class _CollectionArea(Gtk.ScrolledWindow):
 
         def _recursive_add(parent_iter, supercoll):
             for coll in self._library.backend.get_collections_in_collection(
-              supercoll):
+                    supercoll):
                 name = self._library.backend.get_collection_name(coll)
                 child_iter = self._treestore.append(parent_iter,
-                    [xmlescape(name), coll])
+                                                    [xmlescape(name), coll])
                 _recursive_add(child_iter, coll)
 
         def _expand_and_select(treestore, path, iterator):
@@ -139,7 +140,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
         self._treeview.map_expanded_rows(_expanded_rows_accumulator)
         self._treestore.clear()
         self._treestore.append(None, ['<b>%s</b>' % xmlescape(_('All books')),
-            _COLLECTION_ALL])
+                                      _COLLECTION_ALL])
         _recursive_add(None, None)
         self._treestore.foreach(_expand_and_select)
 
@@ -157,7 +158,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
             _('Please enter a name for the new collection.')
         )
 
-        box = Gtk.HBox() # To get nice line-ups with the padding.
+        box = Gtk.HBox()  # To get nice line-ups with the padding.
         add_dialog.vbox.pack_start(box, True, True, 0)
         entry = Gtk.Entry()
         entry.set_activates_default(True)
@@ -175,7 +176,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
             else:
                 message = _('Could not add a new collection called "%s".') % (name)
                 if (self._library.backend.get_collection_by_name(name)
-                  is not None):
+                        is not None):
                     message = '%s %s' % (message,
                                          _('A collection by that name already exists.'))
                 self._library.set_status_message(message)
@@ -210,7 +211,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
         '''
         collection = self.get_current_collection()
         if (collection is None or
-          collection == prefs['last library collection']):
+                collection == prefs['last library collection']):
             return
         prefs['last library collection'] = collection
         GLib.idle_add(self._library.book_area.display_covers, collection)
@@ -254,7 +255,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
         )
         rename_dialog.set_default_response(Gtk.ResponseType.OK)
 
-        box = Gtk.HBox() # To get nice line-ups with the padding.
+        box = Gtk.HBox()  # To get nice line-ups with the padding.
         rename_dialog.vbox.pack_start(box, True, True, 0)
         entry = Gtk.Entry()
         entry.set_text(old_name)
@@ -271,7 +272,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
             else:
                 message = _('Could not change the name to "%s".') % new_name
                 if (self._library.backend.get_collection_by_name(new_name)
-                  is not None):
+                        is not None):
                     message = '%s %s' % (message,
                                          _('A collection by that name already exists.'))
                 self._library.set_status_message(message)
@@ -320,9 +321,9 @@ class _CollectionArea(Gtk.ScrolledWindow):
 
         for path in ('rename', 'duplicate', 'remove'):
             control = self._ui_manager.get_action(
-                    '/library collections/' + path)
+                '/library collections/' + path)
             control.set_sensitive(collection is not None and
-                    not is_collection_all)
+                                  not is_collection_all)
 
         self._ui_manager.get_action('/library collections/add').set_sensitive(collection is not None)
         self._ui_manager.get_action('/library collections/cleanup').set_sensitive(collection is not None)
@@ -344,15 +345,15 @@ class _CollectionArea(Gtk.ScrolledWindow):
             treeview.expand_to_path(path)
 
     def _drag_data_received(self, treeview, context, x, y, selection, drag_id,
-      eventtime):
+                            eventtime):
         '''Move books dragged from the _BookArea to the target collection,
         or move some collection into another collection.
         '''
         self._library.set_status_message('')
         drop_row = treeview.get_dest_row_at_pos(x, y)
-        if drop_row is None: # Drop "after" the last row.
+        if drop_row is None:  # Drop "after" the last row.
             dest_path, pos = ((len(self._treestore) - 1,),
-                Gtk.TreeViewDropPosition.AFTER)
+                              Gtk.TreeViewDropPosition.AFTER)
         else:
             dest_path, pos = drop_row
         src_collection = self.get_current_collection()
@@ -366,18 +367,18 @@ class _CollectionArea(Gtk.ScrolledWindow):
             self.display_collections()
         elif drag_id == constants.LIBRARY_DRAG_BOOK_ID:
 
-            #FIXME
-            #tmp workaround for GTK bug, 2018
-            #see also _drag_data_get in book_area
-            #receaving as bytearray instead of text
-            for path_str in selection.get_data().decode().split(','): # IconView path
-            #for path_str in selection.get_text().split(','): # IconView path
+            # FIXME
+            # tmp workaround for GTK bug, 2018
+            # see also _drag_data_get in book_area
+            # receaving as bytearray instead of text
+            for path_str in selection.get_data().decode().split(','):  # IconView path
+                # for path_str in selection.get_text().split(','): # IconView path
                 book = self._library.book_area.get_book_at_path(int(path_str))
                 self._library.backend.add_book_to_collection(book,
-                    dest_collection)
+                                                             dest_collection)
                 if src_collection != _COLLECTION_ALL:
                     self._library.backend.remove_book_from_collection(book,
-                        src_collection)
+                                                                      src_collection)
                     self._library.book_area.remove_book_at_path(int(path_str))
 
     def _drag_motion(self, treeview, context, x, y, *args):
@@ -392,14 +393,14 @@ class _CollectionArea(Gtk.ScrolledWindow):
         drop_row = treeview.get_dest_row_at_pos(x, y)
         src_collection = self.get_current_collection()
         # Why isn't the drag ID passed along with drag-motion events?
-        if Gtk.drag_get_source_widget(context) is self._treeview: # Moving collection.
+        if Gtk.drag_get_source_widget(context) is self._treeview:  # Moving collection.
             model, src_iter = treeview.get_selection().get_selected()
-            if drop_row is None: # Drop "after" the last row.
+            if drop_row is None:  # Drop "after" the last row.
                 dest_path, pos = (len(model) - 1,), Gtk.TreeViewDropPosition.AFTER
             else:
                 dest_path, pos = drop_row
             dest_iter = model.get_iter(dest_path)
-            if model.is_ancestor(src_iter, dest_iter): # No cycles!
+            if model.is_ancestor(src_iter, dest_iter):  # No cycles!
                 self._set_acceptable_drop(False)
                 self._library.set_status_message('')
                 return
@@ -409,7 +410,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
                     dest_collection)
             if (_COLLECTION_ALL in (src_collection, dest_collection) or
                 _COLLECTION_RECENT in (src_collection, dest_collection) or
-                src_collection == dest_collection):
+                    src_collection == dest_collection):
                 self._set_acceptable_drop(False)
                 self._library.set_status_message('')
                 return
@@ -422,7 +423,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
                     dest_collection)
             message = (_('Put the collection "%(subcollection)s" in the collection "%(supercollection)s".') %
                        {'subcollection': src_name, 'supercollection': dest_name})
-        else: # Moving book(s).
+        else:  # Moving book(s).
             if drop_row is None:
                 self._set_acceptable_drop(False)
                 self._library.set_status_message('')
@@ -434,7 +435,7 @@ class _CollectionArea(Gtk.ScrolledWindow):
                 return
             dest_collection = self._get_collection_at_path(dest_path)
             if (src_collection == dest_collection or
-              dest_collection == _COLLECTION_ALL):
+                    dest_collection == _COLLECTION_ALL):
                 self._set_acceptable_drop(False)
                 self._library.set_status_message('')
                 return

@@ -41,8 +41,9 @@ if tools.use_gui():
 if prefs['try FLIF support']:
     FlifImagePlugin._init_plugin()
 
+
 def _getexif(im):
-    exif={}
+    exif = {}
     try:
         exif.update(im.getexif())
     except AttributeError:
@@ -52,16 +53,16 @@ def _getexif(im):
 
     # Exif of PNG is still buggy in Pillow 6.0.0
     try:
-        l1,l2,size,*lines=im.info.get('Raw profile type exif').splitlines()
-        if l2!='exif':
+        l1, l2, size, *lines = im.info.get('Raw profile type exif').splitlines()
+        if l2 != 'exif':
             # Not valid Exif data.
             return {}
-        size=int(size)
-        data=binascii.unhexlify(''.join(lines))
-        if len(data)!=size:
+        size = int(size)
+        data = binascii.unhexlify(''.join(lines))
+        if len(data) != size:
             # Size not match.
             return {}
-        im.info['exif']=data
+        im.info['exif'] = data
     except:
         # Not valid Exif data.
         return {}
@@ -72,6 +73,7 @@ def _getexif(im):
     except AttributeError:
         pass
     return exif
+
 
 def rotate_pixbuf(src, rotation):
     rotation %= 360
@@ -84,6 +86,7 @@ def rotate_pixbuf(src, rotation):
     if 270 == rotation:
         return src.rotate_simple(GdkPixbuf.PixbufRotation.COUNTERCLOCKWISE)
     raise ValueError('unsupported rotation: %s' % rotation)
+
 
 def get_fitting_size(source_size, target_size,
                      keep_ratio=True, scale_up=False):
@@ -110,15 +113,19 @@ def get_fitting_size(source_size, target_size,
                 width = int(max(src_width * height / src_height, 1))
     return (width, height)
 
-def trans_pixbuf(src,flip=False,flop=False):
+
+def trans_pixbuf(src, flip=False, flop=False):
     if is_animation(src):
         return anime_tools.frame_executor(
             src, trans_pixbuf,
             kwargs=dict(flip=flip, flop=flop)
         )
-    if flip: src = src.flip(horizontal=False)
-    if flop: src = src.flip(horizontal=True)
+    if flip:
+        src = src.flip(horizontal=False)
+    if flop:
+        src = src.flip(horizontal=True)
     return src
+
 
 def fit_pixbuf_to_rectangle(src, rect, rotation):
     if is_animation(src):
@@ -130,6 +137,7 @@ def fit_pixbuf_to_rectangle(src, rect, rotation):
                             rotation=rotation,
                             keep_ratio=False,
                             scale_up=True)
+
 
 def fit_in_rectangle(src, width, height, keep_ratio=True, scale_up=False,
                      rotation=0, scaling_quality=None):
@@ -192,6 +200,7 @@ def fit_in_rectangle(src, width, height, keep_ratio=True, scale_up=False,
 
     return src
 
+
 def add_border(pixbuf, thickness, colour=0x000000FF):
     '''Return a pixbuf from <pixbuf> with a <thickness> px border of
     <colour> added.
@@ -201,7 +210,7 @@ def add_border(pixbuf, thickness, colour=0x000000FF):
                                   pixbuf.get_height() + thickness * 2)
     canvas.fill(colour)
     pixbuf.copy_area(0, 0, pixbuf.get_width(), pixbuf.get_height(),
-        canvas, thickness, thickness)
+                     canvas, thickness, thickness)
     return canvas
 
 
@@ -262,7 +271,7 @@ def get_most_common_edge_color(pixbufs, edge=2):
                     color_count_in_prominent_group = color_count_in_group
 
                 group = rounded
-                colors_in_group = [ (count, color) ]
+                colors_in_group = [(count, color)]
                 color_count_in_group = count
 
         # Cleanup if only one edge color group was found
@@ -316,7 +325,8 @@ def get_most_common_edge_color(pixbufs, edge=2):
     # Sum up colors from all edges
     ungrouped_colors.sort(key=operator.itemgetter(1))
     most_used = group_colors(ungrouped_colors)
-    return [color/255 for color in most_used]
+    return [color / 255 for color in most_used]
+
 
 def pil_to_pixbuf(im, keep_orientation=False):
     '''Return a pixbuf created from the PIL <im>.'''
@@ -342,6 +352,7 @@ def pil_to_pixbuf(im, keep_orientation=False):
             setattr(pixbuf, 'orientation', str(orientation))
     return pixbuf
 
+
 def pixbuf_to_pil(pixbuf):
     '''Return a PIL image created from <pixbuf>.'''
     dimensions = pixbuf.get_width(), pixbuf.get_height()
@@ -351,22 +362,26 @@ def pixbuf_to_pil(pixbuf):
     im = Image.frombuffer(mode, dimensions, pixels, 'raw', mode, stride, 1)
     return im
 
+
 def is_animation(pixbuf):
     return isinstance(pixbuf, GdkPixbuf.PixbufAnimation)
 
+
 def disable_transform(pixbuf):
     if is_animation(pixbuf):
-        if not hasattr(pixbuf,'_framebuffer'):
+        if not hasattr(pixbuf, '_framebuffer'):
             return True
         if not prefs['animation transform']:
             return True
     return False
+
 
 def static_image(pixbuf):
     ''' Returns a non-animated version of the specified pixbuf. '''
     if is_animation(pixbuf):
         return pixbuf.get_static_image()
     return pixbuf
+
 
 def unwrap_image(image):
     ''' Returns an object that contains the image data based on
@@ -391,31 +406,34 @@ def unwrap_image(image):
         return image.get_icon_set()
     raise ValueError()
 
+
 def set_from_pixbuf(image, pixbuf):
     if is_animation(pixbuf):
         return image.set_from_animation(pixbuf)
     else:
         return image.set_from_pixbuf(pixbuf)
 
+
 def load_animation(im):
-    if im.format=='GIF' and im.mode=='P':
+    if im.format == 'GIF' and im.mode == 'P':
         # TODO: Pillow has bug with gif animation
         # https://github.com/python-pillow/Pillow/labels/GIF
         raise NotImplementedError('Pillow has bug with gif animation, '
                                   'fallback to GdkPixbuf')
-    anime=anime_tools.AnimeFrameBuffer(im.n_frames,loop=im.info['loop'])
-    background=im.info.get('background',None)
-    if isinstance(background,tuple):
-        color=0
-        for n,c in enumerate(background):
-            color|=c<<n*8
-        background=color
-    frameiter=ImageSequence.Iterator(im)
-    for n,frame in enumerate(frameiter):
-        anime.add_frame(n,pil_to_pixbuf(frame),
-                        int(frame.info.get('duration',0)),
+    anime = anime_tools.AnimeFrameBuffer(im.n_frames, loop=im.info['loop'])
+    background = im.info.get('background', None)
+    if isinstance(background, tuple):
+        color = 0
+        for n, c in enumerate(background):
+            color |= c << n * 8
+        background = color
+    frameiter = ImageSequence.Iterator(im)
+    for n, frame in enumerate(frameiter):
+        anime.add_frame(n, pil_to_pixbuf(frame),
+                        int(frame.info.get('duration', 0)),
                         background=background)
     return anime.create_animation()
+
 
 def load_pixbuf(path):
     ''' Loads a pixbuf from a given image file. '''
@@ -425,7 +443,7 @@ def load_pixbuf(path):
             with Image.open(fio) as im:
                 # make sure n_frames loaded
                 im.load()
-                if enable_anime and getattr(im,'is_animated',False):
+                if enable_anime and getattr(im, 'is_animated', False):
                     return load_animation(im)
                 return pil_to_pixbuf(im, keep_orientation=True)
     except:
@@ -436,6 +454,7 @@ def load_pixbuf(path):
             return pixbuf.get_static_image()
         return pixbuf
     return GdkPixbuf.Pixbuf.new_from_file(path)
+
 
 def load_pixbuf_size(path, width, height):
     ''' Loads a pixbuf from a given image file and scale it to fit
@@ -466,6 +485,7 @@ def load_pixbuf_size(path, width, height):
         return fit_in_rectangle(pixbuf, width, height,
                                 scaling_quality=GdkPixbuf.InterpType.BILINEAR)
 
+
 def load_pixbuf_data(imgdata):
     ''' Loads a pixbuf from the data passed in <imgdata>. '''
     try:
@@ -477,6 +497,7 @@ def load_pixbuf_data(imgdata):
     loader.write(imgdata)
     loader.close()
     return loader.get_pixbuf()
+
 
 def enhance(pixbuf, brightness=1.0, contrast=1.0, saturation=1.0,
             sharpness=1.0, autocontrast=False):
@@ -508,6 +529,7 @@ def enhance(pixbuf, brightness=1.0, contrast=1.0, saturation=1.0,
         im = ImageEnhance.Sharpness(im).enhance(sharpness)
     return pil_to_pixbuf(im)
 
+
 def get_implied_rotation(pixbuf):
     '''Return the implied rotation in degrees: 0, 90, 180, or 270.
 
@@ -528,7 +550,8 @@ def get_implied_rotation(pixbuf):
         return 270
     return 0
 
-def combine_pixbufs( pixbuf1, pixbuf2, are_in_manga_mode ):
+
+def combine_pixbufs(pixbuf1, pixbuf2, are_in_manga_mode):
     if are_in_manga_mode:
         r_source_pixbuf = pixbuf1
         l_source_pixbuf = pixbuf2
@@ -560,8 +583,8 @@ def combine_pixbufs( pixbuf1, pixbuf2, are_in_manga_mode ):
                                        width=new_width, height=new_height)
 
     l_source_pixbuf.copy_area(0, 0, l_source_pixbuf_width,
-                               l_source_pixbuf_height,
-                               new_pix_buf, 0, 0)
+                              l_source_pixbuf_height,
+                              new_pix_buf, 0, 0)
 
     r_source_pixbuf.copy_area(0, 0, r_source_pixbuf_width,
                               r_source_pixbuf_height,
@@ -569,15 +592,19 @@ def combine_pixbufs( pixbuf1, pixbuf2, are_in_manga_mode ):
 
     return new_pix_buf
 
+
 def convert_rgb16list_to_rgba8int(c):
     return 0x000000FF | (c[0] >> 8 << 24) | (c[1] >> 8 << 16) | (c[2] >> 8 << 8)
+
 
 def rgb_to_y_601(color):
     return color[0] * 0.299 + color[1] * 0.587 + color[2] * 0.114
 
+
 def text_color_for_background_color(bgcolor):
     return GTK_GDK_COLOR_BLACK if rgb_to_y_601(bgcolor) >= \
         65535.0 / 2.0 else GTK_GDK_COLOR_WHITE
+
 
 def get_image_info(path):
     '''Return image informations:
@@ -598,44 +625,48 @@ def get_image_info(path):
         info = (_('Unknown filetype'), 0, 0)
     return info
 
-SUPPORTED_IMAGE_EXTS=set()
-SUPPORTED_IMAGE_MIMES=set()
-SUPPORTED_IMAGE_FORMATS={}
+
+SUPPORTED_IMAGE_EXTS = set()
+SUPPORTED_IMAGE_MIMES = set()
+SUPPORTED_IMAGE_FORMATS = {}
+
 
 def init_supported_formats():
     # formats supported by PIL
     # Make sure all supported formats are registered.
     Image.init()
-    for ext,name in Image.EXTENSION.items():
-        fmt=SUPPORTED_IMAGE_FORMATS.setdefault(name,(set(),set()))
+    for ext, name in Image.EXTENSION.items():
+        fmt = SUPPORTED_IMAGE_FORMATS.setdefault(name, (set(), set()))
         fmt[1].add(ext.lower())
-        mime=Image.MIME.get(
-            name, Gio.content_type_guess(filename='file'+ext)[0]).lower()
+        mime = Image.MIME.get(
+            name, Gio.content_type_guess(filename='file' + ext)[0]).lower()
         if mime and mime != 'application/octet-stream':
             fmt[0].add(mime)
 
     # formats supported by gdk-pixbuf
     for gdkfmt in GdkPixbuf.Pixbuf.get_formats():
-        fmt=SUPPORTED_IMAGE_FORMATS.setdefault(
-            gdkfmt.get_name().upper(),(set(),set()))
-        for m in map(lambda s:s.lower(),gdkfmt.get_mime_types()):
+        fmt = SUPPORTED_IMAGE_FORMATS.setdefault(
+            gdkfmt.get_name().upper(), (set(), set()))
+        for m in map(lambda s: s.lower(), gdkfmt.get_mime_types()):
             fmt[0].add(m)
         # get_extensions() return extensions without '.'
-        for e in map(lambda s:'.'+s.lower(),gdkfmt.get_extensions()):
+        for e in map(lambda s: '.' + s.lower(), gdkfmt.get_extensions()):
             fmt[1].add(e)
-            m = Gio.content_type_guess(filename='file'+e)[0].lower()
+            m = Gio.content_type_guess(filename='file' + e)[0].lower()
             if m and m != 'application/octet-stream':
                 fmt[0].add(m)
 
     # cache a supported extensions list
-    for mimes,exts in SUPPORTED_IMAGE_FORMATS.values():
+    for mimes, exts in SUPPORTED_IMAGE_FORMATS.values():
         SUPPORTED_IMAGE_EXTS.update(exts)
         SUPPORTED_IMAGE_MIMES.update(mimes)
+
 
 def get_supported_formats():
     if not SUPPORTED_IMAGE_FORMATS:
         init_supported_formats()
     return SUPPORTED_IMAGE_FORMATS
+
 
 def is_image_file(path, check_mimetype=False):
     # if check_mimetype is True,

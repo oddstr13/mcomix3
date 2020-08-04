@@ -6,6 +6,7 @@ from threading import Lock
 
 __all__ = ['get_pixbuf_cache']
 
+
 class _PixbufCache(object):
 
     ''' Pixbuf cache for the library window. Instead of loading book covers
@@ -49,6 +50,7 @@ class _PixbufCache(object):
 
 
 _cache = None
+
 
 def get_pixbuf_cache():
     global _cache

@@ -14,6 +14,7 @@ from mcomix import i18n
 from mcomix import log
 from mcomix.preferences import prefs
 
+
 def get_file_provider(filelist):
     ''' Initialize a FileProvider with the files in <filelist>.
     If len(filelist) is 1, a OrderedFileProvider will be constructed, which
@@ -32,15 +33,15 @@ def get_file_provider(filelist):
         else:
             provider = PreDefinedFileProvider(filelist)
 
-
     elif (prefs['auto load last file']
-        and os.path.isfile(prefs['path to last file'])):
+          and os.path.isfile(prefs['path to last file'])):
         provider = OrderedFileProvider(prefs['path to last file'])
 
     else:
         provider = None
 
     return provider
+
 
 class FileProvider(object):
     ''' Base class for various file listing strategies. '''
@@ -78,7 +79,7 @@ class FileProvider(object):
             tools.alphanumeric_sort(files)
         elif prefs['sort by'] == constants.SORT_LAST_MODIFIED:
             # Most recently modified file first
-            files.sort(key=lambda filename: os.path.getmtime(filename)*-1)
+            files.sort(key=lambda filename: os.path.getmtime(filename) * -1)
         elif prefs['sort by'] == constants.SORT_SIZE:
             # Smallest file first
             files.sort(key=lambda filename: os.stat(filename).st_size)
@@ -126,7 +127,7 @@ class OrderedFileProvider(FileProvider):
         elif mode == FileProvider.ARCHIVES:
             should_accept = archive_tools.is_archive_file
         else:
-            should_accept = lambda file: True
+            def should_accept(file): return True
 
         files = []
         fname_map = {}
@@ -158,7 +159,6 @@ class OrderedFileProvider(FileProvider):
             return True
         else:
             return False
-
 
     def previous_directory(self):
         ''' Switches to the previous sibling directory. Next call to
@@ -206,7 +206,6 @@ class PreDefinedFileProvider(FileProvider):
 
             elif should_accept(file):
                 self.__files.append(os.path.abspath(file))
-
 
     def list_files(self, mode=FileProvider.IMAGES):
         ''' Returns the files as passed to the constructor. '''

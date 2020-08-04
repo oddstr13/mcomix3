@@ -5,6 +5,7 @@ from gi.repository import Gdk, Gtk
 
 from mcomix import tools
 
+
 class _CommentArea(Gtk.VBox):
 
     '''The area used for displaying and handling non-image files.'''
@@ -59,7 +60,7 @@ class _CommentArea(Gtk.VBox):
         '''Load all comments in the archive.'''
 
         for num in range(1,
-          self._edit_dialog.file_handler.get_number_of_comments() + 1):
+                         self._edit_dialog.file_handler.get_number_of_comments() + 1):
 
             path = self._edit_dialog.file_handler.get_comment_name(num)
             size = tools.format_byte_size(os.stat(path).st_size)

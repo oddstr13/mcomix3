@@ -20,6 +20,7 @@ _dialog = None
 # but is represented by this ID in the library's TreeModels.
 _COLLECTION_ALL = -1
 
+
 class _LibraryDialog(Gtk.Window):
 
     '''The library window. Automatically creates and uses a new
@@ -48,11 +49,11 @@ class _LibraryDialog(Gtk.Window):
 
         table = Gtk.Table(n_rows=2, n_columns=2, homogeneous=False)
         table.attach(self.collection_area, 0, 1, 0, 1, Gtk.AttachOptions.FILL,
-            Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL)
-        table.attach(self.book_area, 1, 2, 0, 1, Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL,
-            Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL)
-        table.attach(self.control_area, 0, 2, 1, 2, Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL,
-            Gtk.AttachOptions.FILL)
+                     Gtk.AttachOptions.EXPAND | Gtk.AttachOptions.FILL)
+        table.attach(self.book_area, 1, 2, 0, 1, Gtk.AttachOptions.EXPAND | Gtk.AttachOptions.FILL,
+                     Gtk.AttachOptions.EXPAND | Gtk.AttachOptions.FILL)
+        table.attach(self.control_area, 0, 2, 1, 2, Gtk.AttachOptions.EXPAND | Gtk.AttachOptions.FILL,
+                     Gtk.AttachOptions.FILL)
 
         if prefs['show statusbar']:
             table.attach(self._statusbar, 0, 2, 2, 3, Gtk.AttachOptions.FILL, Gtk.AttachOptions.FILL)
@@ -64,7 +65,7 @@ class _LibraryDialog(Gtk.Window):
     def open_book(self, books, keep_library_open=False):
         '''Open the book with ID <book>.'''
 
-        paths = [ self.backend.get_book_path(book) for book in books ]
+        paths = [self.backend.get_book_path(book) for book in books]
 
         if not keep_library_open:
             self.hide()
@@ -142,7 +143,7 @@ class _LibraryDialog(Gtk.Window):
         else:
             collection = self.backend.get_collection_by_name(collection_name)
 
-            if collection is None: # Collection by that name doesn't exist.
+            if collection is None:  # Collection by that name doesn't exist.
                 self.backend.add_collection(collection_name)
                 collection = self.backend.get_collection_by_name(
                     collection_name)

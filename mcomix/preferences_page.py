@@ -4,6 +4,7 @@ from gi.repository import Gtk
 
 from mcomix import preferences_section
 
+
 class _PreferencePage(Gtk.VBox):
 
     '''The _PreferencePage is a conveniece class for making one "page"

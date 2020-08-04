@@ -5,6 +5,7 @@ from gi.repository import GLib, Gtk
 from mcomix.lib import mt
 from mcomix.preferences import prefs
 
+
 class Slideshow(object):
 
     '''Slideshow handler that manages starting and stopping of slideshows.'''
@@ -47,12 +48,12 @@ class Slideshow(object):
         '''Toggle a slideshow on or off.'''
         if action.get_active():
             self.start()
-            self._window.uimanager.get_widget('/Tool/slideshow').set_stock_id( Gtk.STOCK_MEDIA_STOP )
-            self._window.uimanager.get_widget('/Tool/slideshow').set_tooltip_text( _('Stop slideshow')  )
+            self._window.uimanager.get_widget('/Tool/slideshow').set_stock_id(Gtk.STOCK_MEDIA_STOP)
+            self._window.uimanager.get_widget('/Tool/slideshow').set_tooltip_text(_('Stop slideshow'))
         else:
             self.stop()
-            self._window.uimanager.get_widget('/Tool/slideshow').set_stock_id( Gtk.STOCK_MEDIA_PLAY )
-            self._window.uimanager.get_widget('/Tool/slideshow').set_tooltip_text( _('Start slideshow') )
+            self._window.uimanager.get_widget('/Tool/slideshow').set_stock_id(Gtk.STOCK_MEDIA_PLAY)
+            self._window.uimanager.get_widget('/Tool/slideshow').set_tooltip_text(_('Start slideshow'))
 
     def update_delay(self):
         '''Update the delay time a started slideshow is using.'''

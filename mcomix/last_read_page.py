@@ -11,7 +11,7 @@ try:
     import sqlite3
     log.debug('SQLite: {0.sqlite_version} sqlite3 version: {0.version}'.format(sqlite3))
 except ImportError:
-    log.warning( _('! Could find sqlite3.') )
+    log.warning(_('! Could find sqlite3.'))
     sqlite3 = None
 
 
@@ -111,7 +111,7 @@ class LastReadPage(object):
                  JOIN recent r ON r.book = c.book
                  WHERE c.collection = ?'''
         cursor = self.backend.execute(sql,
-            (self.backend.get_recent_collection().id,))
+                                      (self.backend.get_recent_collection().id,))
         for book in cursor.fetchall():
             self.backend.remove_book(book)
         cursor.execute('''DELETE FROM recent''')
