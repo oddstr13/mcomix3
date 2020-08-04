@@ -292,7 +292,7 @@ class FileHandler(object):
         archive_images = [image for image in files
                           if image_tools.is_image_file(image)
                           # Remove MacOS meta files from image list
-                          and not '__MACOSX' in os.path.normpath(image).split(os.sep)]
+                          and '__MACOSX' not in os.path.normpath(image).split(os.sep)]
 
         self._sort_archive_images(archive_images)
         image_files = [os.path.join(self._tmp_dir, f)

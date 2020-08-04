@@ -245,7 +245,7 @@ class ImageHandler(object):
             index_list = [page - 1]
 
         for index in index_list:
-            if not index in self._available_images:
+            if index not in self._available_images:
                 return False
 
         return True

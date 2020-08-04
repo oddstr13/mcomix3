@@ -556,7 +556,7 @@ for test, attr in xfail_list:
         'ArchiveFormat%sTest' % test,
         'RecursiveArchiveFormat%sTest' % test,
     ):
-        if not name in globals():
+        if name not in globals():
             continue
         klass = globals()[name]
         setattr(klass, attr, unittest.expectedFailure(getattr(klass, attr)))
