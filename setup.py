@@ -1,8 +1,7 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-exit(print('setup.py is not working. Use:\n\npython3 mcomix/mcomixstarter.py "<diretory, archive or image>"\n') or 1)
+from __future__ import absolute_import
 
 """ MComix installation routines.
 
@@ -16,6 +15,7 @@ Example usage:
 
 import os
 import glob
+
 import setuptools
 
 from mcomix import constants
@@ -37,36 +37,51 @@ def get_data_patterns(directory, *patterns):
     os.chdir(olddir)
     return allfiles
 
+
 # Filter unnecessary image files. Replace wildcard pattern with actual files.
 images = get_data_patterns('mcomix/images', '*.png')
 images.remove('*.png')
-images.extend([ os.path.basename(img)
+images.extend([
+    os.path.basename(img)
     for img in glob.glob(os.path.join(constants.BASE_PATH, 'mcomix/images', '*.png'))
-    if os.path.basename(img) not in
-        ('mcomix-large.png', )])
+    if os.path.basename(img) not in ('mcomix-large.png', )
+])
 
 setuptools.setup(
-    name = constants.APPNAME.lower(),
-    version = constants.VERSION,
-    packages = ['mcomix', 'mcomix.archive', 'mcomix.library', 'mcomix.win32'],
-    package_data = {
-        'mcomix' : get_data_patterns('mcomix/messages', '*.mo') + images,
+    name=constants.APPNAME.lower(),
+    version=constants.VERSION,
+    packages=[
+        'mcomix',
+        'mcomix.archive',
+        'mcomix.library',
+        'mcomix.win32'
+    ],
+    package_data={
+        'mcomix': get_data_patterns('mcomix/messages', '*.mo') + images,
     },
-    entry_points = {
-        'console_scripts' : [ 'mcomix = mcomix.run:run' ],
-        'setuptools.installation': [ 'eggsecutable=mcomix.run:run' ],
+    entry_points={
+        'console_scripts': [
+            'mcomix = mcomix.run:run',
+            'comicthumb = mcomix.comicthumb:main'
+        ],
+        'setuptools.installation': ['eggsecutable=mcomix.run:run'],
     },
-    test_suite = "test",
-    requires = ['pygtk (>=2.12.0)', 'PIL (>=1.15)'],
-    install_requires = ['setuptools'],
-    zip_safe = False,
+    test_suite="test",
+    requires=[
+        'pygtk (>=2.12.0)',
+        'PIL (>=1.15)'
+    ],
+    install_requires=[
+        'setuptools'
+    ],
+    zip_safe=False,
 
     # Various MIME files that need to be copied to certain system locations on Linux.
     # Note that these files are only installed correctly if
     # --single-version-externally-managed is used as argument to "setup.py install".
     # Otherwise, these files end up in a MComix egg directory in site-packages.
     # (Thank you, setuptools!)
-    data_files = [
+    data_files=[
         ('share/man/man1', ['mcomix.1.gz']),
         ('share/applications', ['mime/mcomix.desktop']),
         ('share/appdata', ['mime/mcomix.appdata.xml']),
@@ -98,19 +113,21 @@ setuptools.setup(
              'mime/icons/48x48/application-x-cbt.png'])],
 
     # Package metadata
-    maintainer = 'Ark',
-    maintainer_email = 'https://sourceforge.net/u/aaku/profile/',
-    url = 'http://mcomix.sourceforge.net',
-    description = 'GTK comic book viewer',
-    long_description = 'MComix is a user-friendly, customizable image viewer. '
-        'It is specifically designed to handle comic books (both Western comics and manga) '
-        'and supports a variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF). '
-        'MComix is a fork of Comix.',
-    license = "License :: OSI Approved :: GNU General Public License (GPL)",
-    download_url = "http://sourceforge.net/projects/mcomix/files",
-    platforms = ['Operating System :: POSIX :: Linux',
-        'Operating System :: Microsoft :: Windows',
-        'Operating System :: POSIX :: BSD'],
+    maintainer='Ark',
+    maintainer_email='https://sourceforge.net/u/aaku/profile/',
+    url='http://mcomix.sourceforge.net',
+    description='GTK comic book viewer',
+    long_description="""
+MComix is a user-friendly, customizable image viewer.
+It is specifically designed to handle comic books (both Western comics and manga)
+and supports a variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF).
+MComix is a fork of Comix.
+    """,
+    license="License :: OSI Approved :: GNU General Public License (GPL)",
+    download_url="http://sourceforge.net/projects/mcomix/files",
+    platforms=[
+        'Operating System :: POSIX :: Linux',
+        # 'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX :: BSD',
+    ],
 )
-
-# vim: expandtab:sw=4:ts=4
