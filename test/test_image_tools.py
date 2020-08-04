@@ -1,12 +1,16 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
 import binascii
 import os
 import sys
 import tempfile
 from collections import namedtuple
-from cStringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ModuleNotFoundError:
+    from io import BytesIO as StringIO
 from difflib import unified_diff
 
 from gi.repository import GdkPixbuf, GObject
@@ -109,8 +113,10 @@ def xhexdump(data, group_size=4):
     io = StringIO(data)
     chunk_size = group_size * 8
     prev_addr, prev_hex = (0, '')
+
     def format_line(addr, hex):
         return '%07x: %s' % (addr, hex)
+
     while True:
         chunk = io.read(chunk_size)
         if not chunk:

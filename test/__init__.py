@@ -73,27 +73,26 @@ class MComixTest(unittest.TestCase):
         prefs.update(default_prefs)
 
     def tearDown(self):
-        name = '.'.join((
-            self.__module__.split('.')[-1],
-            self.__class__.__name__,
-            self._testMethodName))
-        failed = False
-        if hasattr(self._resultForDoCleanups, '_excinfo'):
-            # When running under py.test2
-            exclist = self._resultForDoCleanups._excinfo
-            if exclist is not None:
-                for exc in exclist:
-                    if 'XFailed' != exc.typename:
-                        failed = True
-                        break
-        if hasattr(self._resultForDoCleanups, 'failures'):
-            # When running under nosetest2
-            for failure, traceback in self._resultForDoCleanups.failures:
-                if failure.id() == self.id():
-                    failed = True
-                    break
-        if not failed:
+        if hasattr(self, '_outcome'):  # Python 3.4+
+            result = self.defaultTestResult()  # these 2 methods have no side effects
+            if self._outcome is not None:
+                self._feedErrorsToResult(result, self._outcome.errors)
+        else:  # Python 3.2 - 3.3 or 3.0 - 3.1 and 2.7
+            result = getattr(self, '_outcomeForDoCleanups', self._resultForDoCleanups)
+
+        if result is None:
+            ok = False
+        else:
+            error = self.list2reason(result.errors)
+            failure = self.list2reason(result.failures)
+            ok = not error and not failure
+
+        if ok:
             shutil.rmtree(self.tmp_dir)
+
+    def list2reason(self, exc_list):
+        if exc_list and exc_list[-1][0] is self:
+            return exc_list[-1][1]
 
 # Helper to get path to testsuite sample files.
 

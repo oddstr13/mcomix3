@@ -1,5 +1,6 @@
 
 from __future__ import absolute_import
+
 import os
 import shutil
 import stat
@@ -15,13 +16,13 @@ if 'win32' == sys.platform:
     def _is_valid_exe(name):
         return (name.endswith('.exe') and
                 os.path.isabs(name) and
-                os.path.isfile(exe))
+                os.path.isfile(name))
 
 else:
     def _is_valid_exe(name):
         return (os.path.isabs(name) and
                 os.path.isfile(name) and
-                os.access(exe, os.R_OK | os.X_OK))
+                os.access(name, os.R_OK | os.X_OK))
 
 
 def _create_file(path, rights='r'):
@@ -147,7 +148,7 @@ class ProcessTest(MComixTest):
                     if not os.path.isabs(expected):
                         expected = os.path.join(root_dir, expected)
                     expected = os.path.normpath(expected)
-                result = process.find_executable(candidates, workdir=workdir)
+                result = process.find_executable(candidates, workdir=workdir, is_valid_candidate=_is_valid_exe)
                 msg = (
                     'find_executable(%s, workdir=%s) failed; '
                     'returned %s instead of %s' % (

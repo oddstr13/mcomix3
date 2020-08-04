@@ -10,7 +10,6 @@ import sys
 import tempfile
 import unittest
 
-
 from mcomix import process
 from mcomix.archive import (
     archive_recursive,
@@ -20,7 +19,7 @@ from mcomix.archive import (
     rar_external,
     sevenzip_external,
     tar,
-    zip,
+    zip_py,
     zip_external,
 )
 import mcomix
@@ -190,6 +189,8 @@ class ArchiveFormatTest(object):
         super(ArchiveFormatTest, self).setUp()
         self.dest_dir = tempfile.mkdtemp(prefix=u'extract.')
         self.archive = None
+        if not hasattr(self, 'assertItemsEqual'):
+            self.assertItemsEqual = self.assertCountEqual
 
     def tearDown(self):
         if self.archive is not None:
@@ -274,7 +275,7 @@ for name, handler, is_available, format, not_solid, solid, password, header_encr
     ('tar (bzip2)', tar.TarArchive, True, 'tar.bz2', False, True, False, False),
     ('rar (external)', rar_external.RarArchive, rar_external.RarArchive.is_available(), 'rar', True, True, True, True),
     ('rar (dll)', rar.RarArchive, rar.RarArchive.is_available(), 'rar', True, True, True, True),
-    ('zip', zip.ZipArchive, True, 'zip', True, False, True, False),
+    ('zip (zipfile)', zip_py.ZipArchive, True, 'zip', True, False, True, False),
     ('zip (external)', zip_external.ZipArchive, zip_external.ZipArchive.is_available(), 'zip', True, False, True, False),
 ):
     base_class_name = 'ArchiveFormat'
@@ -487,8 +488,8 @@ class RecursiveArchiveFormatRarEmbeddedRedAndBluesRarTest(RecursiveArchiveFormat
 
 class RecursiveArchiveFormat7zExternalTarXzTest(RecursiveArchiveFormatTest, MComixTest):
 
-    base_handler = sevenzip_external.TarArchive
-    is_available = sevenzip_external.TarArchive.is_available()
+    base_handler = tar.TarArchive
+    is_available = True
     solid = True
     format = 'tar.xz'
     archive = 'SolidFlat'

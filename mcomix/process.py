@@ -85,6 +85,9 @@ def find_executable(candidates, workdir=None, is_valid_candidate=None):
     it will be checked relative to <workdir>.
     '''
 
+    if workdir is None:
+        workdir = os.getcwd()
+
     if callable(is_valid_candidate):
         is_valid = is_valid_candidate
     else:
@@ -94,10 +97,15 @@ def find_executable(candidates, workdir=None, is_valid_candidate=None):
     for name in candidates:
         path = shutil.which(name)
         if not path:
-            continue
+            if os.path.sep not in name:
+                continue
+            path = os.path.join(workdir, name)
+            if not os.path.exists(path):
+                continue
+        path = os.path.abspath(path)
         if not is_valid(path):
             continue
-        return name
+        return path
 
     return None
 
