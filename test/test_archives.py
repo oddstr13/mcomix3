@@ -145,6 +145,7 @@ def md5(path):
 
 
 class ArchiveFormatTest(object):
+    maxDiff = None
 
     skip = None
     handler = None
@@ -262,7 +263,7 @@ class RecursiveArchiveFormatTest(ArchiveFormatTest):
 
     def handler(self, archive):
         main_archive = self.base_handler(archive)
-        return archive_recursive.RecursiveArchive(main_archive, self.dest_dir)
+        return archive_recursive.RecursiveArchive(main_archive)
 
 
 for name, handler, is_available, format, not_solid, solid, password, header_encryption in (

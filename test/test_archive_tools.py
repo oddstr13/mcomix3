@@ -10,7 +10,7 @@ from . import MComixTest, get_testfile_path
 _EXTENSION_TO_MIME_TYPES = {
     'cbz': constants.ZIP,
     'zip': constants.ZIP,
-    'zip.bz2': constants.ZIP_EXTERNAL,
+    'zip.bz2': constants.ZIP,
     'rar': constants.RAR,
     'tar': constants.TAR,
     'tar.gz': constants.GZIP,

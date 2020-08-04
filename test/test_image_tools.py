@@ -13,13 +13,14 @@ except ModuleNotFoundError:
     from io import BytesIO as StringIO
 from difflib import unified_diff
 
+from six import ensure_text
+from six.moves import range
 from gi.repository import GdkPixbuf, GObject
 from PIL import Image, ImageDraw
 
 from mcomix import image_tools
 from mcomix.preferences import prefs
 from . import MComixTest, get_testfile_path
-from six.moves import range
 
 
 
@@ -128,7 +129,7 @@ def xhexdump(data, group_size=4):
         hex = []
         for s in range(0, chunk_size * 2, group_size * 2):
             hex.append(chunk[s:s + (group_size * 2)])
-        hex = ' '.join(hex)
+        hex = b' '.join(hex)
         if hex != prev_hex:
             if addr > (prev_addr + chunk_size):
                 yield format_line(addr - prev_addr, '*')
@@ -266,11 +267,7 @@ class ImageToolsTest(object):
             self.assertImagesEqual(pixbuf, expected_im, msg=msg)
 
     def test_load_pixbuf_invalid(self):
-        if self.use_pil:
-            exception = IOError
-        else:
-            exception = GObject.GError
-        self.assertRaises(exception, image_tools.load_pixbuf, os.devnull)
+        self.assertRaises(GObject.GError, image_tools.load_pixbuf, os.devnull)
 
     def test_load_pixbuf_size_basic(self):
         # Same as test_load_pixbuf_basic:
@@ -285,6 +282,7 @@ class ImageToolsTest(object):
                 # Avoid complex transparent image, since PIL
                 # and GdkPixbuf may yield different results.
                 continue
+            print(image.name)
             image_path = get_image_path(image.name)
             if self.use_pil:
                 # When using PIL, indexed formats will be
@@ -340,11 +338,7 @@ class ImageToolsTest(object):
                              (image.size[0] / 2, image.size[1] / 2))
 
     def test_load_pixbuf_size_invalid(self):
-        if self.use_pil:
-            exception = IOError
-        else:
-            exception = GObject.GError
-        self.assertRaises(exception, image_tools.load_pixbuf_size, os.devnull, 50, 50)
+        self.assertRaises(GObject.GError, image_tools.load_pixbuf_size, os.devnull, 50, 50)
 
     # Expose a rounding error bug in load_pixbuf_size.
     def test_load_pixbuf_rounding_error(self):
@@ -514,7 +508,7 @@ class ImageToolsTest(object):
                 self.assertEqual(result_size, target_size, msg=msg)
                 # And then check corners.
                 expected_corners_colors = list(corners_colors)
-                for _ in range(1, 1 + (rotation % 360) / 90):
+                for _ in range(1, 1 + (rotation % 360) // 90):
                     expected_corners_colors.insert(0, expected_corners_colors.pop(-1))
                 result_corners_colors = []
                 corner = new_pixbuf((1, 1), False, 0x888888)
@@ -524,9 +518,9 @@ class ImageToolsTest(object):
                     result.copy_area(x, y, 1, 1, corner, 0, 0)
                     color = corner.get_pixels()[0:3]
                     color = binascii.hexlify(color)
-                    if 'ffffff' == color:
+                    if 'ffffff' == ensure_text(color):
                         color = 'white'
-                    elif '000000' == color:
+                    elif '000000' == ensure_text(color):
                         color = 'black'
                     result_corners_colors.append(color)
                     corners_positions.insert(0, corners_positions.pop(-1))
