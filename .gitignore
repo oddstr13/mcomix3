@@ -2,3 +2,5 @@ __pycache__/
 *.mo
 mcomix/portable.txt
 mcomix/profile/
+test/tmp/
+test/tmp.*/
