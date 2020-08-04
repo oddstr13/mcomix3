@@ -61,10 +61,10 @@ setuptools.setup(
     },
     entry_points={
         'console_scripts': [
-            'mcomix = mcomix.run:run',
+            'mcomix = mcomix.__main__:run',
             'comicthumb = mcomix.comicthumb:main'
         ],
-        'setuptools.installation': ['eggsecutable=mcomix.run:run'],
+        'setuptools.installation': ['eggsecutable=mcomix.__main__:run'],
     },
     test_suite="test",
     requires=[
