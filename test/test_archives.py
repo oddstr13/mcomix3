@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from __future__ import absolute_import
 import hashlib
 import locale
 import os
@@ -205,14 +206,14 @@ class ArchiveFormatTest(object):
     def test_list_contents(self):
         self.archive = self.handler(self.archive_path)
         contents = self.archive.list_contents()
-        self.assertItemsEqual(contents, self.archive_contents.keys())
+        self.assertItemsEqual(contents, list(self.archive_contents.keys()))
 
     def test_iter_contents(self):
         self.archive = self.handler(self.archive_path)
         contents = []
         for name in self.archive.iter_contents():
             contents.append(name)
-        self.assertItemsEqual(contents, self.archive_contents.keys())
+        self.assertItemsEqual(contents, list(self.archive_contents.keys()))
 
     def test_is_solid(self):
         self.archive = self.handler(self.archive_path)
@@ -227,7 +228,7 @@ class ArchiveFormatTest(object):
     def test_extract(self):
         self.archive = self.handler(self.archive_path)
         contents = self.archive.list_contents()
-        self.assertItemsEqual(contents, self.archive_contents.keys())
+        self.assertItemsEqual(contents, list(self.archive_contents.keys()))
         # Use out-of-order extraction to try to trip implementation.
         for name in reversed(contents):
             self.archive.extract(name, self.dest_dir)
@@ -240,7 +241,7 @@ class ArchiveFormatTest(object):
     def test_iter_extract(self):
         self.archive = self.handler(self.archive_path)
         contents = self.archive.list_contents()
-        self.assertItemsEqual(contents, self.archive_contents.keys())
+        self.assertItemsEqual(contents, list(self.archive_contents.keys()))
         extracted = []
         for name in self.archive.iter_extract(reversed(contents), self.dest_dir):
             extracted.append(name)
@@ -373,7 +374,7 @@ for name, handler, is_available, format, not_solid, solid, password, header_encr
         if not is_supported:
             continue
         contents = [
-            map(lambda s: s.replace('/', os.sep), names)
+            [s.replace('/', os.sep) for s in names]
             for names in contents
         ]
         for variant, params in base_class_list:

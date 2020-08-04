@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import unittest
 import tempfile
 import shutil
@@ -6,6 +7,7 @@ import os
 from mcomix import constants
 from mcomix.library import backend
 from mcomix.library import backend_types
+import six
 
 
 class CollectionTest(unittest.TestCase):
@@ -30,10 +32,10 @@ class CollectionTest(unittest.TestCase):
         # Add first two archives to no collection, remaining two
         # to subcollections.
         directory = 'test/files/archives'
-        zip_archive = unicode(os.path.join(directory, '01-ZIP-Normal.zip'))
-        tar_archive = unicode(os.path.join(directory, '02-TAR-Normal.tar'))
-        rar_archive = unicode(os.path.join(directory, '03-RAR-Normal.rar'))
-        sz_archive = unicode(os.path.join(directory, '04-7Z-Normal.7z'))
+        zip_archive = six.text_type(os.path.join(directory, '01-ZIP-Normal.zip'))
+        tar_archive = six.text_type(os.path.join(directory, '02-TAR-Normal.tar'))
+        rar_archive = six.text_type(os.path.join(directory, '03-RAR-Normal.rar'))
+        sz_archive = six.text_type(os.path.join(directory, '04-7Z-Normal.7z'))
 
         self.library.add_book(zip_archive, None)
         self.library.add_book(tar_archive, None)
@@ -140,7 +142,7 @@ class WatchListEntryTest(unittest.TestCase):
 
     def test_valid_dir(self):
         tmpdir = os.path.abspath(tempfile.mkdtemp(dir=u'test', prefix=u'tmp.library_types.'))
-        directory = unicode(os.path.abspath('test/files/archives'))
+        directory = six.text_type(os.path.abspath('test/files/archives'))
         available = [u'01-ZIP-Normal.zip', u'02-TAR-Normal.tar']
         others = [u'03-RAR-Normal.rar', u'04-7Z-Normal.7z']
         for entry_list in (available, others):

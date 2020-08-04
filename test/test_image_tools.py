@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from __future__ import absolute_import
 import binascii
 import os
 import sys
@@ -14,6 +15,7 @@ from PIL import Image, ImageDraw
 from mcomix import image_tools
 from mcomix.preferences import prefs
 from . import MComixTest, get_testfile_path
+from six.moves import range
 
 
 

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
 import os
 import sys
+import six
 
 # Useful to be able to run the current testsuite with another MComix version.
 mcomix_path = os.environ.get('MCOMIXPATH', None)
@@ -17,10 +19,10 @@ locale.setlocale(locale.LC_ALL, '')
 # Since some of MComix' modules depend on gettext being installed for _(),
 # add such a function here that simply returns the string passed into it.
 
-import __builtin__
+import six.moves.builtins
 
-if '_' not in __builtin__.__dict__:
-    __builtin__.__dict__['_'] = unicode
+if '_' not in six.moves.builtins.__dict__:
+    six.moves.builtins.__dict__['_'] = six.text_type
 
 # Enable debug logging to make post-mortem analysis easier.
 
@@ -97,4 +99,4 @@ class MComixTest(unittest.TestCase):
 
 
 def get_testfile_path(*components):
-    return unicode(os.path.join(os.path.dirname(__file__), 'files', *components))
+    return six.text_type(os.path.join(os.path.dirname(__file__), 'files', *components))
