@@ -117,7 +117,7 @@ class Thumbnailer(object):
 
     def _create_thumbnail_pixbuf(self, filepath):
         ''' Creates a thumbnail pixbuf from <filepath>, and returns it as a
-        tuple along with a file metadata dictionary: (pixbuf, tEXt_data) '''
+        tuple along with a file metadata dictionary: (pixbuf, text_data) '''
 
         if self.archive_support:
             mime = archive_tools.archive_mime_type(filepath)
@@ -144,22 +144,22 @@ class Thumbnailer(object):
 
                 pixbuf = image_tools.load_pixbuf_size(image_path, self.width, self.height)
                 if self.store_on_disk:
-                    tEXt_data = self._get_text_data(image_path)
+                    text_data = self._get_text_data(image_path)
                     # Use the archive's mTime instead of the extracted file's mtime
-                    tEXt_data['tEXt::Thumb::MTime'] = str(os.stat(filepath).st_mtime)
+                    text_data['tEXt::Thumb::MTime'] = str(os.stat(filepath).st_mtime)
                 else:
-                    tEXt_data = None
+                    text_data = None
 
-                return pixbuf, tEXt_data
+                return pixbuf, text_data
 
         elif image_tools.is_image_file(filepath, check_mimetype=True):
             pixbuf = image_tools.load_pixbuf_size(filepath, self.width, self.height)
             if self.store_on_disk:
-                tEXt_data = self._get_text_data(filepath)
+                text_data = self._get_text_data(filepath)
             else:
-                tEXt_data = None
+                text_data = None
 
-            return pixbuf, tEXt_data
+            return pixbuf, text_data
         else:
             return None, None
 
@@ -167,12 +167,12 @@ class Thumbnailer(object):
         ''' Creates the thumbnail pixbuf for <filepath>, and saves the pixbuf
         to disk if necessary. Returns the created pixbuf, or None, if creation failed. '''
 
-        pixbuf, tEXt_data = self._create_thumbnail_pixbuf(filepath)
+        pixbuf, text_data = self._create_thumbnail_pixbuf(filepath)
         self.thumbnail_finished(filepath, pixbuf)
 
         if pixbuf and self.store_on_disk:
             thumbpath = self._path_to_thumbpath(filepath)
-            self._save_thumbnail(pixbuf, thumbpath, tEXt_data)
+            self._save_thumbnail(pixbuf, thumbpath, text_data)
 
         return pixbuf
 
@@ -195,9 +195,9 @@ class Thumbnailer(object):
             'tEXt::Software': 'MComix %s' % constants.VERSION
         }
 
-    def _save_thumbnail(self, pixbuf, thumbpath, tEXt_data):
+    def _save_thumbnail(self, pixbuf, thumbpath, text_data):
         ''' Saves <pixbuf> as <thumbpath>, with additional metadata
-        from <tEXt_data>. If <thumbpath> already exists, it is overwritten. '''
+        from <text_data>. If <thumbpath> already exists, it is overwritten. '''
 
         try:
             directory = os.path.dirname(thumbpath)
@@ -208,7 +208,7 @@ class Thumbnailer(object):
 
             option_keys = []
             option_values = []
-            for key, value in tEXt_data.items():
+            for key, value in text_data.items():
                 option_keys.append(key)
                 option_values.append(value)
             pixbuf.savev(thumbpath, 'png', option_keys, option_values)

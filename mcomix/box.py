@@ -240,8 +240,8 @@ class Box(object):
         if len(boxes) == 0:
             return []
         result = [None] * len(boxes)
-        initialSum = boxes[fix].get_position()[axis]
-        partial_sum = initialSum
+        initial_sum = boxes[fix].get_position()[axis]
+        partial_sum = initial_sum
         for bi in range(fix, len(boxes)):
             b = boxes[bi]
             s = b.get_size()
@@ -249,7 +249,7 @@ class Box(object):
             p[axis] = partial_sum
             result[bi] = Box(p, s)
             partial_sum += s[axis] + spacing
-        partial_sum = initialSum
+        partial_sum = initial_sum
         for bi in range(fix - 1, -1, -1):
             b = boxes[bi]
             s = b.get_size()
@@ -299,28 +299,28 @@ class Box(object):
         return Box(mins, tools.vector_sub(maxes, mins))
 
     @staticmethod
-    def intersect(boxA, boxB):  # TODO test! docs!
-        aPos = boxA.get_position()
-        bPos = boxB.get_position()
-        aSize = boxA.get_size()
-        bSize = boxB.get_size()
-        resPos = [0] * len(aPos)
-        resSize = [0] * len(aSize)
-        for i in range(len(aPos)):
-            ax1 = aPos[i]
-            bx1 = bPos[i]
+    def intersect(box_a, box_b):  # TODO test! docs!
+        pos_a = box_a.get_position()
+        pos_b = box_b.get_position()
+        size_a = box_a.get_size()
+        size_b = box_b.get_size()
+        pos_res = [0] * len(pos_a)
+        size_res = [0] * len(size_a)
+        for i in range(len(pos_a)):
+            ax1 = pos_a[i]
+            bx1 = pos_b[i]
             ax2 = ax1
-            ax2 += aSize[i]
+            ax2 += size_a[i]
             bx2 = bx1
-            bx2 += bSize[i]
+            bx2 += size_b[i]
             if ax1 < bx1:
                 ax1 = bx1
             if ax2 > bx2:
                 ax2 = bx2
             ax2 -= ax1
-            resPos[i] = ax1
-            resSize[i] = ax2
-        return Box(resPos, resSize)
+            pos_res[i] = ax1
+            size_res[i] = ax2
+        return Box(pos_res, size_res)
 
 
 # vim: expandtab:sw=4:ts=4
