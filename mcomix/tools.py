@@ -10,10 +10,7 @@ import math
 import io
 from functools import reduce
 
-if sys.version_info < (3, 7):
-    from importlib_resources import files
-else:
-    from importlib.resources import files
+from importlib_resources import files
 
 ROOTPATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 _PORTABLE_MODE = []
