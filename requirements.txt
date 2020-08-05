@@ -1,5 +1,6 @@
-chardet (<=3.0)
-six (<=1.11.0)
-Pillow (<=5.2.0)
-PyGObject (<=3.24)
+chardet >= 3.0
+six >= 1.11.0
+Pillow >= 5.2.0
+PyGObject >= 3.24
 # deb gir1.2-gtk-3.0
+importlib_resources; python_version < '3.7'

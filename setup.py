@@ -55,10 +55,7 @@ setup(
         'setuptools.installation': ['eggsecutable=mcomix.__main__:run'],
     },
     test_suite="test",
-    requires=requirements,
-    install_requires=[
-        'setuptools'
-    ],
+    install_requires=requirements,
     zip_safe=False,
 
     # Various MIME files that need to be copied to certain system locations on Linux.
