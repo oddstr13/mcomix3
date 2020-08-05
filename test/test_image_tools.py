@@ -276,14 +276,6 @@ class ImageToolsTest(object):
         # normal resolution.
         prefs['checkered bg for transparent images'] = False
         for image in _TEST_IMAGES:
-            if image.name in (
-                'transparent.png',
-                'transparent-indexed.png',
-            ):
-                # Avoid complex transparent image, since PIL
-                # and GdkPixbuf may yield different results.
-                continue
-            print(image.name)
             image_path = get_image_path(image.name)
             if self.use_pil:
                 # When using PIL, indexed formats will be
@@ -292,12 +284,9 @@ class ImageToolsTest(object):
             else:
                 expected_mode = 'RGBA' if image.has_alpha else 'RGB'
             expected = Image.open(image_path).convert(expected_mode)
-            if image.has_alpha:
-                background = Image.new('RGBA', image.size, color='white')
-                expected = Image.alpha_composite(background, expected)
-            result = image_tools.load_pixbuf_size(image_path,
-                                                  image.size[0],
-                                                  image.size[1])
+
+            result = image_tools.load_pixbuf_size(image_path, *image.size)
+
             msg = (
                 'load_pixbuf("%s") failed; '
                 'result %%(diff_type)s differs: %%(diff)s'
