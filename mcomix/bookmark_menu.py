@@ -18,7 +18,7 @@ class BookmarksMenu(Gtk.Menu):
         super(BookmarksMenu, self).__init__()
 
         self._window = window
-        self._bookmarks_store = bookmark_backend.BookmarksStore
+        self._bookmarks_store = bookmark_backend.bookmarks_store
         self._bookmarks_store.initialize(window)
 
         self._actiongroup = Gtk.ActionGroup(name='mcomix-bookmarks')

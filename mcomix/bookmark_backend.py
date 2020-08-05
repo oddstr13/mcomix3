@@ -18,7 +18,7 @@ from mcomix.preferences import prefs
 from mcomix.i18n import _
 
 
-class __BookmarksStore(object):
+class BookmarksStore(object):
 
     '''The _BookmarksStore is a backend for both the bookmarks menu and dialog.
     Changes in the _BookmarksStore are mirrored in both.
@@ -221,6 +221,6 @@ class __BookmarksStore(object):
 
 
 # Singleton instance of the bookmarks store.
-BookmarksStore = __BookmarksStore()
+bookmarks_store = BookmarksStore()
 
 # vim: expandtab:sw=4:ts=4

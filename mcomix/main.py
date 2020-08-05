@@ -1076,7 +1076,7 @@ class MainWindow(Gtk.Window):
 
         self.filehandler.write_fileinfo_file()
         preferences.write_preferences_file()
-        bookmark_backend.BookmarksStore.write_bookmarks_file()
+        bookmark_backend.bookmarks_store.write_bookmarks_file()
 
         # Write keyboard accelerator map
         keybindings.keybinding_manager(self).save()
