@@ -9,7 +9,7 @@ import tempfile
 from collections import namedtuple
 try:
     from cStringIO import StringIO
-except ModuleNotFoundError:
+except ImportError:
     from io import BytesIO as StringIO
 from difflib import unified_diff
 
