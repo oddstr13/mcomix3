@@ -645,18 +645,18 @@ def _get_latest_event_of_same_type(event):
     as <event>, or <event> itself if no such events are in the queue. All
     events of that type will be removed from the event queue.
     '''
-    return event
+
     events = []
 
-    while Gdk.events_pending():
+    while True:
         queued_event = Gdk.event_get()
+        if queued_event is None:
+            break
 
-        if queued_event is not None:
-
-            if queued_event.type == event.type:
-                event = queued_event
-            else:
-                events.append(queued_event)
+        if queued_event.type == event.type:
+            event = queued_event
+        else:
+            events.append(queued_event)
 
     for queued_event in events:
         queued_event.put()
