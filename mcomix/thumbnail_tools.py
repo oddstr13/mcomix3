@@ -129,6 +129,7 @@ class Thumbnailer(object):
                 if archive is None:
                     return None, None
                 if archive.is_encrypted:
+                    # FIXME: tools.pkg_path is gone, no good way to get path of potentially embedded resources
                     image_path = tools.pkg_path('images', 'encrypted-book.png')
                 else:
                     files = archive.list_contents(decrypt=False)

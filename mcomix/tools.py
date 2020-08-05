@@ -10,6 +10,8 @@ import math
 import io
 from functools import reduce
 
+from importlib_resources import files, as_file
+
 ROOTPATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 _PORTABLE_MODE = []
 _NOGUI = []
@@ -246,13 +248,12 @@ def relpath2root(path, abs_fallback=False):
     return path if abs_fallback else None
 
 
-def pkg_path(*args):
-    return os.path.join(rootdir(), 'mcomix', *args)
+def open_binary(*args):
+    return files(__package__).joinpath(os.path.join(*args)).open(mode='rb')
 
 
 def read_binary(*args):
-    with open(pkg_path(*args), mode='rb') as f:
-        return f.read()
+    return files(__package__).joinpath(os.path.join(*args)).read_bytes()
 
 
 def div(a, b):

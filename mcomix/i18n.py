@@ -110,14 +110,13 @@ def install_gettext():
     domain = constants.APPNAME.lower()
 
     for lang in lang_identifiers:
-        resource_path = tools.pkg_path('messages', lang,
-                                       'LC_MESSAGES', '%s.mo' % domain)
+        resource_path = ['messages', lang, 'LC_MESSAGES', '%s.mo' % domain]
         try:
-            with open(resource_path, mode='rb') as fp:
+            with tools.open_binary(*resource_path) as fp:
                 translation = gettext.GNUTranslations(fp)
             break
         except IOError:
-            log.error('locale file: %s not found.', resource_path)
+            log.error('locale file: %s not found.', os.path.sep.join(resource_path))
     else:
         translation = gettext.NullTranslations()
 

@@ -43,8 +43,8 @@ setup(
     package_data={
         'mcomix': [
             'messages/*/*/*.mo',
-            'images/*.png'
-            'images/*/*.png'
+            'images/*.png',
+            'images/*/*.png',
         ],
     },
     entry_points={
@@ -56,7 +56,7 @@ setup(
     },
     test_suite="test",
     install_requires=requirements,
-    zip_safe=False,
+    zip_safe=True,
 
     # Various MIME files that need to be copied to certain system locations on Linux.
     # Note that these files are only installed correctly if
