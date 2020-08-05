@@ -43,6 +43,7 @@ setup(
     package_data={
         'mcomix': [
             'messages/*/*/*.mo',
+            'images/*.png'
             'images/*/*.png'
         ],
     },
