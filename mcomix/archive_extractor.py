@@ -159,7 +159,8 @@ class Extractor(object):
             return True
         with self._condition:
             self._files.remove(name)
-            self._extracted.add(name)mime    self._condition.notify_all()
+            self._extracted.add(name)
+            self._condition.notify_all()
         self.file_extracted(self, name)
 
     def _extract_all_files(self):
