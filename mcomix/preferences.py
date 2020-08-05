@@ -14,7 +14,6 @@ _prefs_status = {'md5': None}
 prefs = {
     'comment extensions': constants.ACCEPTED_COMMENT_EXTENSIONS,
     'auto load last file': False,
-    'page of last file': 1,
     'path to last file': '',
     'number of key presses before page turn': 3,
     'auto open next archive': True,

@@ -45,7 +45,7 @@ class MainWindow(Gtk.Window):
 
     def __init__(self, fullscreen=False, is_slideshow=slideshow,
                  show_library=False, manga_mode=False, double_page=False,
-                 zoom_mode=None, open_path=None, open_page=1):
+                 zoom_mode=None, open_path=None):
         super(MainWindow, self).__init__(type=Gtk.WindowType.TOPLEVEL)
 
         # ----------------------------------------------------------------
@@ -270,7 +270,6 @@ class MainWindow(Gtk.Window):
             if fileinfo is not None:
 
                 open_path = fileinfo[0]
-                open_page = fileinfo[1] + 1
 
         prefs['previous quit was quit and save'] = False
 
@@ -1130,14 +1129,11 @@ class MainWindow(Gtk.Window):
                 # and currect image is out of same mount point
                 # so do not save as last file
                 prefs['path to last file'] = ''
-                prefs['page of last file'] = 1
             else:
                 prefs['path to last file'] = self.imagehandler.get_real_path()
-                prefs['page of last file'] = self.imagehandler.get_current_page()
 
         else:
             prefs['path to last file'] = ''
-            prefs['page of last file'] = 1
 
         if prefs['hide all'] and self.hide_all_forced and self.fullscreen:
             prefs['hide all'] = False
