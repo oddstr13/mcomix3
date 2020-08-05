@@ -210,7 +210,7 @@ def get_archive_info(path):
     at <path>, or None if <path> doesn't point to a supported
     '''
     mime = archive_mime_type(path)
-    with get_recursive_archive_handler(path, type=mime,
+    with get_recursive_archive_handler(path, mime=mime,
                                        prefix='mcomix_archive_info.') as archive:
         if archive is None:
             return None
@@ -222,28 +222,28 @@ def get_archive_info(path):
         return (mime, num_pages, size)
 
 
-def get_archive_handler(path, type=None):
+def get_archive_handler(path, mime=None):
     ''' Returns a fitting extractor handler for the archive passed
     in <path> (with optional mime type <type>. Returns None if no matching
     extractor was found.
     '''
-    if type is None:
-        type = archive_mime_type(path)
-        if type is None:
+    if mime is None:
+        mime = archive_mime_type(path)
+        if mime is None:
             return None
 
-    handler = _get_handler(type)
+    handler = _get_handler(mime)
     if handler is None:
         return None
 
     return handler(path)
 
 
-def get_recursive_archive_handler(path, type=None, **kwargs):
+def get_recursive_archive_handler(path, mime=None, **kwargs):
     ''' Same as <get_archive_handler> but the handler will transparently handle
     archives within archives.
     '''
-    archive = get_archive_handler(path, type=type)
+    archive = get_archive_handler(path, mime=mime)
     if archive is None:
         return None
     # XXX: Deferred import to avoid circular dependency

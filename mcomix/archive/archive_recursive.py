@@ -17,8 +17,7 @@ class RecursiveArchive(archive_base.BaseArchive):
         super(RecursiveArchive, self).__init__(archive.archive)
         self._main_archive = archive
         self.is_encrypted = self._main_archive.is_encrypted
-        self._tempdir = tempfile.TemporaryDirectory(
-            prefix=prefix, dir=prefs['temporary directory'])
+        self._tempdir = tempfile.TemporaryDirectory(prefix=prefix, dir=prefs['temporary directory'])
         self._sub_tempdirs = []
         self._sub_archives = set()
         self.destdir = self._tempdir.name

@@ -96,7 +96,8 @@ class _EditArchiveDialog(Gtk.Dialog):
         try:
             fd, tmp_path = tempfile.mkstemp(
                 suffix='.%s' % os.path.basename(archive_path),
-                prefix='tmp.', dir=os.path.dirname(archive_path))
+                prefix='tmp.', dir=os.path.dirname(archive_path)
+            )
             # Close open tempfile handle (writing is handled by the packer)
             os.close(fd)
             fail = False

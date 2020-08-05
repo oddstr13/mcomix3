@@ -34,13 +34,13 @@ class _AboutDialog(Gtk.AboutDialog):
             _('It reads ZIP, RAR and tar archives, as well as plain image files.')
         self.set_comments(comment)
 
-        license = \
+        license_text = \
             _('%s is licensed under the terms of the GNU General Public License.') % constants.APPNAME + \
             ' ' + \
             _('A copy of this license can be obtained from %s') % \
             'http://www.gnu.org/licenses/gpl-2.0.html'
         self.set_wrap_license(True)
-        self.set_license(license)
+        self.set_license(license_text)
 
         authors = ['%s: %s' % (name, description) for name, description in strings.AUTHORS]
         self.set_authors(authors)

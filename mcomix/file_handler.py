@@ -38,8 +38,7 @@ class FileHandler(object):
         #: None if current file is not an archive, or unrecognized format.
         self.archive_type = None
 
-        #: Either path to the current archive, or first file in image list.
-        #: This is B{not} the path to the currently open page.
+        #: Either path to the current archive, or first file in image limime   #: This is B{not} the path to the currently open page.
         self._current_file = None
         #: Reference to L{MainWindow}.
         self._window = window

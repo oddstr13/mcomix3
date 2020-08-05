@@ -41,10 +41,10 @@ class ArchiveToolsTest(MComixTest):
 
     def test_archive_mime_type(self):
 
-        dir = get_testfile_path('archives')
-        for filename in os.listdir(dir):
+        dir_name = get_testfile_path('archives')
+        for filename in os.listdir(dir_name):
             ext = '.'.join(filename.split('.')[1:])
-            path = os.path.join(dir, filename)
+            path = os.path.join(dir_name, filename)
             archive_type = archive_tools.archive_mime_type(path)
             expected_type = _EXTENSION_TO_MIME_TYPES.get(ext, '???')
             msg = (

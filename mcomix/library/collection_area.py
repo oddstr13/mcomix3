@@ -305,9 +305,9 @@ class _CollectionArea(Gtk.ScrolledWindow):
         ''' Called to open the control's popup menu via
         keyboard controls. '''
 
-        model, iter = treeview.get_selection().get_selected()
-        if iter is not None:
-            book_path = model.get_path(iter)[0]
+        model, _iter = treeview.get_selection().get_selected()
+        if _iter is not None:
+            book_path = model.get_path(_iter)[0]
             collection = self._get_collection_at_path(book_path)
         else:
             collection = None

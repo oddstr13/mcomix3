@@ -36,9 +36,9 @@ def _create_file(path, rights='r'):
     ):
         if r in rights:
             mode |= m
-    dir = os.path.dirname(path)
-    if not os.path.exists(dir):
-        os.makedirs(dir)
+    dir_name = os.path.dirname(path)
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
     open(path, 'w+b').close()
     os.chmod(path, mode)
 

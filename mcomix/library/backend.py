@@ -322,7 +322,7 @@ class _LibraryBackend(object):
         info = archive_tools.get_archive_info(path)
         if info is None:
             return False
-        format, pages, size = info
+        _format, pages, size = info
 
         # Thumbnail for the newly added book will be generated once it
         # is actually needed with get_book_thumbnail().
@@ -333,17 +333,17 @@ class _LibraryBackend(object):
             if old is not None:
                 cursor.execute('''update Book set
                     name = ?, pages = ?, format = ?, size = ?
-                    where path = ?''', (name, pages, format, size, path))
+                    where path = ?''', (name, pages, _format, size, path))
                 book_id = old
             else:
                 cursor.execute('''insert into Book
                     (name, path, pages, format, size)
                     values (?, ?, ?, ?, ?)''',
-                               (name, path, pages, format, size))
+                               (name, path, pages, _format, size))
                 book_id = cursor.lastrowid
 
                 book = backend_types._Book(book_id, name, path, pages,
-                                           format, size, datetime.datetime.now().isoformat())
+                                           _format, size, datetime.datetime.now().isoformat())
                 self.book_added(book)
 
             cursor.close()

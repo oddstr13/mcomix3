@@ -462,8 +462,8 @@ class _PreferencesDialog(Gtk.Dialog):
         ''' Called whenever the language was changed. '''
         model_index = combobox.get_active()
         if model_index > -1:
-            iter = combobox.get_model().iter_nth_child(None, model_index)
-            text, lang_code = combobox.get_model().get(iter, 0, 1)
+            _iter = combobox.get_model().iter_nth_child(None, model_index)
+            text, lang_code = combobox.get_model().get(_iter, 0, 1)
             prefs['language'] = lang_code
 
     def _create_doublepage_as_one_control(self):
@@ -486,9 +486,9 @@ class _PreferencesDialog(Gtk.Dialog):
 
     def _double_page_changed_cb(self, combobox, *args):
         ''' Called when a new option was selected for the virtual double page option. '''
-        iter = combobox.get_active_iter()
-        if combobox.get_model().iter_is_valid(iter):
-            value = combobox.get_model().get_value(iter, 1)
+        _iter = combobox.get_active_iter()
+        if combobox.get_model().iter_is_valid(_iter):
+            value = combobox.get_model().get_value(_iter, 1)
             prefs['virtual double page for fitting images'] = value
             self._window.draw_image()
 
@@ -506,9 +506,9 @@ class _PreferencesDialog(Gtk.Dialog):
 
     def _fit_to_size_changed_cb(self, combobox, *args):
         ''' Change to 'Fit to size' pixels '''
-        iter = combobox.get_active_iter()
-        if combobox.get_model().iter_is_valid(iter):
-            value = combobox.get_model().get_value(iter, 1)
+        _iter = combobox.get_active_iter()
+        if combobox.get_model().iter_is_valid(_iter):
+            value = combobox.get_model().get_value(_iter, 1)
 
             if prefs['fit to size mode'] != value:
                 prefs['fit to size mode'] = value
@@ -546,18 +546,18 @@ class _PreferencesDialog(Gtk.Dialog):
 
     def _sort_by_changed_cb(self, combobox, *args):
         ''' Called when a new option was selected for the virtual double page option. '''
-        iter = combobox.get_active_iter()
-        if combobox.get_model().iter_is_valid(iter):
-            value = combobox.get_model().get_value(iter, 1)
+        _iter = combobox.get_active_iter()
+        if combobox.get_model().iter_is_valid(_iter):
+            value = combobox.get_model().get_value(_iter, 1)
             prefs['sort by'] = value
 
             self._window.filehandler.refresh_file()
 
     def _sort_order_changed_cb(self, combobox, *args):
         ''' Called when sort order changes (ascending or descending) '''
-        iter = combobox.get_active_iter()
-        if combobox.get_model().iter_is_valid(iter):
-            value = combobox.get_model().get_value(iter, 1)
+        _iter = combobox.get_active_iter()
+        if combobox.get_model().iter_is_valid(_iter):
+            value = combobox.get_model().get_value(_iter, 1)
             prefs['sort order'] = value
 
             self._window.filehandler.refresh_file()
@@ -595,18 +595,18 @@ class _PreferencesDialog(Gtk.Dialog):
 
     def _sort_archive_by_changed_cb(self, combobox, *args):
         ''' Called when a new option was selected for the virtual double page option. '''
-        iter = combobox.get_active_iter()
-        if combobox.get_model().iter_is_valid(iter):
-            value = combobox.get_model().get_value(iter, 1)
+        _iter = combobox.get_active_iter()
+        if combobox.get_model().iter_is_valid(_iter):
+            value = combobox.get_model().get_value(_iter, 1)
             prefs['sort archive by'] = value
 
             self._window.filehandler.refresh_file()
 
     def _sort_archive_order_changed_cb(self, combobox, *args):
         ''' Called when sort order changes (ascending or descending) '''
-        iter = combobox.get_active_iter()
-        if combobox.get_model().iter_is_valid(iter):
-            value = combobox.get_model().get_value(iter, 1)
+        _iter = combobox.get_active_iter()
+        if combobox.get_model().iter_is_valid(_iter):
+            value = combobox.get_model().get_value(_iter, 1)
             prefs['sort archive order'] = value
 
             self._window.filehandler.refresh_file()
@@ -632,11 +632,11 @@ class _PreferencesDialog(Gtk.Dialog):
 
     def _store_recent_changed_cb(self, combobox, *args):
         ''' Called when option "Store recently opened files" was changed. '''
-        iter = combobox.get_active_iter()
-        if not combobox.get_model().iter_is_valid(iter):
+        _iter = combobox.get_active_iter()
+        if not combobox.get_model().iter_is_valid(_iter):
             return
 
-        value = combobox.get_model().get_value(iter, 1)
+        value = combobox.get_model().get_value(_iter, 1)
         last_value = prefs['store recent file info']
         prefs['store recent file info'] = value
         self._window.filehandler.last_read_page.set_enabled(value)
@@ -679,9 +679,9 @@ class _PreferencesDialog(Gtk.Dialog):
 
     def _scaling_quality_changed_cb(self, combobox, *args):
         ''' Called whan image scaling quality changes. '''
-        iter = combobox.get_active_iter()
-        if combobox.get_model().iter_is_valid(iter):
-            value = combobox.get_model().get_value(iter, 1)
+        _iter = combobox.get_active_iter()
+        if combobox.get_model().iter_is_valid(_iter):
+            value = combobox.get_model().get_value(_iter, 1)
             last_value = prefs['scaling quality']
             prefs['scaling quality'] = value
 
@@ -707,9 +707,9 @@ class _PreferencesDialog(Gtk.Dialog):
 
     def _animation_mode_changed_cb(self, combobox, *args):
         ''' Called whenever animation mode has been changed. '''
-        iter = combobox.get_active_iter()
-        if combobox.get_model().iter_is_valid(iter):
-            value = combobox.get_model().get_value(iter, 1)
+        _iter = combobox.get_active_iter()
+        if combobox.get_model().iter_is_valid(_iter):
+            value = combobox.get_model().get_value(_iter, 1)
             last_value = prefs['animation mode']
             prefs['animation mode'] = value
 
@@ -741,13 +741,13 @@ class _PreferencesDialog(Gtk.Dialog):
         box.add_attribute(renderer, 'text', 0)
 
         # Set active box option
-        iter = model.get_iter_first()
-        while iter:
-            if model.get_value(iter, 1) == selected_value:
-                box.set_active_iter(iter)
+        _iter = model.get_iter_first()
+        while _iter:
+            if model.get_value(_iter, 1) == selected_value:
+                box.set_active_iter(_iter)
                 break
             else:
-                iter = model.iter_next(iter)
+                _iter = model.iter_next(_iter)
 
         if change_callback:
             box.connect('changed', change_callback)

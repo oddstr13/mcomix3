@@ -75,9 +75,9 @@ class ThumbnailViewBase(object):
             model = self.get_model()
             required &= set(range(len(model)))  # filter invalid paths.
             for path in required:
-                iter = model.get_iter(path)
+                _iter = model.get_iter(path)
                 uid, generated = model.get(
-                    iter, self._uid_column, self._status_column)
+                    _iter, self._uid_column, self._status_column)
                 # Do not queue again if thumbnail was already created.
                 if generated:
                     continue
@@ -86,7 +86,7 @@ class ThumbnailViewBase(object):
                 self._taskid = taskid
                 self._done.add(uid)
                 self._threadpool.apply_async(
-                    self._pixbuf_worker, args=(uid, iter, model),
+                    self._pixbuf_worker, args=(uid, _iter, model),
                     callback=functools.partial(
                         self._pixbuf_finished, taskid=taskid))
         finally:
@@ -108,10 +108,10 @@ class ThumbnailViewBase(object):
         with self._lock:
             if self._taskid != taskid:
                 return
-            iter, pixbuf, model = params
+            _iter, pixbuf, model = params
             GLib.idle_add(
                 model.set,
-                iter, self._status_column, True, self._pixbuf_column, pixbuf)
+                _iter, self._status_column, True, self._pixbuf_column, pixbuf)
 
 
 class ThumbnailIconView(Gtk.IconView, ThumbnailViewBase):

@@ -559,8 +559,8 @@ class _BookArea(Gtk.ScrolledWindow):
         paths = self._iconview.get_selected_items()
         if len(paths) == 1:
             model = self._iconview.get_model()
-            iter = model.get_iter(paths[0])
-            cover_pixbuf = model.get_value(iter, 0)
+            _iter = model.get_iter(paths[0])
+            cover_pixbuf = model.get_value(_iter, 0)
 
             self._library._window.clipboard.copy_cover(cover_pixbuf)
 

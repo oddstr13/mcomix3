@@ -92,19 +92,19 @@ class KeybindingEditorWindow(Gtk.ScrolledWindow):
 
     def get_on_accel_edited(self, column):
         def on_accel_edited(renderer, path, accel_key, accel_mods, hardware_keycode):
-            iter = self.treestore.get_iter(path)
+            _iter = self.treestore.get_iter(path)
             col = column + 3  # accel cells start from 3 position
-            old_accel = self.treestore.get(iter, col)[0]
+            old_accel = self.treestore.get(_iter, col)[0]
             new_accel = Gtk.accelerator_name(accel_key, accel_mods)
-            self.treestore.set_value(iter, col, new_accel)
-            action_name = self.treestore.get_value(iter, 1)
+            self.treestore.set_value(_iter, col, new_accel)
+            action_name = self.treestore.get_value(_iter, 1)
             affected_action = self.keymanager.edit_accel(action_name, new_accel, old_accel)
 
             # Find affected row and cell
             if affected_action == action_name:
                 for idx in range(0, self.accel_column_num):
-                    if idx != column and self.treestore.get(iter, idx + 3)[0] == new_accel:
-                        self.treestore.set_value(iter, idx + 3, '')
+                    if idx != column and self.treestore.get(_iter, idx + 3)[0] == new_accel:
+                        self.treestore.set_value(_iter, idx + 3, '')
             elif affected_action is not None:
                 titer = self.action_treeiter_map[affected_action]
                 for idx in range(0, self.accel_column_num):
@@ -120,10 +120,10 @@ class KeybindingEditorWindow(Gtk.ScrolledWindow):
 
     def get_on_accel_cleared(self, column):
         def on_accel_cleared(renderer, path, *args):
-            iter = self.treestore.get_iter(path)
+            _iter = self.treestore.get_iter(path)
             col = column + 3
-            accel = self.treestore.get(iter, col)[0]
-            action_name = self.treestore.get_value(iter, 1)
+            accel = self.treestore.get(_iter, col)[0]
+            action_name = self.treestore.get_value(_iter, 1)
             if accel != '':
                 self.keymanager.clear_accel(action_name, accel)
 
@@ -134,7 +134,7 @@ class KeybindingEditorWindow(Gtk.ScrolledWindow):
                     key, mods = self.keymanager.get_bindings_for_action(action_name)[0]
                     Gtk.AccelMap.change_entry('<Actions>/mcomix-main/%s' % action_name, key, mods, True)
 
-            self.treestore.set_value(iter, col, '')
+            self.treestore.set_value(_iter, col, '')
         return on_accel_cleared
 
 

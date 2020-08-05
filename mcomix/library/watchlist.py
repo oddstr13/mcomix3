@@ -107,9 +107,9 @@ class WatchListDialog(Gtk.Dialog):
         item is selected. '''
         selection = self._treeview.get_selection()
 
-        model, iter = selection.get_selected()
-        if iter is not None:
-            path = str(model.get_value(iter, COL_DIRECTORY))
+        model, _iter = selection.get_selected()
+        if _iter is not None:
+            path = str(model.get_value(_iter, COL_DIRECTORY))
             return self.library.backend.watchlist.get_watchlist_entry(path)
         else:
             return None
@@ -117,8 +117,8 @@ class WatchListDialog(Gtk.Dialog):
     def get_watchlist_entry_for_treepath(self, treepath):
         ''' Converts a tree path to WatchlistEntry object. '''
         model = self._treeview.get_model()
-        iter = model.get_iter(treepath)
-        dirpath = str(model.get_value(iter, COL_DIRECTORY))
+        _iter = model.get_iter(treepath)
+        dirpath = str(model.get_value(_iter, COL_DIRECTORY))
         return self.library.backend.watchlist.get_watchlist_entry(dirpath)
 
     def _create_model(self):
@@ -133,11 +133,11 @@ class WatchListDialog(Gtk.Dialog):
         model.clear()
         for entry in self.library.backend.watchlist.get_watchlist():
             if entry.collection.id is None:
-                id = -1
+                collection_id = -1
             else:
-                id = entry.collection.id
+                collection_id = entry.collection.id
 
-            model.append((entry.directory, id, entry.recursive))
+            model.append((entry.directory, collection_id, entry.recursive))
 
     def _create_collection_model(self):
         ''' Creates a model containing all available collections. '''
@@ -163,10 +163,10 @@ class WatchListDialog(Gtk.Dialog):
 
         # Update collection ID in watchlist model
         model = self._treeview.get_model()
-        iter = model.get_iter(path)
+        _iter = model.get_iter(path)
         # Editing the model in the CellRendererCombo callback stops the editing
         # operation, causing GTK warnings. Delay until callback is finished.
-        GLib.idle_add(model.set_value, iter, COL_COLLECTION_ID, new_id)
+        GLib.idle_add(model.set_value, _iter, COL_COLLECTION_ID, new_id)
 
         self._changed = True
 
@@ -177,8 +177,8 @@ class WatchListDialog(Gtk.Dialog):
 
         # Update recursive status in watchlist model
         model = self._treeview.get_model()
-        iter = model.get_iter(path)
-        model.set_value(iter, COL_RECURSIVE, status)
+        _iter = model.get_iter(path)
+        model.set_value(_iter, COL_RECURSIVE, status)
 
         self._changed = True
 
@@ -221,8 +221,8 @@ class WatchListDialog(Gtk.Dialog):
 
             # Remove selection from list
             selection = self._treeview.get_selection()
-            model, iter = selection.get_selected()
-            model.remove(iter)
+            model, _iter = selection.get_selected()
+            model.remove(_iter)
 
     def _item_selected_cb(self, selection, *args):
         ''' Called when an item is selected. Enables or disables the 'Remove'
@@ -235,9 +235,9 @@ class WatchListDialog(Gtk.Dialog):
 
     def _treeview_collection_id_to_name(self, column, cell, model, iter, *args):
         ''' Maps a collection ID to the corresponding collection name. '''
-        id = model.get_value(iter, COL_COLLECTION_ID)
-        if id != -1:
-            text = self.library.backend.get_collection_name(id)
+        collection_id = model.get_value(iter, COL_COLLECTION_ID)
+        if collection_id != -1:
+            text = self.library.backend.get_collection_name(collection_id)
         else:
             text = backend_types.DefaultCollection.name
 

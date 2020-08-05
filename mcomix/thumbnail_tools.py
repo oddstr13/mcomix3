@@ -125,7 +125,7 @@ class Thumbnailer(object):
             mime = None
         if mime is not None:
             with archive_tools.get_recursive_archive_handler(
-                    filepath, type=mime,
+                    filepath, mime=mime,
                     prefix='mcomix_archive_thumb.') as archive:
                 if archive is None:
                     return None, None
@@ -184,7 +184,7 @@ class Thumbnailer(object):
         # MTime could be floating point number, so convert to long first to have a fixed point number
         mtime = str(stat.st_mtime)
         size = str(stat.st_size)
-        format, width, height = image_tools.get_image_info(filepath)
+        image_format, width, height = image_tools.get_image_info(filepath)
         return {
             'tEXt::Thumb::URI': uri,
             'tEXt::Thumb::MTime': mtime,

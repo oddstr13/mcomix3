@@ -130,8 +130,8 @@ class _BookmarksDialog(Gtk.Dialog):
     def _bookmark_activated(self, treeview, path, view_column, *args):
         ''' Open the activated bookmark. '''
 
-        iter = treeview.get_model().get_iter(path)
-        bookmark = treeview.get_model().get_value(iter, 5)
+        _iter = treeview.get_model().get_iter(path)
+        bookmark = treeview.get_model().get_value(_iter, 5)
 
         self._close()
         bookmark._load()

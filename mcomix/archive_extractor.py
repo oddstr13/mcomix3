@@ -34,7 +34,7 @@ class Extractor(object):
             name=self.__class__.__name__,
             processes=prefs['max extract threads'] or None)
 
-    def setup(self, src, type=None):
+    def setup(self, src, mime=None):
         '''Setup the extractor with archive <src> and destination dir <dst>.
         Return a threading.Condition related to the is_ready() method, or
         None if the format of <src> isn't supported.
@@ -43,7 +43,7 @@ class Extractor(object):
         self._files = []
         self._extracted = set()
         self._archive = archive_tools.get_recursive_archive_handler(
-            src, type=type, prefix='mcomix.extractor.')
+            src, mime=mime, prefix='mcomix.extractor.')
         if self._archive is None:
             msg = _('Non-supported archive format: %s') % os.path.basename(src)
             log.warning(msg)
@@ -159,8 +159,7 @@ class Extractor(object):
             return True
         with self._condition:
             self._files.remove(name)
-            self._extracted.add(name)
-            self._condition.notify_all()
+            self._extracted.add(name)mime    self._condition.notify_all()
         self.file_extracted(self, name)
 
     def _extract_all_files(self):

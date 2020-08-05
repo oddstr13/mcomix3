@@ -117,7 +117,7 @@ def xhexdump(data, group_size=4):
     prev_addr, prev_hex = (0, '')
 
     def format_line(addr, hex):
-        return '%07x: %s' % (addr, hex)
+        return '%07x: %s' % (addr, hex_data)
 
     while True:
         chunk = io.read(chunk_size)
@@ -127,15 +127,15 @@ def xhexdump(data, group_size=4):
             break
         size += len(chunk)
         chunk = binascii.hexlify(chunk)
-        hex = []
+        hex_data = []
         for s in range(0, chunk_size * 2, group_size * 2):
-            hex.append(chunk[s:s + (group_size * 2)])
-        hex = b' '.join(hex)
-        if hex != prev_hex:
+            hex_data.append(chunk[s:s + (group_size * 2)])
+        hex_data = b' '.join(hex_data)
+        if hex_data != prev_hex:
             if addr > (prev_addr + chunk_size):
                 yield format_line(addr - prev_addr, '*')
-            yield format_line(addr, hex)
-            prev_addr, prev_hex = addr, hex
+            yield format_line(addr, hex_data)
+            prev_addr, prev_hex = addr, hex_data
         addr += chunk_size
     if size != prev_addr:
         yield '%07x' % size
@@ -540,18 +540,18 @@ class ImageToolsTest(object):
             'pattern-opaque-rgb.png',
             'pattern-opaque-rgba.png',
         ):
-            input = image_tools.load_pixbuf(get_image_path(image))
-            width, height = input.get_width(), input.get_height()
+            input_image = image_tools.load_pixbuf(get_image_path(image))
+            width, height = input_image.get_width(), input_image.get_height()
             for scaling_quality in range(4):
                 prefs['scaling quality'] = scaling_quality
-                result = image_tools.fit_in_rectangle(input, width, height,
+                result = image_tools.fit_in_rectangle(input_image, width, height,
                                                       scaling_quality=scaling_quality)
                 msg = (
                     'fit_in_rectangle("%s", scaling quality=%d) failed; '
                     'result %%(diff_type)s differs: %%(diff)s'
                     % (image, scaling_quality)
                 )
-                self.assertImagesEqual(result, input, msg=msg)
+                self.assertImagesEqual(result, input_image, msg=msg)
 
     def test_fit_in_rectangle_transparent_no_resize(self):
         # And with a transparent test image, check alpha blending.

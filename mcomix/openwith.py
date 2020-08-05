@@ -116,8 +116,8 @@ class OpenWithCommand(object):
         if len(args) > 1:
             return False
 
-        dir = args[0]
-        if os.path.isdir(dir) and os.access(dir, os.X_OK):
+        dir_name = args[0]
+        if os.path.isdir(dir_name) and os.access(dir_name, os.X_OK):
             return True
 
         return False
@@ -262,12 +262,12 @@ class OpenWithEditor(Gtk.Dialog):
         ''' Retrieves a list of OpenWithCommand instances from
         the list model. '''
         model = self._command_tree.get_model()
-        iter = model.get_iter_first()
+        _iter = model.get_iter_first()
         commands = []
-        while iter:
-            label, command, cwd, disabled_for_archives = model.get(iter, 0, 1, 2, 3)
+        while _iter:
+            label, command, cwd, disabled_for_archives = model.get(_iter, 0, 1, 2, 3)
             commands.append(OpenWithCommand(label, command, cwd, disabled_for_archives))
-            iter = model.iter_next(iter)
+            _iter = model.iter_next(_iter)
         return commands
 
     def get_command(self):
@@ -276,9 +276,9 @@ class OpenWithEditor(Gtk.Dialog):
         if not selection:
             return None
 
-        model, iter = self._command_tree.get_selection().get_selected()
-        if (iter and model.iter_is_valid(iter)):
-            command = OpenWithCommand(*model.get(iter, 0, 1, 2, 3))
+        model, _iter = self._command_tree.get_selection().get_selected()
+        if (_iter and model.iter_is_valid(_iter)):
+            command = OpenWithCommand(*model.get(_iter, 0, 1, 2, 3))
             return command
         else:
             return None
@@ -319,8 +319,8 @@ class OpenWithEditor(Gtk.Dialog):
         row = (_('Command label'), '', '', False, True)
         selection = self._command_tree.get_selection()
         if selection and selection.get_selected()[1]:
-            model, iter = selection.get_selected()
-            model.insert_before(iter, row)
+            model, _iter = selection.get_selected()
+            model.insert_before(_iter, row)
         else:
             self._command_tree.get_model().append(row)
         self._changed = True
@@ -330,39 +330,39 @@ class OpenWithEditor(Gtk.Dialog):
         row = ('-', '', '', False, False)
         selection = self._command_tree.get_selection()
         if selection and selection.get_selected()[1]:
-            model, iter = selection.get_selected()
-            model.insert_before(iter, row)
+            model, _iter = selection.get_selected()
+            model.insert_before(_iter, row)
         else:
             self._command_tree.get_model().append(row)
         self._changed = True
 
     def _remove_command(self, button):
         ''' Removes the currently selected command from the list. '''
-        model, iter = self._command_tree.get_selection().get_selected()
-        if (iter and model.iter_is_valid(iter)):
-            model.remove(iter)
+        model, _iter = self._command_tree.get_selection().get_selected()
+        if (_iter and model.iter_is_valid(_iter)):
+            model.remove(_iter)
             self._changed = True
 
     def _up_command(self, button):
         ''' Moves the selected command up by one. '''
-        model, iter = self._command_tree.get_selection().get_selected()
-        if (iter and model.iter_is_valid(iter)):
-            path = model.get_path(iter)[0]
+        model, _iter = self._command_tree.get_selection().get_selected()
+        if (_iter and model.iter_is_valid(_iter)):
+            path = model.get_path(_iter)[0]
 
             if path >= 1:
                 up = model.get_iter(path - 1)
-                model.swap(iter, up)
+                model.swap(_iter, up)
             self._changed = True
 
     def _down_command(self, button):
         ''' Moves the selected command down by one. '''
-        model, iter = self._command_tree.get_selection().get_selected()
-        if (iter and model.iter_is_valid(iter)):
-            path = model.get_path(iter)[0]
+        model, _iter = self._command_tree.get_selection().get_selected()
+        if (_iter and model.iter_is_valid(_iter)):
+            path = model.get_path(_iter)[0]
 
             if path < len(self.get_commands()) - 1:
                 down = model.get_iter(path + 1)
-                model.swap(iter, down)
+                model.swap(_iter, down)
             self._changed = True
 
     def _run_command(self, button):
@@ -495,13 +495,13 @@ class OpenWithEditor(Gtk.Dialog):
             return
 
         model = self._command_tree.get_model()
-        iter = model.get_iter(path)
+        _iter = model.get_iter(path)
         # Editing the model in the cellrenderercallback stops the editing
         # operation, causing GTK warnings. Delay until callback is finished.
 
         def delayed_set_value():
-            old_value = model.get_value(iter, column)
-            model.set_value(iter, column, new_text)
+            old_value = model.get_value(_iter, column)
+            model.set_value(_iter, column, new_text)
             self._changed = old_value != new_text
             self.test_command()
         GLib.idle_add(delayed_set_value)
@@ -509,13 +509,13 @@ class OpenWithEditor(Gtk.Dialog):
     def _value_changed(self, renderer, path, column):
         ''' Called when a toggle field is changed '''
         model = self._command_tree.get_model()
-        iter = model.get_iter(path)
+        _iter = model.get_iter(path)
         # Editing the model in the cellrenderercallback stops the editing
         # operation, causing GTK warnings. Delay until callback is finished.
 
         def delayed_set_value():
             value = not renderer.get_active()
-            model.set_value(iter, column, value)
+            model.set_value(_iter, column, value)
             self._changed = True
 
         GLib.idle_add(delayed_set_value)

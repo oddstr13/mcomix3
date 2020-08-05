@@ -55,9 +55,9 @@ def make_archive(outfile, contents, format='zip', solid=False, password=None, he
             if filename is None:
                 os.makedirs(path)
                 continue
-            dir = os.path.dirname(path)
-            if not os.path.exists(dir):
-                os.makedirs(dir)
+            dir_name = os.path.dirname(path)
+            if not os.path.exists(dir_name):
+                os.makedirs(dir_name)
             shutil.copy(filename, path)
         if '7z' == format:
             cmd = ['7z', 'a']
@@ -141,9 +141,9 @@ def make_archive(outfile, contents, format='zip', solid=False, password=None, he
 
 
 def md5(path):
-    hash = hashlib.md5()
-    hash.update(open(path, 'rb').read())
-    return hash.hexdigest()
+    _hash = hashlib.md5()
+    _hash.update(open(path, 'rb').read())
+    return _hash.hexdigest()
 
 
 class ArchiveFormatTest(object):

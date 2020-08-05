@@ -173,20 +173,20 @@ class _BaseFileChooserDialog(Gtk.Dialog):
 
         return matches_mime or matches_pattern
 
-    def collect_files_from_subdir(self, path, filter, recursive=False):
+    def collect_files_from_subdir(self, path, file_filter, recursive=False):
         ''' Finds archives within C{path} that match the
         L{Gtk.FileFilter} passed in C{filter}. '''
 
         for root, dirs, files in os.walk(path):
-            for file in files:
-                full_path = os.path.join(root, file)
+            for file_name in files:
+                full_path = os.path.join(root, file_name)
                 mimetype = mimetypes.guess_type(full_path)[0] or 'application/octet-stream'
                 filter_info = Gtk.FileFilterInfo()
                 filter_info.contains = Gtk.FileFilterFlags.FILENAME | Gtk.FileFilterFlags.MIME_TYPE
                 filter_info.filename = full_path
                 filter_info.mime_type = mimetype
 
-                if (filter == self._all_files_filter or filter.filter(filter_info)):
+                if (file_filter == self._all_files_filter or file_filter.filter(filter_info)):
                     yield full_path
 
             if not recursive:
@@ -210,12 +210,12 @@ class _BaseFileChooserDialog(Gtk.Dialog):
                 return
 
             # Collect files, if necessary also from subdirectories
-            filter = self.filechooser.get_filter()
+            file_filter = self.filechooser.get_filter()
             paths = []
             for path in self.filechooser.get_filenames():
 
                 if os.path.isdir(path):
-                    subdir_files = list(self.collect_files_from_subdir(path, filter,
+                    subdir_files = list(self.collect_files_from_subdir(path, file_filter,
                                                                        self.should_open_recursive()))
                     file_provider.FileProvider.sort_files(subdir_files)
                     paths.extend(subdir_files)

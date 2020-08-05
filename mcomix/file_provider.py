@@ -106,14 +106,14 @@ class OrderedFileProvider(FileProvider):
         ''' Sets the base directory. '''
 
         if os.path.isdir(file_or_directory):
-            dir = file_or_directory
+            dir_name = file_or_directory
         elif os.path.isfile(file_or_directory):
-            dir = os.path.dirname(file_or_directory)
+            dir_name = os.path.dirname(file_or_directory)
         else:
             # Passed file doesn't exist
             raise ValueError(_('Invalid path: "%s"') % file_or_directory)
 
-        self.base_dir = os.path.abspath(dir)
+        self.base_dir = os.path.abspath(dir_name)
 
     def get_directory(self):
         return self.base_dir

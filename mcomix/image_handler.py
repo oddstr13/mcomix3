@@ -376,7 +376,7 @@ class ImageHandler(object):
         if page_path is None:
             return (0, 0)
 
-        format, width, height = image_tools.get_image_info(page_path)
+        _format, width, height = image_tools.get_image_info(page_path)
         return (width, height)
 
     def get_mime_name(self, page=None):
@@ -389,8 +389,8 @@ class ImageHandler(object):
         if page_path is None:
             return None
 
-        format, width, height = image_tools.get_image_info(page_path)
-        return format
+        _format, width, height = image_tools.get_image_info(page_path)
+        return _format
 
     def get_thumbnail(self, page=None, width=128, height=128, create=False,
                       nowait=False):
