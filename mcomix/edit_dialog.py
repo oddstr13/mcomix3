@@ -148,7 +148,7 @@ class _EditArchiveDialog(Gtk.Dialog):
 
         if response == constants.RESPONSE_SAVE_AS:
 
-            dialog = file_chooser_simple_dialog.SimpleFileChooserDialog(
+            file_dialog = file_chooser_simple_dialog.SimpleFileChooserDialog(
                 self, Gtk.FileChooserAction.SAVE)
 
             src_path = self.file_handler.get_path_to_base()
@@ -157,33 +157,33 @@ class _EditArchiveDialog(Gtk.Dialog):
             if os.path.isfile(src_path):
                 archive_name = os.path.splitext(archive_name)[0]
 
-            dialog.set_current_directory(os.path.dirname(src_path))
-            dialog.set_save_name(archive_name + '.zip')
-            dialog.filechooser.set_extra_widget(Gtk.Label(
+            file_dialog.set_current_directory(os.path.dirname(src_path))
+            file_dialog.set_save_name(archive_name + '.zip')
+            file_dialog.filechooser.set_extra_widget(Gtk.Label(
                 label=_('Archives are stored as ZIP files.')))
 
             ffilter = Gtk.FileFilter()
             ffilter.set_name(_('ZIP archives'))
-            dialog.filechooser.add_filter(ffilter)
+            file_dialog.filechooser.add_filter(ffilter)
             for ext, mime in constants.ZIP_FORMATS:
                 ffilter.add_mime_type(mime)
                 ffilter.add_pattern('*' + ext)
 
-            dialog.run()
+            file_dialog.run()
 
-            paths = dialog.get_paths()
-            dialog.destroy()
+            paths = file_dialog.get_paths()
+            file_dialog.destroy()
 
             if paths:
                 self._pack_archive(paths[0])
 
         elif response == constants.RESPONSE_IMPORT:
 
-            dialog = file_chooser_simple_dialog.SimpleFileChooserDialog(self)
-            dialog.add_image_filters()
-            dialog.run()
-            paths = dialog.get_paths()
-            dialog.destroy()
+            file_dialog = file_chooser_simple_dialog.SimpleFileChooserDialog(self)
+            file_dialog.add_image_filters()
+            file_dialog.run()
+            paths = file_dialog.get_paths()
+            file_dialog.destroy()
 
             exts = '|'.join(prefs['comment extensions'])
             comment_re = re.compile(r'\.(%s)\s*$' % exts, re.I)

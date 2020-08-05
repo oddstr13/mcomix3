@@ -39,7 +39,7 @@ class OpenWithManager(object):
                     for label, command, cwd, disabled_for_archives
                     in prefs['external commands']]
         except ValueError as e:
-            OpenWithException(_('external commands error: {}.').format(e))
+            raise OpenWithException(_('external commands error: {}.').format(e))
 
 
 class OpenWithCommand(object):
@@ -447,14 +447,6 @@ class OpenWithEditor(Gtk.Dialog):
                                   x * 2, y, 1, 1)
                 hints_grid.attach(Gtk.Label(label=desc, halign=Gtk.Align.START, margin=4),
                                   x * 2 + 1, y, 1, 1)
-
-        return  # keep infomations below for reference
-        linklabel = Gtk.Label()
-        linklabel.set_markup(_('Please refer to the <a href="%s">external command documentation</a> '
-                               'for a list of usable variables and other hints.') %
-                             'https://sourceforge.net/p/mcomix/wiki/External_Commands')
-        linklabel.set_alignment(0, 0)
-        content.pack_start(linklabel, False, False, 4)
 
     def _setup_table(self):
         ''' Initializes the TreeView with settings and data. '''

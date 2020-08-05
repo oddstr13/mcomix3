@@ -179,8 +179,8 @@ def Win32Popen(cmd):
         ctypes.windll.kernel32.CloseHandle(processinfo.hThread)
         return processinfo.dwProcessId
     else:
-        raise ctypes.WinError(ctypes.GetLastError(),
-                              i18n.to_unicode(ctypes.FormatError()))
+        code = ctypes.GetLastError()
+        raise ctypes.WinError(code, i18n.to_unicode(ctypes.FormatError(code).strip()))
 
 
 # vim: expandtab:sw=4:ts=4
