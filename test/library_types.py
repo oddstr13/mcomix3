@@ -4,6 +4,8 @@ import tempfile
 import shutil
 import os
 
+from mcomix import tools
+tools.nogui()
 from mcomix import constants
 from mcomix.library import backend
 from mcomix.library import backend_types

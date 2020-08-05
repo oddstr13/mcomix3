@@ -18,10 +18,11 @@ from six.moves import range
 from gi.repository import GdkPixbuf, GObject
 from PIL import Image, ImageDraw
 
+from mcomix import tools
+tools.nogui()
 from mcomix import image_tools
 from mcomix.preferences import prefs
 from . import MComixTest, get_testfile_path
-
 
 
 _IMAGE_MODES = (

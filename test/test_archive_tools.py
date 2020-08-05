@@ -2,6 +2,8 @@
 from __future__ import absolute_import
 import os
 
+from mcomix import tools
+tools.nogui()
 from mcomix import archive_tools
 from mcomix import constants
 from . import MComixTest, get_testfile_path

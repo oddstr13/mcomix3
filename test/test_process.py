@@ -7,6 +7,8 @@ import stat
 import sys
 import tempfile
 
+from mcomix import tools
+tools.nogui()
 from mcomix import process
 from . import MComixTest
 

@@ -10,6 +10,8 @@ import sys
 import tempfile
 import unittest
 
+from mcomix import tools
+tools.nogui()
 from mcomix import process
 from mcomix.archive import (
     archive_recursive,

@@ -5,6 +5,8 @@ import unittest
 import tempfile
 import os
 
+from mcomix import tools
+tools.nogui()
 from mcomix import constants
 from mcomix import last_read_page
 from mcomix.library import backend
