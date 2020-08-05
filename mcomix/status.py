@@ -5,6 +5,7 @@ from gi.repository import Gdk, Gtk
 from mcomix import i18n
 from mcomix import constants
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 class Statusbar(Gtk.EventBox):

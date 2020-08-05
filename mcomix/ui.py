@@ -15,6 +15,7 @@ from mcomix import status
 from mcomix import file_chooser_main_dialog
 from mcomix.preferences import prefs
 from mcomix.library import main_dialog as library_main_dialog
+from mcomix.i18n import _
 
 
 class MainUI(Gtk.UIManager):

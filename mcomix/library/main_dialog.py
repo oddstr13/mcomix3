@@ -15,6 +15,7 @@ from mcomix.library import book_area as library_book_area
 from mcomix.library import collection_area as library_collection_area
 from mcomix.library import control_area as library_control_area
 from mcomix.library import add_progress_dialog as library_add_progress_dialog
+from mcomix.i18n import _
 
 _dialog = None
 # The "All books" collection is not a real collection stored in the library,

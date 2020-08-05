@@ -5,6 +5,7 @@ import os
 from gi.repository import Gdk, Gtk
 
 from mcomix import tools
+from mcomix.i18n import _
 
 
 class _CommentArea(Gtk.VBox):

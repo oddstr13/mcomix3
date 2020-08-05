@@ -9,6 +9,7 @@ from mcomix import callback
 from mcomix import log
 from mcomix.lib import mt
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 class Extractor(object):

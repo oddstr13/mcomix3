@@ -5,6 +5,7 @@
 from gi.repository import Gtk
 
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 class MessageDialog(Gtk.MessageDialog):

@@ -34,6 +34,7 @@ from gi.repository import Gtk
 from mcomix import constants
 from mcomix import log
 from mcomix import keybindings_map
+from mcomix.i18n import _
 
 
 class _KeybindingManager(object):

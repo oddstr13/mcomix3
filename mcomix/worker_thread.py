@@ -5,6 +5,7 @@ import threading
 import traceback
 
 from mcomix import log
+from mcomix.i18n import _
 
 
 class WorkerThread(object):

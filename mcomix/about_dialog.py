@@ -9,6 +9,7 @@ from mcomix import constants
 from mcomix import strings
 from mcomix import image_tools
 from mcomix import tools
+from mcomix.i18n import _
 
 
 class _AboutDialog(Gtk.AboutDialog):

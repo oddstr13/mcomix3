@@ -25,6 +25,7 @@ from mcomix import portability
 from mcomix import tools
 from mcomix.lib import reader
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 class Thumbnailer(object):

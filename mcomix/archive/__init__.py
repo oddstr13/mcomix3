@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from mcomix.i18n import _
 from mcomix import tools
 if tools.use_gui():
     from gi.repository import Gtk

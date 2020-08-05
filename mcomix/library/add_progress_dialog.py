@@ -4,6 +4,7 @@ from gi.repository import Gtk
 from gi.repository import Pango
 
 from mcomix import labels
+from mcomix.i18n import _
 
 _dialog = None
 # The "All books" collection is not a real collection stored in the library,

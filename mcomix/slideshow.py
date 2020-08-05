@@ -4,6 +4,7 @@ from gi.repository import GLib, Gtk
 
 from mcomix.lib import mt
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 class Slideshow(object):

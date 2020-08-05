@@ -5,6 +5,7 @@ from gi.repository import Gtk
 from mcomix import image_tools
 from mcomix import log
 from mcomix import tools
+from mcomix.i18n import _
 
 
 def mcomix_icons():

@@ -17,6 +17,7 @@ from mcomix import (
     portability,
     preferences,
 )
+from mcomix.i18n import _
 
 
 def wait_and_exit():

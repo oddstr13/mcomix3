@@ -7,6 +7,7 @@ import threading
 from gi.repository import GLib
 
 from mcomix import log
+from mcomix.i18n import _
 
 
 class CallbackList(object):

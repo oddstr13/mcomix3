@@ -8,6 +8,7 @@ import threading
 import zipfile
 
 from mcomix import log
+from mcomix.i18n import _
 from mcomix.archive import archive_base
 
 

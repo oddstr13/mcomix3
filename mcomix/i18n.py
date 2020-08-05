@@ -120,8 +120,6 @@ def install_gettext():
     else:
         translation = gettext.NullTranslations()
 
-    translation.install()
-
     global _translation
     _translation = translation
 
@@ -131,5 +129,9 @@ def get_translation():
     install_gettext(). '''
 
     return _translation or gettext.NullTranslations()
+
+
+def _(message):
+    return get_translation().gettext(message)
 
 # vim: expandtab:sw=4:ts=4

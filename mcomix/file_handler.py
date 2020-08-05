@@ -19,6 +19,7 @@ from mcomix import log
 from mcomix import last_read_page
 from mcomix import message_dialog
 from mcomix.library import backend
+from mcomix.i18n import _
 
 
 class FileHandler(object):

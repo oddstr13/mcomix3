@@ -10,6 +10,7 @@ from mcomix import i18n
 from mcomix import status
 from mcomix import file_chooser_library_dialog
 from mcomix import message_dialog
+from mcomix.i18n import _
 
 _dialog = None
 # The "All books" collection is not a real collection stored in the library,

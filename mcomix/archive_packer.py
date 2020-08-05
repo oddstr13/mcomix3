@@ -8,6 +8,7 @@ import zipfile
 
 from mcomix import log
 from mcomix import tools
+from mcomix.i18n import _
 
 
 class Packer(object):

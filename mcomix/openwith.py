@@ -11,6 +11,7 @@ from mcomix.preferences import prefs
 from mcomix import message_dialog
 from mcomix import process
 from mcomix import callback
+from mcomix.i18n import _
 
 
 DEBUGGING_CONTEXT, NO_FILE_CONTEXT, IMAGE_FILE_CONTEXT, ARCHIVE_CONTEXT = -1, 0, 1, 2

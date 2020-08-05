@@ -10,6 +10,7 @@ from gi.repository import Pango
 from mcomix import i18n
 from mcomix import labels
 from mcomix.library.watchlist import WatchListDialog
+from mcomix.i18n import _
 
 # The "All books" collection is not a real collection stored in the library,
 # but is represented by this ID in the library's TreeModels.

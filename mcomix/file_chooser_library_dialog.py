@@ -4,6 +4,7 @@ from gi.repository import Gtk
 
 from mcomix.preferences import prefs
 from mcomix import file_chooser_base_dialog
+from mcomix.i18n import _
 
 _library_filechooser_dialog = None
 

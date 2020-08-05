@@ -5,6 +5,7 @@ from gi.repository import Gtk
 from mcomix import histogram
 from mcomix import image_tools
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 _dialog = None
 

@@ -7,6 +7,7 @@ import datetime
 from mcomix import callback
 from mcomix import archive_tools
 from mcomix import tools
+from mcomix.i18n import _
 
 
 class _BackendObject(object):

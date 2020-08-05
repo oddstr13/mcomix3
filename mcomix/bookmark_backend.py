@@ -15,6 +15,7 @@ from mcomix import i18n
 from mcomix import message_dialog
 from mcomix import tools
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 class __BookmarksStore(object):

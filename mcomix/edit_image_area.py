@@ -9,6 +9,7 @@ from mcomix import i18n
 from mcomix import thumbnail_tools
 from mcomix import thumbnail_view
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 class _ImageArea(Gtk.ScrolledWindow):

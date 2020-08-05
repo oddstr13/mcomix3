@@ -14,6 +14,7 @@ from mcomix import edit_image_area
 from mcomix import edit_comment_area
 from mcomix import constants
 from mcomix import message_dialog
+from mcomix.i18n import _
 
 _dialog = None
 

@@ -13,6 +13,7 @@ from mcomix import constants
 from mcomix import i18n
 from mcomix import log
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 def get_file_provider(filelist):

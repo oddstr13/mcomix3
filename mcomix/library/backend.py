@@ -13,6 +13,7 @@ from mcomix.preferences import prefs
 from mcomix.library import backend_types
 # Only for importing legacy data from last-read module
 from mcomix import last_read_page
+from mcomix.i18n import _
 
 try:
     import sqlite3

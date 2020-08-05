@@ -8,6 +8,7 @@ from gi.repository import GLib, GObject
 from mcomix import tools
 from mcomix.library import backend_types
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 
 COL_DIRECTORY = 0

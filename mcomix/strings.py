@@ -4,6 +4,7 @@
     and installed in the global namespace. '''
 
 from mcomix.constants import ZIP, RAR, TAR, GZIP, BZIP2, XZ, PDF, SEVENZIP, LHA, ZIP_EXTERNAL
+from mcomix.i18n import _
 
 ARCHIVE_DESCRIPTIONS = {
     ZIP: _('ZIP archive'),

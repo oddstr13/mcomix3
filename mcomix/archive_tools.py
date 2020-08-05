@@ -11,6 +11,7 @@ import operator
 from mcomix import image_tools
 from mcomix import constants
 from mcomix import log
+from mcomix.i18n import _
 from mcomix.archive import (
     archivemount,
     lha_external,

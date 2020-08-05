@@ -4,9 +4,8 @@ User under win32 should use `original mcomix`_.
 MComix3
 =======
 
-|quality gate| |license| |tests| |release| |bugs|
-
-|maintainability rating| |reliability rating| |security rating| |technical debt|
+|quality gate| |license| |tests| |release|
+|bugs| |maintainability rating| |reliability rating| |security rating| |technical debt|
 
 
 Fork from MComix gtk3 branch, switch to python3.

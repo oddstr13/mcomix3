@@ -4,6 +4,7 @@ from gi.repository import Gtk
 
 from mcomix import bookmark_backend
 from mcomix import bookmark_dialog
+from mcomix.i18n import _
 
 
 class BookmarksMenu(Gtk.Menu):

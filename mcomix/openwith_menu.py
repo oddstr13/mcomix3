@@ -3,6 +3,7 @@
 from gi.repository import Gtk
 
 from mcomix import openwith
+from mcomix.i18n import _
 
 # Reference to the OpenWith command manager
 _openwith_manager = openwith.OpenWithManager()

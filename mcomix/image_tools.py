@@ -21,6 +21,7 @@ from mcomix import tools
 from mcomix.lib import reader
 from mcomix.lib import FlifImagePlugin
 from mcomix.preferences import prefs
+from mcomix.i18n import _
 
 if tools.use_gui():
     from gi.repository import Gdk, Gtk

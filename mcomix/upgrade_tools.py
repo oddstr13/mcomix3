@@ -7,6 +7,7 @@ import os
 import shlex
 
 from mcomix import log
+from mcomix.i18n import _
 
 
 def legacy_pickle_loader(fp):

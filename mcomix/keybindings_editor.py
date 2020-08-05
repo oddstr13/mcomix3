@@ -5,6 +5,7 @@
 from gi.repository import Gtk
 
 from mcomix import keybindings_map
+from mcomix.i18n import _
 
 
 class KeybindingEditorWindow(Gtk.ScrolledWindow):

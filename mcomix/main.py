@@ -34,6 +34,7 @@ from mcomix.library import backend, main_dialog
 from mcomix import tools
 from mcomix import layout
 from mcomix import log
+from mcomix.i18n import _
 
 
 class MainWindow(Gtk.Window):

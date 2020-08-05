@@ -16,6 +16,7 @@ from mcomix import message_dialog
 from mcomix import mimetypes
 from mcomix import file_provider
 from mcomix import tools
+from mcomix.i18n import _
 
 
 class _BaseFileChooserDialog(Gtk.Dialog):

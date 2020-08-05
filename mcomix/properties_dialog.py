@@ -15,6 +15,7 @@ from mcomix import i18n
 from mcomix import properties_page
 from mcomix import strings
 from mcomix import tools
+from mcomix.i18n import _
 
 
 class _PropertiesDialog(Gtk.Dialog):

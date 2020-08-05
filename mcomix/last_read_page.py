@@ -4,6 +4,7 @@ import os
 
 from mcomix import log
 from mcomix import constants
+from mcomix.i18n import _
 
 # This import is only used for legacy data that is imported
 # into the library at upgrade.

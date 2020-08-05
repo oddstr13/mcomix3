@@ -14,6 +14,7 @@ from mcomix import image_tools
 from mcomix import constants
 from mcomix import portability
 from mcomix import i18n
+from mcomix.i18n import _
 from mcomix import status
 from mcomix import log
 from mcomix import message_dialog
