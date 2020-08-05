@@ -1,6 +1,11 @@
 __pycache__/
 *.pyc
+
 *.mo
+build/
+dist/
+*.egg-info/
+
 mcomix/portable.txt
 mcomix/profile/
 test/tmp/

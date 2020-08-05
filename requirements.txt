@@ -1,0 +1,5 @@
+chardet (<=3.0)
+six (<=1.11.0)
+Pillow (<=5.2.0)
+PyGObject (<=3.24)
+# deb gir1.2-gtk-3.0

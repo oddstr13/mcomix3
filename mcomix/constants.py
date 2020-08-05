@@ -6,9 +6,10 @@ import os
 import operator
 
 from mcomix import tools
+from mcomix import __version__ as _version
 
 APPNAME = 'MComix'
-VERSION = '1.3.0.dev0'
+VERSION = _version
 
 REQUIRED_PIL_VERSION = '5.1.0'
 

@@ -14,50 +14,37 @@ Example usage:
 """
 
 import os
-import glob
+import re
 
-import setuptools
-
-from mcomix import constants
-
-
-def get_data_patterns(directory, *patterns):
-    """ Build a list of patterns for all subdirectories of <directory>
-    to be passed into package_data. """
-
-    olddir = os.getcwd()
-    os.chdir(os.path.join(constants.BASE_PATH, directory))
-    allfiles = []
-    for dirpath, subdirs, files in os.walk("."):
-        for pattern in patterns:
-            current_pattern = os.path.normpath(os.path.join(dirpath, pattern))
-            if glob.glob(current_pattern):
-                # Forward slashes only for distutils.
-                allfiles.append(current_pattern.replace('\\', '/'))
-    os.chdir(olddir)
-    return allfiles
+from glob import glob
+from setuptools import setup, find_packages
 
 
-# Filter unnecessary image files. Replace wildcard pattern with actual files.
-images = get_data_patterns('mcomix/images', '*.png')
-images.remove('*.png')
-images.extend([
-    os.path.basename(img)
-    for img in glob.glob(os.path.join(constants.BASE_PATH, 'mcomix/images', '*.png'))
-    if os.path.basename(img) not in ('mcomix-large.png', )
-])
+with open('mcomix/__init__.py', 'r') as fh:
+    version = re.search(r'__version__ *= *(["\'])(.*?[^\\])\1', fh.read()).group(2)
 
-setuptools.setup(
-    name=constants.APPNAME.lower(),
-    version=constants.VERSION,
-    packages=[
-        'mcomix',
-        'mcomix.archive',
-        'mcomix.library',
-        'mcomix.win32'
-    ],
+
+with open("README.rst", "r") as fh:
+    long_description = fh.read()
+
+
+with open("requirements.txt", "r") as fh:
+    requirements = []
+    for line in fh.readlines():
+        line = line.strip()
+        if line and not line.startswith('#'):
+            requirements.append(line)
+
+
+setup(
+    name='mcomix',
+    version=version,
+    packages=find_packages(exclude=['test*']),
     package_data={
-        'mcomix': get_data_patterns('mcomix/messages', '*.mo') + images,
+        'mcomix': [
+            'messages/*/*/*.mo',
+            'images/*/*.png'
+        ],
     },
     entry_points={
         'console_scripts': [
@@ -67,10 +54,7 @@ setuptools.setup(
         'setuptools.installation': ['eggsecutable=mcomix.__main__:run'],
     },
     test_suite="test",
-    requires=[
-        'pygtk (>=2.12.0)',
-        'PIL (>=1.15)'
-    ],
+    requires=requirements,
     install_requires=[
         'setuptools'
     ],
@@ -82,47 +66,31 @@ setuptools.setup(
     # Otherwise, these files end up in a MComix egg directory in site-packages.
     # (Thank you, setuptools!)
     data_files=[
-        ('share/man/man1', ['mcomix.1.gz']),
+        ('share/man/man1', glob('man/*')),
         ('share/applications', ['mime/mcomix.desktop']),
         ('share/appdata', ['mime/mcomix.appdata.xml']),
-        ('share/mime/packages', ['mime/mcomix.xml']),
+        # ('share/mime/packages', ['mime/mcomix.xml']),
         ('share/icons/hicolor/16x16/apps', ['mcomix/images/16x16/mcomix.png']),
         ('share/icons/hicolor/22x22/apps', ['mcomix/images/22x22/mcomix.png']),
         ('share/icons/hicolor/24x24/apps', ['mcomix/images/24x24/mcomix.png']),
         ('share/icons/hicolor/32x32/apps', ['mcomix/images/32x32/mcomix.png']),
         ('share/icons/hicolor/48x48/apps', ['mcomix/images/48x48/mcomix.png']),
-        ('share/icons/hicolor/16x16/mimetypes',
-            ['mime/icons/16x16/application-x-cbz.png',
-             'mime/icons/16x16/application-x-cbr.png',
-             'mime/icons/16x16/application-x-cbt.png']),
-        ('share/icons/hicolor/22x22/mimetypes',
-            ['mime/icons/22x22/application-x-cbz.png',
-             'mime/icons/22x22/application-x-cbr.png',
-             'mime/icons/22x22/application-x-cbt.png']),
-        ('share/icons/hicolor/24x24/mimetypes',
-            ['mime/icons/24x24/application-x-cbz.png',
-             'mime/icons/24x24/application-x-cbr.png',
-             'mime/icons/24x24/application-x-cbt.png']),
-        ('share/icons/hicolor/32x32/mimetypes',
-            ['mime/icons/32x32/application-x-cbz.png',
-             'mime/icons/32x32/application-x-cbr.png',
-             'mime/icons/32x32/application-x-cbt.png']),
-        ('share/icons/hicolor/48x48/mimetypes',
-            ['mime/icons/48x48/application-x-cbz.png',
-             'mime/icons/48x48/application-x-cbr.png',
-             'mime/icons/48x48/application-x-cbt.png'])],
+        ('share/icons/hicolor/16x16/mimetypes', glob('mime/icons/16x16/*.png')),
+        ('share/icons/hicolor/22x22/mimetypes', glob('mime/icons/22x22/*.png')),
+        ('share/icons/hicolor/24x24/mimetypes', glob('mime/icons/24x24/*.png')),
+        ('share/icons/hicolor/32x32/mimetypes', glob('mime/icons/32x32/*.png')),
+        ('share/icons/hicolor/48x48/mimetypes', glob('mime/icons/48x48/*.png')),
+    ],
 
     # Package metadata
-    maintainer='Ark',
-    maintainer_email='https://sourceforge.net/u/aaku/profile/',
+    author='Ark',
+    author_email='https://sourceforge.net/u/aaku/profile/',
+    maintainer='Odd Stråbø',
+    maintainer_email='oddstr13@openshell.no',
     url='http://mcomix.sourceforge.net',
     description='GTK comic book viewer',
-    long_description="""
-MComix is a user-friendly, customizable image viewer.
-It is specifically designed to handle comic books (both Western comics and manga)
-and supports a variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF).
-MComix is a fork of Comix.
-    """,
+    long_description=long_description,
+    long_description_content_type="text/x-rst",
     license="License :: OSI Approved :: GNU General Public License (GPL)",
     download_url="http://sourceforge.net/projects/mcomix/files",
     platforms=[
