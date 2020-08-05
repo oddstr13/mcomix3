@@ -4,6 +4,11 @@ User under win32 should use `original mcomix`_.
 MComix3
 =======
 
+|quality gate| |license| |tests| |release| |bugs|
+
+|maintainability rating| |reliability rating| |security rating| |technical debt|
+
+
 Fork from MComix gtk3 branch, switch to python3.
 
 Only tested under Linux.
@@ -48,3 +53,35 @@ then:
 .. _7: https://fragglet.github.io/lhasa/
 .. _8: https://mupdf.com/
 .. _9: https://github.com/FLIF-hub/FLIF
+
+
+.. |quality gate| image:: https://sonarcloud.io/api/project_badges/measure?project=oddstr13_mcomix3&metric=alert_status
+    :target: https://sonarcloud.io/dashboard?id=oddstr13_mcomix3
+    :alt: Quality Gate Status
+
+.. |license| image:: https://img.shields.io/github/license/oddstr13/mcomix3
+    :target: https://github.com/oddstr13/mcomix3/blob/odd-choices/COPYING
+    :alt: License
+
+.. |tests| image:: https://github.com/oddstr13/mcomix3/workflows/Python%20tests/badge.svg
+    :target: https://github.com/oddstr13/mcomix3/actions?query=workflow%3A%22Python+tests%22
+    :alt: GitHub Workflow Status
+
+.. |release| image:: https://img.shields.io/github/v/release/oddstr13/mcomix3
+    :target: https://github.com/oddstr13/mcomix3/releases
+    :alt: GitHub Release
+
+.. |maintainability rating| image:: https://sonarcloud.io/api/project_badges/measure?project=oddstr13_mcomix3&metric=sqale_rating
+    :alt: Maintainability rating
+
+.. |reliability rating| image:: https://sonarcloud.io/api/project_badges/measure?project=oddstr13_mcomix3&metric=reliability_rating
+    :alt: Reliability rating
+
+.. |security rating| image:: https://sonarcloud.io/api/project_badges/measure?project=oddstr13_mcomix3&metric=security_rating
+    :alt: Security rating
+
+.. |technical debt| image:: https://sonarcloud.io/api/project_badges/measure?project=oddstr13_mcomix3&metric=sqale_index
+    :alt: Technical debt
+
+.. |bugs| image:: https://sonarcloud.io/api/project_badges/measure?project=oddstr13_mcomix3&metric=bugs
+    :alt: Bugs
