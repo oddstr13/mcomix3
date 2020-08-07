@@ -14,5 +14,9 @@ class BasePlugin(object):
         return self.__name__
 
 
-class ArchiveReader(BasePlugin):
+class TestingDummyPlugin(BasePlugin):
+    """
+    This is a dummy class for testing plugin loading.
+    DO NOT USE!
+    """
     pass

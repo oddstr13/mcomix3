@@ -56,9 +56,9 @@ setup(
             'eggsecutable = mcomix.__main__:run'
         ],
         'mcomix.plugins': [
-            'ArchiveReader = mcomix.plugins.foo_plugin:TestArchiveReader',
-            'ArchiveReader 2 = mcomix.plugins.foo_plugin:Potatoe',
-            'ArchiveReader 3 = mcomix.plugins.foo_plugin:ErroringPotatoe',
+            'DummyPlugin 1 = mcomix.plugins.dummy_1:DummyPlugin1',
+            'Fail 1 = mcomix.plugins.dummy_1:NotAPlugin',
+            'Fail 2 = mcomix.plugins.dummy_1:DoesNotExist',
         ],
     },
     test_suite="test",
