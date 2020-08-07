@@ -44,6 +44,6 @@ jobs:
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
-        coverage run -m pytest
+        coverage run --source=mcomix -m pytest
         coverage xml
         bash <(curl -s https://codecov.io/bash)
