@@ -85,6 +85,6 @@ then:
 .. |bugs| image:: https://sonarcloud.io/api/project_badges/measure?project=oddstr13_mcomix3&metric=bugs
     :alt: Bugs
 
-.. |coverage| image:: https://img.shields.io/codecov/c/github/oddstr13/mcomix3
+.. |coverage| image:: https://codecov.io/gh/oddstr13/mcomix3/branch/odd-choices/graph/badge.svg
     :target: https://codecov.io/gh/oddstr13/mcomix3
-    :alt: Codecov
+    :alt: Code coverage
