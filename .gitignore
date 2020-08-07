@@ -6,7 +6,10 @@ build/
 dist/
 *.egg-info/
 
-mcomix/portable.txt
-mcomix/profile/
 test/tmp/
 test/tmp.*/
+.coverage
+coverage.xml
+
+mcomix/portable.txt
+mcomix/profile/

@@ -4,7 +4,7 @@ User under win32 should use `original mcomix`_.
 MComix3
 =======
 
-|quality gate| |license| |tests| |release|
+|quality gate| |license| |tests| |coverage| |release|
 |bugs| |maintainability rating| |reliability rating| |security rating| |technical debt|
 
 
@@ -84,3 +84,7 @@ then:
 
 .. |bugs| image:: https://sonarcloud.io/api/project_badges/measure?project=oddstr13_mcomix3&metric=bugs
     :alt: Bugs
+
+.. |coverage| image:: https://img.shields.io/codecov/c/github/oddstr13/mcomix3
+    :target: https://codecov.io/gh/oddstr13/mcomix3
+    :alt: Codecov
