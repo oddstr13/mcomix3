@@ -52,7 +52,14 @@ setup(
             'mcomix = mcomix.__main__:run',
             'comicthumb = mcomix.comicthumb:main'
         ],
-        'setuptools.installation': ['eggsecutable=mcomix.__main__:run'],
+        'setuptools.installation': [
+            'eggsecutable = mcomix.__main__:run'
+        ],
+        'mcomix.plugins': [
+            'ArchiveReader = mcomix.plugins.foo_plugin:TestArchiveReader',
+            'ArchiveReader 2 = mcomix.plugins.foo_plugin:Potatoe',
+            'ArchiveReader 3 = mcomix.plugins.foo_plugin:ErroringPotatoe',
+        ],
     },
     test_suite="test",
     install_requires=requirements,
