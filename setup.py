@@ -52,7 +52,14 @@ setup(
             'mcomix = mcomix.__main__:run',
             'comicthumb = mcomix.comicthumb:main'
         ],
-        'setuptools.installation': ['eggsecutable=mcomix.__main__:run'],
+        'setuptools.installation': [
+            'eggsecutable = mcomix.__main__:run'
+        ],
+        'mcomix.plugins': [
+            'DummyPlugin 1 = mcomix.plugins.dummy_1:DummyPlugin1',
+            'Fail 1 = mcomix.plugins.dummy_1:NotAPlugin',
+            'Fail 2 = mcomix.plugins.dummy_1:DoesNotExist',
+        ],
     },
     test_suite="test",
     install_requires=requirements,
